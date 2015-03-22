@@ -2,9 +2,7 @@
 import board_parts as bps
 import drawing as dr
 import movement as mov
-import collision as coll
-from board_parts import ChessCoor
-from board_parts import GridCoor
+from board_parts import ChessCoord
 from board_parts import Piece
 
 INPUT_LENGTH = 2
@@ -15,12 +13,6 @@ def convert_last_move(col, row, col_to=None, row_to=None):
         return bps.ROWS[row], bps.COLUMNS[col], bps.ROWS[row_to], bps.COLUMNS[col_to]
     else:
         return bps.ROWS[row], bps.COLUMNS[col], None, None
-
-
-#def convert_coordinates(piece):
-#    chess_coors, colour, letter, symbol = piece
-#    return GridCoor(bps.ROWS[chess_coors.row], bps.COLUMNS[chess_coors.col]), colour, symbol
-
 
 def valid_coordinates(col, row):
     return col in bps.COLUMNS and row in bps.ROWS
@@ -45,8 +37,6 @@ def validate_input(user_input, select_or_move):
 
 
 def game_loop(pieces, last_move, piece_to_move):
-    # converted_coordinates_pieces = map(convert_coordinates, pieces)
-
     def select_piece(pieces, last_move, msg):
         dr.draw_board(pieces, last_move)
 
@@ -64,14 +54,11 @@ def game_loop(pieces, last_move, piece_to_move):
                 msg = row
                 select_piece(pieces, last_move, msg)
 
-        piece_selection = filter(lambda piece: piece.chess_coor.col is col and piece.chess_coor.row is row, pieces)
+        piece_selection = filter(lambda piece: piece.chess_coord.col is col and piece.chess_coord.row is row, pieces)
 
         if piece_selection:
             selected_piece = piece_selection[0]
-            #piece_col, piece_row, color, letter, symbol = selected_piece
-
-
-            last_move = convert_last_move(selected_piece.chess_coor.col, selected_piece.chess_coor.row)
+            last_move = convert_last_move(selected_piece.chess_coord.col, selected_piece.chess_coord.row)
             game_loop(pieces, last_move, selected_piece)
 
         else:
@@ -83,12 +70,8 @@ def game_loop(pieces, last_move, piece_to_move):
         if msg:
             print msg
 
-        #col_old, row_old, color, letter, symbol = piece_to_move
-        color = piece_to_move.colour
-        letter = piece_to_move.letter
-        symbol = piece_to_move.symbol
-        col_old = piece_to_move.chess_coor.col
-        row_old = piece_to_move.chess_coor.row
+        col_old = piece_to_move.chess_coord.col
+        row_old = piece_to_move.chess_coord.row
 
         user_input = raw_input()
         user_input = user_input.upper()
@@ -107,22 +90,12 @@ def game_loop(pieces, last_move, piece_to_move):
         is_valid_movement, possible_moves = mov.is_valid_movement_pattern_for_piece(piece_to_move, col_new,
                                                                                     row_new, pieces)
 
-        print "is_valid_movement, possible_moves : " + str(is_valid_movement) + "  " + str(possible_moves)
-
         if not is_valid_movement:
             move_piece(pieces, last_move, "Invalid move for this piece")
         else:
             # check if there is a piece on moved to square, if so remove it
-
-
             # puts us in check
-            # pieces.remove(piece_to_move)
-            # moved_piece = (col_new, row_new, color, letter, symbol)
-            print "col_new, row_new: " +str((col_new, row_new))
-            # piece_to_move.
-            # pieces.append(moved_piece)
-            piece_to_move.update_coors(ChessCoor(col_new, row_new))
-
+            piece_to_move.update_coors(ChessCoord(col_new, row_new))
             last_move = convert_last_move(col_old, row_old, col_new, row_new)
             game_loop(pieces, last_move, None)
 
@@ -134,24 +107,24 @@ def game_loop(pieces, last_move, piece_to_move):
 
 starting_pieces = [
     # black pawns
-    Piece(ChessCoor('A', '7'), bps.black, 'P', '♟'), Piece(ChessCoor('B', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoor('C', '7'), bps.black, 'P', '♟'), Piece(ChessCoor('D', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoor('E', '7'), bps.black, 'P', '♟'), Piece(ChessCoor('F', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoor('G', '7'), bps.black, 'P', '♟'), Piece(ChessCoor('H', '7'), bps.black, 'P', '♟'),
+    Piece(ChessCoord('A', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('B', '7'), bps.black, 'P', '♟'),
+    Piece(ChessCoord('C', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('D', '7'), bps.black, 'P', '♟'),
+    Piece(ChessCoord('E', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('F', '7'), bps.black, 'P', '♟'),
+    Piece(ChessCoord('G', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('H', '7'), bps.black, 'P', '♟'),
     # black back row
-    Piece(ChessCoor('A', '8'), bps.black, 'R', '♜'), Piece(ChessCoor('B', '8'), bps.black, 'Kn', '♞'),
-    Piece(ChessCoor('C', '8'), bps.black, 'B', '♝'), Piece(ChessCoor('D', '8'), bps.black, 'Q', '♛'),
-    Piece(ChessCoor('E', '8'), bps.black, 'K', '♚'), Piece(ChessCoor('F', '8'), bps.black, 'B', '♝'),
-    Piece(ChessCoor('G', '8'), bps.black, 'Kn', '♞'), Piece(ChessCoor('H', '8'), bps.black, 'R', '♜'),
+    Piece(ChessCoord('A', '8'), bps.black, 'R', '♜'), Piece(ChessCoord('B', '8'), bps.black, 'Kn', '♞'),
+    Piece(ChessCoord('C', '8'), bps.black, 'B', '♝'), Piece(ChessCoord('D', '8'), bps.black, 'Q', '♛'),
+    Piece(ChessCoord('E', '8'), bps.black, 'K', '♚'), Piece(ChessCoord('F', '8'), bps.black, 'B', '♝'),
+    Piece(ChessCoord('G', '8'), bps.black, 'Kn', '♞'), Piece(ChessCoord('H', '8'), bps.black, 'R', '♜'),
     # white pawns
-    Piece(ChessCoor('A', '2'), bps.white, 'P', '♙'), Piece(ChessCoor('B', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoor('C', '2'), bps.white, 'P', '♙'), Piece(ChessCoor('D', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoor('E', '2'), bps.white, 'P', '♙'), Piece(ChessCoor('F', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoor('G', '2'), bps.white, 'P', '♙'), Piece(ChessCoor('H', '2'), bps.white, 'P', '♙'),
+    Piece(ChessCoord('A', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('B', '2'), bps.white, 'P', '♙'),
+    Piece(ChessCoord('C', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('D', '2'), bps.white, 'P', '♙'),
+    Piece(ChessCoord('E', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('F', '2'), bps.white, 'P', '♙'),
+    Piece(ChessCoord('G', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('H', '2'), bps.white, 'P', '♙'),
     # white back row
-    Piece(ChessCoor('A', '1'), bps.white, 'R', '♖'), Piece(ChessCoor('B', '1'), bps.white, 'Kn', '♘'),
-    Piece(ChessCoor('C', '1'), bps.white, 'B', '♗'), Piece(ChessCoor('D', '1'), bps.white, 'Q', '♕'),
-    Piece(ChessCoor('E', '1'), bps.white, 'K', '♔'), Piece(ChessCoor('F', '1'), bps.white, 'B', '♗'),
-    Piece(ChessCoor('G', '1'), bps.white, 'Kn', '♘'), Piece(ChessCoor('H', '1'), bps.white, 'R', '♖'),
+    Piece(ChessCoord('A', '1'), bps.white, 'R', '♖'), Piece(ChessCoord('B', '1'), bps.white, 'Kn', '♘'),
+    Piece(ChessCoord('C', '1'), bps.white, 'B', '♗'), Piece(ChessCoord('D', '1'), bps.white, 'Q', '♕'),
+    Piece(ChessCoord('E', '1'), bps.white, 'K', '♔'), Piece(ChessCoord('F', '1'), bps.white, 'B', '♗'),
+    Piece(ChessCoord('G', '1'), bps.white, 'Kn', '♘'), Piece(ChessCoord('H', '1'), bps.white, 'R', '♖'),
 ]
 game_loop(starting_pieces, None, None)

@@ -18,42 +18,39 @@ h_separator_u = ['______', '______', '______', '______', '______', '______', '__
 h_separator_l = ['|_____|', '|_____|', '|_____|', '|_____|', '|_____|', '|_____|', '|_____|', '|_____|']
 v_separator = ['|     |', '|     |', '|     |', '|     |', '|     |', '|     |', '|     |', '|     |']
 
-
 NUM_ROWS = range(0, 8)
 NUM_COLS = range(0, 8)
 
 COLUMNS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7}
 ROWS = {'8': 0, '7': 1, '6': 2, '5': 3, '4': 4, '3': 5, '2': 6, '1': 7}
 
-
 IS_PIECE_ROW = True
 IS_NOT_PIECE_ROW = False
 
 
-class GridCoor():
+class GridCoord():
     def __init__(self, col, row):
         self.col = col
         self.row = row
 
-class ChessCoor():
+
+class ChessCoord():
     def __init__(self, col, row):
         self.col = col
         self.row = row
 
 
 class Piece():
-    def __init__(self, chess_coor, colour, letter, symbol):
-        self.chess_coor = chess_coor
-        self.grid_coor = GridCoor(COLUMNS[chess_coor.col], ROWS[chess_coor.row])
-        print "piece: " + str(chess_coor.col) + str(chess_coor.row) + "  " + str(self.grid_coor.col) + str(self.grid_coor.row)
+    def __init__(self, chess_coord, colour, letter, symbol):
+        self.chess_coord = chess_coord
+        self.grid_coord = GridCoord(COLUMNS[chess_coord.col], ROWS[chess_coord.row])
         self.colour = colour
         self.letter = letter
         self.symbol = symbol
 
-    def update_coors(self, chess_coor):
-        self.chess_coor = chess_coor
-        self.grid_coor = GridCoor(COLUMNS[chess_coor.col], ROWS[chess_coor.row])
-
+    def update_coors(self, chess_coord):
+        self.chess_coord = chess_coord
+        self.grid_coord = GridCoord(COLUMNS[chess_coord.col], ROWS[chess_coord.row])
 
 
 def black(string):

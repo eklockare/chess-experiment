@@ -2,8 +2,6 @@ import board_parts as bps
 import directions as dirs
 
 
-
-
 def convert_from_chess_coor_to_grid(col, row):
     return bps.ROWS[row], bps.COLUMNS[col]
 
@@ -19,7 +17,6 @@ def go_max_distances(moves, move_direction, pieces, from_col, from_row, moves_le
 
     # check here if piece is blocking
     print " %% new_row, new_col: " + str((new_col, new_row))
-
 
     if new_row is not None and moves_left is None:
         moves.append((new_col, new_row))
@@ -55,15 +52,10 @@ def move_piece(move_directions, pieces, col_num, row_num, max_moves=None):
 
 
 def possible_moves_for_piece(piece, pieces):
-    #col, row, color, letter, symbol = piece
     color = piece.colour
     letter = piece.letter
-    symbol = piece.symbol
-    col_num, row_num = piece.grid_coor.col, piece.grid_coor.row
+    col_num, row_num = piece.grid_coord.col, piece.grid_coord.row
     print "possible_moves_for_piece: " + str((col_num, row_num))
-    # convert_from_chess_coor_to_grid(col, row)
-
-    #col, row = piece.chess_coor.col, piece.chess_coor.row
 
     if letter is 'P':
         move_direction = dirs.move_direction_pawn(color)
@@ -88,9 +80,6 @@ def possible_moves_for_piece(piece, pieces):
 
 def is_valid_movement_pattern_for_piece(piece, to_col, to_row, pieces):
     print " to_col, to_row: " + str((to_col, to_row))
-
-    print "is valid for piece: " + str(piece.letter) + "  " + str(piece.chess_coor.col) + "  " + \
-        str(piece.chess_coor.row) + "  " + str(piece.grid_coor.row) + "  " + str(piece.grid_coor.col)
 
     to_grid_row, to_grid_col = convert_from_chess_coor_to_grid(to_col, to_row)
 

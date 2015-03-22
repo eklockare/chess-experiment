@@ -1,5 +1,6 @@
 import board_parts as bps
 
+
 def get_row_colour(row_id):
     coloured = []
     for row in bps.NUM_ROWS:
@@ -9,8 +10,10 @@ def get_row_colour(row_id):
             coloured.append(bps.black)
     return coloured
 
+
 def row_id_to_row_no(row_id):
     return str(8 - row_id)
+
 
 def add_row_number(row_part, square_colour, row, col):
     if col is 7:
@@ -19,6 +22,7 @@ def add_row_number(row_part, square_colour, row, col):
         last_bit = square_colour(row_part)
 
     return last_bit
+
 
 def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece, last_move):
     row_part, is_piece_part_row = row_part_is_piece
@@ -53,12 +57,12 @@ def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece, la
 
     result = []
     for col in range(0, len(colouring_row_parts)):
-        piece_on_this_col = filter(lambda piece: piece.grid_coor.col is col, pieces)
+        piece_on_this_col = filter(lambda piece: piece.grid_coord.col is col, pieces)
         square_colour = get_square_color(row_id, col, last_move)
 
         if is_piece_part_row and piece_on_this_col:
             piece = piece_on_this_col[0]
-            row, col = piece.grid_coor.row, piece.grid_coor.col
+            row, col = piece.grid_coord.row, piece.grid_coord.col
             result.append(paint_row_with_piece(square_colour, piece.colour, piece.symbol, row, col))
         elif is_piece_part_row:
             result.append(paint_last_square_of_row(square_colour, colouring_row_parts[col], row_id, col))
@@ -69,13 +73,13 @@ def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece, la
 
 
 def apply_colouring_to_row(row_id, (colour, (pieces, row)), last_move):
-    color_row_parts = map(lambda row_part: apply_colouring_to_row_part(row_id, colour, pieces, row_part, last_move), row)
+    color_row_parts = map(lambda row_part: apply_colouring_to_row_part(row_id, colour, pieces, row_part, last_move),
+                          row)
     return color_row_parts
 
 
 def piece_is_on_row(piece, row):
-    # prow, _, _, _ = piece
-    prow = piece.grid_coor.row
+    prow = piece.grid_coord.row
     return prow is row
 
 
@@ -97,7 +101,6 @@ def all_rows(pieces):
     return rows
 
 
-
 def draw_board(pieces, last_move):
     all_colouring = map(get_row_colour, bps.NUM_ROWS)
     all_rows_with_colour_and_pieces = zip(all_colouring, all_rows(pieces))
@@ -105,9 +108,7 @@ def draw_board(pieces, last_move):
     def apply_colouring_to_row_last_move((colour, (row_id, (pieces, row)))):
         return apply_colouring_to_row(row_id, (colour, (pieces, row)), last_move)
 
-
     all_rows_coloured = map(apply_colouring_to_row_last_move, all_rows_with_colour_and_pieces)
-
 
     for row in all_rows_coloured:
         for elem in row:
