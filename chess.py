@@ -4,6 +4,7 @@ import drawing as dr
 import movement as mov
 from board_parts import ChessCoord
 from board_parts import Piece
+import collision as col
 
 INPUT_LENGTH = 2
 
@@ -89,15 +90,29 @@ def game_loop(pieces, last_move, piece_to_move):
         # is valid for this piece
         is_valid_movement, possible_moves = mov.is_valid_movement_pattern_for_piece(piece_to_move, col_new,
                                                                                     row_new, pieces)
+        # puts us in check
+        # check if there is a piece on moved to square, if so remove it, or deny if own piece
+        is_blocked, piece_to_take, msg, possible_moves = col.check_if_move_is_blocked(piece_to_move,
+                                                                                      col_new,
+                                                                                      row_new,
+                                                                                      possible_moves,
+                                                                                      pieces)
+
 
         if not is_valid_movement:
             move_piece(pieces, last_move, "Invalid move for this piece")
         else:
-            # check if there is a piece on moved to square, if so remove it
-            # puts us in check
-            piece_to_move.update_coors(ChessCoord(col_new, row_new))
-            last_move = convert_last_move(col_old, row_old, col_new, row_new)
-            game_loop(pieces, last_move, None)
+
+
+            if is_blocked:
+                move_piece(pieces, last_move, msg)
+            else:
+                if piece_to_take:
+                    pieces.remove(piece_to_take)
+
+                piece_to_move.update_coors(ChessCoord(col_new, row_new))
+                last_move = convert_last_move(col_old, row_old, col_new, row_new)
+                game_loop(pieces, last_move, None)
 
     if piece_to_move:
         move_piece(pieces, last_move, "Move piece")

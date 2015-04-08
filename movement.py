@@ -3,7 +3,7 @@ import directions as dirs
 
 
 def convert_from_chess_coor_to_grid(col, row):
-    return bps.ROWS[row], bps.COLUMNS[col]
+    return bps.COLUMNS[col], bps.ROWS[row]
 
 
 def flatten_list(list):
@@ -13,7 +13,7 @@ def flatten_list(list):
 def go_max_distances(moves, move_direction, pieces, from_col, from_row, moves_left=None):
     print " 66 from_row, from_col: " + str((from_col, from_row))
 
-    new_row, new_col = move_direction(from_col, from_row)
+    new_col, new_row = move_direction(from_col, from_row)
 
     # check here if piece is blocking
     print " %% new_row, new_col: " + str((new_col, new_row))
@@ -81,7 +81,7 @@ def possible_moves_for_piece(piece, pieces):
 def is_valid_movement_pattern_for_piece(piece, to_col, to_row, pieces):
     print " to_col, to_row: " + str((to_col, to_row))
 
-    to_grid_row, to_grid_col = convert_from_chess_coor_to_grid(to_col, to_row)
+    to_grid_col, to_grid_row = convert_from_chess_coor_to_grid(to_col, to_row)
 
     print " $$ to_grid_col, to_grid_row: " + str((to_grid_col, to_grid_row))
 

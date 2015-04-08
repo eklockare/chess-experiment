@@ -1,9 +1,9 @@
 import board_parts as bps
-
+from board_parts import GridCoord
 
 def is_within_board(col, row):
     if (0 <= row < 8) and (0 <= col < 8):
-        return row, col
+        return col, row
     else:
         return None, None
 
@@ -96,3 +96,23 @@ def move_directions_bishop():
 def move_directions_queen():
     return move_directions_bishop() + move_directions_rook()
 
+
+def get_move_direction_and_squares_in_between(grid_coord_from, grid_coord_to, directions):
+    def go_until_hit_or_outside(grid_coord_from, grid_coord_to, direction, squares_in_between):
+        col_move, row_move = direction(grid_coord_from.col, grid_coord_from.row)
+
+        if col_move is not None and row_move is not None:
+            if col_move is grid_coord_to.col and row_move is grid_coord_to.row:
+                return direction, squares_in_between
+            else:
+                move = GridCoord(col_move, row_move)
+                squares_in_between.append(move)
+                return go_until_hit_or_outside(move, grid_coord_to, direction, squares_in_between)
+        else:
+            return None, None
+
+    tried_directions = map(lambda direction: go_until_hit_or_outside(grid_coord_from, grid_coord_to, direction, []),
+                           directions)
+    found_direction = filter(lambda direction_squares: direction_squares[0], tried_directions)
+
+    return found_direction[0]
