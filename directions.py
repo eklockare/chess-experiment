@@ -5,6 +5,7 @@ def is_within_board(col, row):
     if (0 <= row < 8) and (0 <= col < 8):
         return col, row
     else:
+        print "is within board col %s row %s" % (col, row)
         return None, None
 
 
@@ -63,7 +64,7 @@ def go_north_west(col_num, row_num):
 
 
 def go_north_east(col_num, row_num):
-    return is_within_board(col_num - 1, row_num + 1)
+    return is_within_board(col_num + 1, row_num - 1)
 
 
 def go_south(col_num, row_num):
@@ -115,4 +116,21 @@ def get_move_direction_and_squares_in_between(grid_coord_from, grid_coord_to, di
                            directions)
     found_direction = filter(lambda direction_squares: direction_squares[0], tried_directions)
 
-    return found_direction[0]
+    if found_direction:
+        return True, found_direction[0][0], found_direction[0][1]
+    else:
+        return False, None, None
+
+
+def is_diagonal_move(move_direction):
+    return move_direction is go_north_east or \
+           move_direction is go_north_west or \
+           move_direction is go_south_east or \
+           move_direction is go_south_west
+
+
+def is_straight_move(move_direction):
+    return move_direction is go_north or \
+           move_direction is go_south or \
+           move_direction is go_west or \
+           move_direction is go_east

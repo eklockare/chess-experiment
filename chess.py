@@ -92,11 +92,12 @@ def game_loop(pieces, last_move, piece_to_move):
                                                                                     row_new, pieces)
         # puts us in check
         # check if there is a piece on moved to square, if so remove it, or deny if own piece
-        is_blocked, piece_to_take, msg, possible_moves = col.check_if_move_is_blocked(piece_to_move,
-                                                                                      col_new,
-                                                                                      row_new,
-                                                                                      possible_moves,
-                                                                                      pieces)
+        is_valid_movement, is_blocked, piece_to_take, msg, possible_moves = col.check_if_move_is_blocked(
+            piece_to_move,
+            col_new,
+            row_new,
+            possible_moves,
+            pieces)
 
 
         if not is_valid_movement:
