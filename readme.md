@@ -1,1 +1,6 @@
-run with python chess.py
+very WIP
+
+
+run with 'python chess.py'
+
+
