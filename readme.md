@@ -6,6 +6,7 @@ The goal with this project is to create a fully working chess game played agains
 run with 'python chess.py'
 
 TODO:
+
 1. Pawn movement and taking (special)
     * one direction
     * two steps possible first move
