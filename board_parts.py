@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -22,35 +23,30 @@ NUM_ROWS = range(0, 8)
 NUM_COLS = range(0, 8)
 
 COLUMNS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7}
-ROWS = {'8': 0, '7': 1, '6': 2, '5': 3, '4': 4, '3': 5, '2': 6, '1': 7}
+ROWS = {'8': 7, '7': 6, '6': 5, '5': 4, '4': 3, '3': 2, '2': 1, '1': 0}
 
 IS_PIECE_ROW = True
 IS_NOT_PIECE_ROW = False
 
 
-class GridCoord():
+class GridCoord(object):
     def __init__(self, col, row):
         self.col = col
         self.row = row
 
+    def __eq__(self, other):
+            return self.col == other.col and self.row == other.row
 
-class ChessCoord():
+
+class ChessCoord(object):
     def __init__(self, col, row):
         self.col = col
         self.row = row
 
+    def __eq__(self, other):
+        return self.col == other.col and self.row == other.row
 
-class Piece():
-    def __init__(self, chess_coord, colour, letter, symbol):
-        self.chess_coord = chess_coord
-        self.grid_coord = GridCoord(COLUMNS[chess_coord.col], ROWS[chess_coord.row])
-        self.colour = colour
-        self.letter = letter
-        self.symbol = symbol
 
-    def update_coors(self, chess_coord):
-        self.chess_coord = chess_coord
-        self.grid_coord = GridCoord(COLUMNS[chess_coord.col], ROWS[chess_coord.row])
 
 
 def black(string):

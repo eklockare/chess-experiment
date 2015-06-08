@@ -111,7 +111,7 @@ def game_loop(pieces, last_move, piece_to_move):
                 if piece_to_take:
                     pieces.remove(piece_to_take)
 
-                piece_to_move.update_coors(ChessCoord(col_new, row_new))
+                piece_to_move.update_coords(ChessCoord(col_new, row_new))
                 last_move = convert_last_move(col_old, row_old, col_new, row_new)
                 game_loop(pieces, last_move, None)
 
