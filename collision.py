@@ -1,6 +1,7 @@
 import directions as dire
-from board_parts import GridCoord
+from board_parts import GridCoord, ChessCoord
 import movement as mov
+import board_parts as bps
 
 
 def check_if_piece_on_squares_in_between(squares_in_between, pieces):
@@ -21,7 +22,7 @@ def check_if_move_is_blocked(piece_to_move, col_new, row_new, possible_moves, pi
     msg = ""
 
     print "col_new, row_new: " + str((col_new, row_new))
-    col_new_grid, row_new_grid = mov.convert_from_chess_coor_to_grid(col_new, row_new)
+    grid_coord = bps.chess_coord_to_grid_coord(ChessCoord(col_new, row_new))
 
     if piece_to_move.letter is 'Kn':
         is_blocked, piece_to_take, msg = examine_end_square(col_new, row_new, piece_to_move, pieces)
@@ -31,8 +32,7 @@ def check_if_move_is_blocked(piece_to_move, col_new, row_new, possible_moves, pi
 
         is_valid_movement, move_direction, squares_in_between = \
             dire.get_move_direction_and_squares_in_between(piece_to_move.grid_coord,
-                                                           GridCoord(col_new_grid,
-                                                                     row_new_grid),
+                                                           grid_coord,
                                                            dire.move_directions_queen())
 
         is_taking_move = dire.is_diagonal_move(move_direction)

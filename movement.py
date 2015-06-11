@@ -2,10 +2,6 @@ import board_parts as bps
 import directions as dirs
 
 
-def convert_from_chess_coor_to_grid(col, row):
-    return bps.COLUMNS[col], bps.ROWS[row]
-
-
 def flatten_list(list):
     return [item for sublist in list for item in sublist]
 
@@ -81,15 +77,15 @@ def possible_moves_for_piece(piece, pieces):
 def is_valid_movement_pattern_for_piece(piece, to_col, to_row, pieces):
     print " to_col, to_row: " + str((to_col, to_row))
 
-    to_grid_col, to_grid_row = convert_from_chess_coor_to_grid(to_col, to_row)
+    grid_coord = bps.chess_coord_to_grid_coord(bps.ChessCoord(to_col, to_row))
 
-    print " $$ to_grid_col, to_grid_row: " + str((to_grid_col, to_grid_row))
+    print " $$ to_grid_col, to_grid_row: " + str(grid_coord)
 
     possible_moves = possible_moves_for_piece(piece, pieces)
 
-    move_is_possible = (to_grid_col, to_grid_row) in possible_moves
+    move_is_possible = (grid_coord.col, grid_coord.row) in possible_moves
 
-    print "(to_col, to_row): " + str((to_grid_col, to_grid_row))
+    print "(to_col, to_row): " + str(grid_coord)
     print "possible_moves : " + str(possible_moves)
     print "move_is_possible : " + str(move_is_possible)
 

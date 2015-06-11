@@ -3,20 +3,22 @@ import board_parts as bps
 import drawing as dr
 import movement as mov
 from board_parts import ChessCoord
-from board_parts import Piece
+import directions as dirs
 import collision as col
+from pieces.piece import Piece
 
 INPUT_LENGTH = 2
 
 
 def convert_last_move(col, row, col_to=None, row_to=None):
     if row_to:
-        return bps.ROWS[row], bps.COLUMNS[col], bps.ROWS[row_to], bps.COLUMNS[col_to]
+        return bps.CHESS_TO_GRID_ROWS[row], bps.CHESS_TO_GRID_COLUMNS[col], bps.CHESS_TO_GRID_ROWS[row_to], \
+               bps.CHESS_TO_GRID_COLUMNS[col_to]
     else:
-        return bps.ROWS[row], bps.COLUMNS[col], None, None
+        return bps.CHESS_TO_GRID_ROWS[row], bps.CHESS_TO_GRID_COLUMNS[col], None, None
 
 def valid_coordinates(col, row):
-    return col in bps.COLUMNS and row in bps.ROWS
+    return col in bps.CHESS_TO_GRID_COLUMNS and row in bps.CHESS_TO_GRID_ROWS
 
 
 def validate_input(user_input, select_or_move):
@@ -123,24 +125,40 @@ def game_loop(pieces, last_move, piece_to_move):
 
 starting_pieces = [
     # black pawns
-    Piece(ChessCoord('A', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('B', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoord('C', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('D', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoord('E', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('F', '7'), bps.black, 'P', '♟'),
-    Piece(ChessCoord('G', '7'), bps.black, 'P', '♟'), Piece(ChessCoord('H', '7'), bps.black, 'P', '♟'),
+    Piece(ChessCoord('A', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('B', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('C', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('D', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('E', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('F', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('G', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Piece(ChessCoord('H', '7'), bps.black, 'P', '♟', [dirs.go_south]),
     # black back row
-    Piece(ChessCoord('A', '8'), bps.black, 'R', '♜'), Piece(ChessCoord('B', '8'), bps.black, 'Kn', '♞'),
-    Piece(ChessCoord('C', '8'), bps.black, 'B', '♝'), Piece(ChessCoord('D', '8'), bps.black, 'Q', '♛'),
-    Piece(ChessCoord('E', '8'), bps.black, 'K', '♚'), Piece(ChessCoord('F', '8'), bps.black, 'B', '♝'),
-    Piece(ChessCoord('G', '8'), bps.black, 'Kn', '♞'), Piece(ChessCoord('H', '8'), bps.black, 'R', '♜'),
+    Piece(ChessCoord('A', '8'), bps.black, 'R', '♜', dirs.move_directions_rook()),
+    Piece(ChessCoord('B', '8'), bps.black, 'Kn', '♞', dirs.move_directions_knight()),
+    Piece(ChessCoord('C', '8'), bps.black, 'B', '♝', dirs.move_directions_bishop()),
+    Piece(ChessCoord('D', '8'), bps.black, 'Q', '♛', dirs.move_directions_queen()),
+    Piece(ChessCoord('E', '8'), bps.black, 'K', '♚', dirs.move_directions_queen()),
+    Piece(ChessCoord('F', '8'), bps.black, 'B', '♝', dirs.move_directions_bishop()),
+    Piece(ChessCoord('G', '8'), bps.black, 'Kn', '♞', dirs.move_directions_knight()),
+    Piece(ChessCoord('H', '8'), bps.black, 'R', '♜', dirs.move_directions_rook()),
     # white pawns
-    Piece(ChessCoord('A', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('B', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoord('C', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('D', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoord('E', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('F', '2'), bps.white, 'P', '♙'),
-    Piece(ChessCoord('G', '2'), bps.white, 'P', '♙'), Piece(ChessCoord('H', '2'), bps.white, 'P', '♙'),
+    Piece(ChessCoord('A', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('B', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('C', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('D', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('E', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('F', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('G', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Piece(ChessCoord('H', '2'), bps.white, 'P', '♙', [dirs.go_north]),
     # white back row
-    Piece(ChessCoord('A', '1'), bps.white, 'R', '♖'), Piece(ChessCoord('B', '1'), bps.white, 'Kn', '♘'),
-    Piece(ChessCoord('C', '1'), bps.white, 'B', '♗'), Piece(ChessCoord('D', '1'), bps.white, 'Q', '♕'),
-    Piece(ChessCoord('E', '1'), bps.white, 'K', '♔'), Piece(ChessCoord('F', '1'), bps.white, 'B', '♗'),
-    Piece(ChessCoord('G', '1'), bps.white, 'Kn', '♘'), Piece(ChessCoord('H', '1'), bps.white, 'R', '♖'),
+    Piece(ChessCoord('A', '1'), bps.white, 'R', '♖', dirs.move_directions_rook()),
+    Piece(ChessCoord('B', '1'), bps.white, 'Kn', '♘', dirs.move_directions_knight()),
+    Piece(ChessCoord('C', '1'), bps.white, 'B', '♗', dirs.move_directions_bishop()),
+    Piece(ChessCoord('D', '1'), bps.white, 'Q', '♕', dirs.move_directions_queen()),
+    Piece(ChessCoord('E', '1'), bps.white, 'K', '♔', dirs.move_directions_queen()),
+    Piece(ChessCoord('F', '1'), bps.white, 'B', '♗', dirs.move_directions_bishop()),
+    Piece(ChessCoord('G', '1'), bps.white, 'Kn', '♘', dirs.move_directions_knight()),
+    Piece(ChessCoord('H', '1'), bps.white, 'R', '♖', dirs.move_directions_rook()),
 ]
 game_loop(starting_pieces, None, None)

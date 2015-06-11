@@ -1,11 +1,11 @@
 import board_parts
-from board_parts import GridCoord, ChessCoord, black, white, ROWS, COLUMNS
+import directions as dire
 
 class Piece(object):
-    def __init__(self, chess_coord, colour, letter, symbol):
+    def __init__(self, chess_coord, colour, letter, symbol, move_directions):
+        self.move_directions = move_directions
         self.chess_coord = chess_coord
-        self.grid_coord = GridCoord(COLUMNS[chess_coord.col],
-                                                ROWS[chess_coord.row])
+        self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
         self.colour = colour
         self.letter = letter
         self.symbol = symbol
@@ -15,5 +15,9 @@ class Piece(object):
 
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord
-        self.grid_coord = GridCoord(COLUMNS[chess_coord.col],
-                                                ROWS[chess_coord.row])
+        self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
+
+    def direction_and_squares(self, move):
+        return dire.get_move_direction_and_squares_in_between(self.grid_coord,
+                                                           move,
+                                                           self.move_directions)

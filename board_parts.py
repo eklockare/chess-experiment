@@ -22,12 +22,23 @@ v_separator = ['|     |', '|     |', '|     |', '|     |', '|     |', '|     |',
 NUM_ROWS = range(0, 8)
 NUM_COLS = range(0, 8)
 
-COLUMNS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7}
-ROWS = {'8': 7, '7': 6, '6': 5, '5': 4, '4': 3, '3': 2, '2': 1, '1': 0}
+def inverse_dict(dictionary):
+    return dict((v, k) for k, v in dictionary.iteritems())
+
+CHESS_TO_GRID_COLUMNS = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7}
+CHESS_TO_GRID_ROWS = {'8': 7, '7': 6, '6': 5, '5': 4, '4': 3, '3': 2, '2': 1, '1': 0}
+
+GRID_TO_CHESS_COLUMNS = inverse_dict(CHESS_TO_GRID_COLUMNS)
+GRID_TO_CHESS_ROWS = inverse_dict(CHESS_TO_GRID_ROWS)
 
 IS_PIECE_ROW = True
 IS_NOT_PIECE_ROW = False
 
+def grid_coord_to_chess_coord(grid_coord):
+    return GridCoord(GRID_TO_CHESS_COLUMNS[grid_coord.col], GRID_TO_CHESS_ROWS[grid_coord.row])
+
+def chess_coord_to_grid_coord(chess_coord):
+    return GridCoord(CHESS_TO_GRID_COLUMNS[chess_coord.col], CHESS_TO_GRID_ROWS[chess_coord.row])
 
 class GridCoord(object):
     def __init__(self, col, row):
@@ -37,6 +48,9 @@ class GridCoord(object):
     def __eq__(self, other):
             return self.col == other.col and self.row == other.row
 
+    def __str__(self):
+            return "GridCoord(%s, %s) " % (self.col, self.row)
+
 
 class ChessCoord(object):
     def __init__(self, col, row):
@@ -45,6 +59,9 @@ class ChessCoord(object):
 
     def __eq__(self, other):
         return self.col == other.col and self.row == other.row
+
+    def __str__(self):
+        return "ChessCoord(%s, %s) " % (self.col, self.row)
 
 
 
