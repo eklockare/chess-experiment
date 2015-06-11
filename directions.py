@@ -16,35 +16,35 @@ def move_directions_knight():
 
 
 def kn_go_north_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num - 2)
-
-
-def kn_go_north_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num - 2)
-
-
-def kn_go_east_north(col_num, row_num):
-    return is_within_board(col_num + 2, row_num - 1)
-
-
-def kn_go_east_south(col_num, row_num):
-    return is_within_board(col_num + 2, row_num + 1)
-
-
-def kn_go_south_east(col_num, row_num):
     return is_within_board(col_num + 1, row_num + 2)
 
 
-def kn_go_south_west(col_num, row_num):
+def kn_go_north_west(col_num, row_num):
     return is_within_board(col_num - 1, row_num + 2)
 
 
+def kn_go_east_north(col_num, row_num):
+    return is_within_board(col_num + 2, row_num + 1)
+
+
+def kn_go_east_south(col_num, row_num):
+    return is_within_board(col_num + 2, row_num - 1)
+
+
+def kn_go_south_east(col_num, row_num):
+    return is_within_board(col_num + 1, row_num - 2)
+
+
+def kn_go_south_west(col_num, row_num):
+    return is_within_board(col_num - 1, row_num - 2)
+
+
 def kn_go_west_south(col_num, row_num):
-    return is_within_board(col_num - 2, row_num + 1)
+    return is_within_board(col_num - 2, row_num - 1)
 
 
 def kn_go_west_north(col_num, row_num):
-    return is_within_board(col_num - 2, row_num - 1)
+    return is_within_board(col_num - 2, row_num + 1)
 
 
 def go_east(col_num, row_num):
@@ -56,27 +56,27 @@ def go_west(col_num, row_num):
 
 
 def go_north(col_num, row_num):
-    return is_within_board(col_num, row_num - 1)
-
-
-def go_north_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num - 1)
-
-
-def go_north_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num - 1)
-
-
-def go_south(col_num, row_num):
     return is_within_board(col_num, row_num + 1)
 
 
-def go_south_west(col_num, row_num):
+def go_north_west(col_num, row_num):
     return is_within_board(col_num - 1, row_num + 1)
 
 
-def go_south_east(col_num, row_num):
+def go_north_east(col_num, row_num):
     return is_within_board(col_num + 1, row_num + 1)
+
+
+def go_south(col_num, row_num):
+    return is_within_board(col_num, row_num - 1)
+
+
+def go_south_west(col_num, row_num):
+    return is_within_board(col_num - 1, row_num - 1)
+
+
+def go_south_east(col_num, row_num):
+    return is_within_board(col_num + 1, row_num - 1)
 
 
 def move_direction_pawn(color):
