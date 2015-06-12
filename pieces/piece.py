@@ -19,5 +19,5 @@ class Piece(object):
 
     def direction_and_squares(self, move):
         return dire.get_move_direction_and_squares_in_between(self.grid_coord,
-                                                           move,
-                                                           self.move_directions)
+                                   board_parts.chess_coord_to_grid_coord(move),
+                                   self.move_directions)
