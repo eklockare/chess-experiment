@@ -1,9 +1,6 @@
 import board_parts as bps
 import directions as dirs
-
-
-def flatten_list(list):
-    return [item for sublist in list for item in sublist]
+import util
 
 
 def go_max_distances(moves, move_direction, pieces, from_col, from_row, moves_left=None):
@@ -42,7 +39,7 @@ def move_pawn(move_direction, pieces, col_num, row_num, color):
 
 
 def move_piece(move_directions, pieces, col_num, row_num, max_moves=None):
-    return flatten_list(map(lambda move_direction:
+    return util.flatten_list(map(lambda move_direction:
                             go_max_distances([], move_direction, pieces, col_num, row_num, max_moves),
                             move_directions))
 
