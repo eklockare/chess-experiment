@@ -5,7 +5,6 @@ def is_within_board(col, row):
     if (0 <= row < 8) and (0 <= col < 8):
         return col, row
     else:
-        print "is within board col %s row %s" % (col, row)
         return None, None
 
 

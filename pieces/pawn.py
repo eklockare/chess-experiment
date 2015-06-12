@@ -13,9 +13,7 @@ class Pawn(Piece):
 
     def is_valid_move(self, pieces, move):
         grid_move = bps.chess_coord_to_grid_coord(move)
-        print "grid_move: %s " % grid_move
         valid_direction, direction, squares = self.direction_and_squares(grid_move)
-        print "direction_squares %s %s %s" % (valid_direction, direction, squares)
         if valid_direction:
             return self.ok_number_steps(squares)
         else:
@@ -30,7 +28,6 @@ class Pawn(Piece):
             number_of_steps_allowed = 1
 
         number_of_steps_in_move = len(squares)
-        print "number_of_steps_in_move: %s " % number_of_steps_in_move
 
         return (number_of_steps_in_move <= number_of_steps_allowed)
 
