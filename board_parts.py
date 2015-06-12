@@ -42,26 +42,35 @@ def chess_coord_to_grid_coord(chess_coord):
 
 class GridCoord(object):
     def __init__(self, col, row):
-        self.col = col
-        self.row = row
-
-    def __eq__(self, other):
-            return self.col == other.col and self.row == other.row
-
-    def __str__(self):
-            return "GridCoord(%s, %s) " % (self.col, self.row)
-
-
-class ChessCoord(object):
-    def __init__(self, col, row):
+        assert(type(col) is int and type(row) is int)
+        assert(col in NUM_COLS and row in NUM_ROWS)
         self.col = col
         self.row = row
 
     def __eq__(self, other):
         return self.col == other.col and self.row == other.row
 
+    def __ne__(self, other):
+        return self.col != other.col or self.row != other.row
+
     def __str__(self):
-        return "ChessCoord(%s, %s) " % (self.col, self.row)
+        return "GridCoord(%s, %s)" % (self.col, self.row)
+
+
+class ChessCoord(object):
+    def __init__(self, col, row):
+        assert(type(col) is str and type(row) is str)
+        self.col = col
+        self.row = row
+
+    def __eq__(self, other):
+        return self.col == other.col and self.row == other.row
+
+    def __ne__(self, other):
+        return self.col != other.col or self.row != other.row
+
+    def __str__(self):
+        return "ChessCoord(%s, %s)" % (self.col, self.row)
 
 
 
