@@ -12,8 +12,7 @@ class Pawn(Piece):
             Piece.__init__(self, chess_coord, colour, 'P', '♟', [move_direction])
 
     def is_valid_move(self, pieces, move):
-        grid_move = bps.chess_coord_to_grid_coord(move)
-        valid_direction, direction, squares = self.direction_and_squares(grid_move)
+        valid_direction, direction, squares = self.direction_and_squares(move)
         if valid_direction:
             return self.ok_number_steps(squares)
         else:
