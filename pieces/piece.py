@@ -17,7 +17,7 @@ class Piece(object):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
-    def direction_and_squares(self, move):
+    def get_direction_and_squares(self, move):
         return dire.get_move_direction_and_squares_in_between(self.grid_coord,
                                    board_parts.chess_coord_to_grid_coord(move),
                                    self.move_directions)
