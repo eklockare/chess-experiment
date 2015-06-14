@@ -34,7 +34,11 @@ class PieceTests(unittest.TestCase):
         self.failUnless(valid_direction)
         self.failUnless(direction == go_west)
         self.failUnless(util.compare_lists(squares,
-                        [GridCoord(3, 5), GridCoord(4, 5), GridCoord(5, 5), GridCoord(6, 5)]))
+                        [GridCoord(2, 5),
+                         GridCoord(3, 5),
+                         GridCoord(4, 5),
+                         GridCoord(5, 5),
+                         GridCoord(6, 5)]))
 
 
 def main():

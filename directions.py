@@ -3,9 +3,9 @@ from board_parts import GridCoord
 
 def is_within_board(col, row):
     if (0 <= row < 8) and (0 <= col < 8):
-        return col, row
+        return GridCoord(col, row)
     else:
-        return None, None
+        return None
 
 
 def move_directions_knight():
@@ -14,68 +14,68 @@ def move_directions_knight():
             kn_go_west_south, kn_go_west_north]
 
 
-def kn_go_north_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num + 2)
+def kn_go_north_east(grid_coord):
+    return is_within_board(grid_coord.col + 1, grid_coord.row + 2)
 
 
-def kn_go_north_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num + 2)
+def kn_go_north_west(grid_coord):
+    return is_within_board(grid_coord.col - 1, grid_coord.row + 2)
 
 
-def kn_go_east_north(col_num, row_num):
-    return is_within_board(col_num + 2, row_num + 1)
+def kn_go_east_north(grid_coord):
+    return is_within_board(grid_coord.col + 2, grid_coord.row + 1)
 
 
-def kn_go_east_south(col_num, row_num):
-    return is_within_board(col_num + 2, row_num - 1)
+def kn_go_east_south(grid_coord):
+    return is_within_board(grid_coord.col + 2, grid_coord.row - 1)
 
 
-def kn_go_south_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num - 2)
+def kn_go_south_east(grid_coord):
+    return is_within_board(grid_coord.col + 1, grid_coord.row - 2)
 
 
-def kn_go_south_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num - 2)
+def kn_go_south_west(grid_coord):
+    return is_within_board(grid_coord.col - 1, grid_coord.row - 2)
 
 
-def kn_go_west_south(col_num, row_num):
-    return is_within_board(col_num - 2, row_num - 1)
+def kn_go_west_south(grid_coord):
+    return is_within_board(grid_coord.col - 2, grid_coord.row - 1)
 
 
-def kn_go_west_north(col_num, row_num):
-    return is_within_board(col_num - 2, row_num + 1)
+def kn_go_west_north(grid_coord):
+    return is_within_board(grid_coord.col - 2, grid_coord.row + 1)
 
 
-def go_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num)
+def go_east(grid_coord):
+    return is_within_board(grid_coord.col + 1, grid_coord.row)
 
 
-def go_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num)
+def go_west(grid_coord):
+    return is_within_board(grid_coord.col - 1, grid_coord.row)
 
 
-def go_north(col_num, row_num):
-    return is_within_board(col_num, row_num + 1)
+def go_north(grid_coord):
+    return is_within_board(grid_coord.col, grid_coord.row + 1)
 
 
-def go_north_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num + 1)
+def go_north_west(grid_coord):
+    return is_within_board(grid_coord.col - 1, grid_coord.row + 1)
 
 
-def go_north_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num + 1)
+def go_north_east(grid_coord):
+    return is_within_board(grid_coord.col + 1, grid_coord.row + 1)
 
 
-def go_south(col_num, row_num):
-    return is_within_board(col_num, row_num - 1)
+def go_south(grid_coord):
+    return is_within_board(grid_coord.col, grid_coord.row - 1)
 
 
-def go_south_west(col_num, row_num):
-    return is_within_board(col_num - 1, row_num - 1)
+def go_south_west(grid_coord):
+    return is_within_board(grid_coord.col - 1, grid_coord.row - 1)
 
 
-def go_south_east(col_num, row_num):
-    return is_within_board(col_num + 1, row_num - 1)
+def go_south_east(grid_coord):
+    return is_within_board(grid_coord.col + 1, grid_coord.row - 1)
 
 
 def move_direction_pawn(color):
@@ -99,15 +99,14 @@ def move_directions_queen():
 
 def get_move_direction_and_squares_in_between(grid_coord_from, grid_coord_to, directions):
     def go_until_hit_or_outside(grid_coord_from, grid_coord_to, direction, squares_in_between):
-        col_move, row_move = direction(grid_coord_from.col, grid_coord_from.row)
+        grid_coord_move = direction(grid_coord_from)
 
-        if col_move is not None and row_move is not None:
-            if col_move is grid_coord_to.col and row_move is grid_coord_to.row:
+        if grid_coord_move is not None:
+            if grid_coord_from == grid_coord_to:
                 return direction, squares_in_between
             else:
-                move = GridCoord(col_move, row_move)
-                squares_in_between.append(move)
-                return go_until_hit_or_outside(move, grid_coord_to, direction, squares_in_between)
+                squares_in_between.append(grid_coord_move)
+                return go_until_hit_or_outside(grid_coord_move, grid_coord_to, direction, squares_in_between)
         else:
             return None, None
 
