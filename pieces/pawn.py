@@ -34,4 +34,4 @@ class Pawn(Piece):
         if self.move_directions == [go_north]:
             return self.grid_coord.row == 1
         else:
-            return self.grid_coord.row == 7
+            return self.grid_coord.row == 6
