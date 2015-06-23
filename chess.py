@@ -2,7 +2,7 @@
 import board_parts as bps
 import drawing as dr
 import movement as mov
-from board_parts import ChessCoord
+from board_parts import ChessCoord, GridCoord, chess_coord_to_grid_coord
 import directions as dirs
 import collision as col
 from pieces.piece import Piece
@@ -10,12 +10,6 @@ from pieces.piece import Piece
 INPUT_LENGTH = 2
 
 
-def convert_last_move(col, row, col_to=None, row_to=None):
-    if row_to:
-        return bps.CHESS_TO_GRID_ROWS[row], bps.CHESS_TO_GRID_COLUMNS[col], bps.CHESS_TO_GRID_ROWS[row_to], \
-               bps.CHESS_TO_GRID_COLUMNS[col_to]
-    else:
-        return bps.CHESS_TO_GRID_ROWS[row], bps.CHESS_TO_GRID_COLUMNS[col], None, None
 
 def valid_coordinates(col, row):
     return col in bps.CHESS_TO_GRID_COLUMNS and row in bps.CHESS_TO_GRID_ROWS
@@ -61,7 +55,7 @@ def game_loop(pieces, last_move, piece_to_move):
 
         if piece_selection:
             selected_piece = piece_selection[0]
-            last_move = convert_last_move(selected_piece.chess_coord.col, selected_piece.chess_coord.row)
+            last_move = chess_coord_to_grid_coord(selected_piece.chess_coord), None
             game_loop(pieces, last_move, selected_piece)
 
         else:
@@ -73,13 +67,11 @@ def game_loop(pieces, last_move, piece_to_move):
         if msg:
             print msg
 
-        col_old = piece_to_move.chess_coord.col
-        row_old = piece_to_move.chess_coord.row
-
         user_input = raw_input()
         user_input = user_input.upper()
         input_result = validate_input(user_input, "Move piece ")
         col_new, row_new = input_result
+        new_coordinates = ChessCoord(col_new, row_new)
 
         if not col_new:
             if row_new is 'cancel':
@@ -90,8 +82,10 @@ def game_loop(pieces, last_move, piece_to_move):
 
         # check if move is valid here
         # is valid for this piece
-        is_valid_movement, possible_moves = mov.is_valid_movement_pattern_for_piece(piece_to_move, col_new,
-                                                                                    row_new, pieces)
+        is_valid_movement, possible_moves = \
+            mov.is_valid_movement_pattern_for_piece(piece_to_move,
+                                                    new_coordinates,
+                                                    pieces)
         # puts us in check
         # check if there is a piece on moved to square, if so remove it, or deny if own piece
         is_valid_movement, is_blocked, piece_to_take, msg, possible_moves = col.check_if_move_is_blocked(
@@ -113,8 +107,9 @@ def game_loop(pieces, last_move, piece_to_move):
                 if piece_to_take:
                     pieces.remove(piece_to_take)
 
-                piece_to_move.update_coords(ChessCoord(col_new, row_new))
-                last_move = convert_last_move(col_old, row_old, col_new, row_new)
+                piece_to_move.update_coords(new_coordinates )
+                last_move = chess_coord_to_grid_coord(piece_to_move.chess_coord), \
+                            chess_coord_to_grid_coord(new_coordinates)
                 game_loop(pieces, last_move, None)
 
     if piece_to_move:

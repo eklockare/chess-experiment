@@ -45,10 +45,10 @@ def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece, la
     def get_square_color(row_id, col, last_move):
         square_colour, _ = colouring_row_parts[col]
         if last_move:
-            from_row, from_col, to_row, to_col = last_move
-            if col == from_col and row_id == from_row:
+            from_coord, to_coord = last_move
+            if col == from_coord.col and row_id == from_coord.row:
                 return bps.yellow_background
-            elif col == to_col and row_id == to_row:
+            elif to_coord and col == to_coord.col and row_id == to_coord.row:
                 return bps.green_background
             else:
                 return square_colour

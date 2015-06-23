@@ -1,4 +1,4 @@
-import board_parts as bps
+from board_parts import GridCoord, chess_coord_to_grid_coord, ChessCoord, black, white
 import directions as dirs
 import util
 
@@ -6,23 +6,25 @@ import util
 def go_max_distances(moves, move_direction, pieces, from_col, from_row, moves_left=None):
     print " 66 from_row, from_col: " + str((from_col, from_row))
 
-    new_col, new_row = move_direction(from_col, from_row)
+    new_coord = move_direction(GridCoord(from_col, from_row))
 
     # check here if piece is blocking
-    print " %% new_row, new_col: " + str((new_col, new_row))
+    print " %% new_row, new_col: " + str(new_coord)
 
-    if new_row is not None and moves_left is None:
-        moves.append((new_col, new_row))
-        return go_max_distances(moves, move_direction, pieces, new_col, new_row, None)
-    elif new_row is not None and moves_left > 0:
-        moves.append((new_col, new_row))
-        return go_max_distances(moves, move_direction, pieces, new_col, new_row, moves_left - 1)
+    if new_coord is not None and moves_left is None:
+        moves.append(new_coord)
+        return go_max_distances(moves, move_direction, pieces,
+                                new_coord.col, new_coord.row, None)
+    elif new_coord is not None and moves_left > 0:
+        moves.append(new_coord)
+        return go_max_distances(moves, move_direction, pieces, new_coord.col,
+                                new_coord.row, moves_left - 1)
     else:
         return moves
 
 
 def pawn_is_on_start_row(row, color):
-    return color is bps.black and row is 1 or color is bps.white and row is 6
+    return color is black and row is 1 or color is white and row is 6
 
 
 def move_pawn(move_direction, pieces, col_num, row_num, color):
@@ -71,20 +73,10 @@ def possible_moves_for_piece(piece, pieces):
         return move_piece(move_directions, pieces, col_num, row_num)
 
 
-def is_valid_movement_pattern_for_piece(piece, to_col, to_row, pieces):
-    print " to_col, to_row: " + str((to_col, to_row))
-
-    grid_coord = bps.chess_coord_to_grid_coord(bps.ChessCoord(to_col, to_row))
-
-    print " $$ to_grid_col, to_grid_row: " + str(grid_coord)
-
+def is_valid_movement_pattern_for_piece(piece, to_coord, pieces):
+    to_grid_coord = chess_coord_to_grid_coord(to_coord)
     possible_moves = possible_moves_for_piece(piece, pieces)
-
-    move_is_possible = (grid_coord.col, grid_coord.row) in possible_moves
-
-    print "(to_col, to_row): " + str(grid_coord)
-    print "possible_moves : " + str(possible_moves)
-    print "move_is_possible : " + str(move_is_possible)
+    move_is_possible = to_grid_coord in possible_moves
 
     return move_is_possible, possible_moves
 
