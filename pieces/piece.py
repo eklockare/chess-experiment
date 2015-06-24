@@ -21,3 +21,15 @@ class Piece(object):
         return dire.get_move_direction_and_squares_in_between(self.grid_coord,
                                    board_parts.chess_coord_to_grid_coord(move),
                                    self.move_directions)
+
+    def __str__(self):
+        if self.colour == board_parts.black:
+            color_name = "black"
+        else:
+            color_name = "white"
+
+        return "%s %s, %s, %s" % \
+               (self.letter,
+                self.chess_coord,
+                self.grid_coord,
+                color_name)

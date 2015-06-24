@@ -1,5 +1,7 @@
 import board_parts as bps
-
+TOP_ROW = 7
+BOTTOM_ROW = 0
+RIGHT_MOST_COL = 7
 
 def get_row_colour(row_id):
     coloured = []
@@ -11,13 +13,13 @@ def get_row_colour(row_id):
     return coloured
 
 
-def row_id_to_row_no(row_id):
-    return str(8 - row_id)
+def count_to_print_row_no(count):
+    return str(count + 1)
 
 
 def add_row_number(row_part, square_colour, row, col):
-    if col is 7:
-        last_bit = square_colour(row_part + '  ' + row_id_to_row_no(row))
+    if col is RIGHT_MOST_COL:
+        last_bit = square_colour(row_part + '  ' + count_to_print_row_no(row))
     else:
         last_bit = square_colour(row_part)
 
@@ -40,7 +42,6 @@ def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece, la
         last_bit = add_row_number('  |', square_colour, row, col)
 
         return square_colour('|  ') + piece_colour(letter) + last_bit
-
 
     def get_square_color(row_id, col, last_move):
         square_colour, _ = colouring_row_parts[col]
@@ -85,8 +86,7 @@ def piece_is_on_row(piece, row):
 
 def get_row_with_pieces(pieces, row_num):
     row_pieces = filter(lambda piece: piece_is_on_row(piece, row_num), pieces)
-
-    if row_num is 0:
+    if row_num is TOP_ROW:
         return row_pieces, bps.top_row()
     else:
         return row_pieces, bps.middle_row()
@@ -95,11 +95,14 @@ def get_row_with_pieces(pieces, row_num):
 def all_rows(pieces):
     rows = []
 
-    for row in bps.NUM_ROWS:
+    for count in bps.NUM_ROWS:
+        row = count_to_row(count)
         rows.append((row, get_row_with_pieces(pieces, row)))
 
     return rows
 
+def count_to_row(count):
+    return 7-count
 
 def draw_board(pieces, last_move):
     all_colouring = map(get_row_colour, bps.NUM_ROWS)

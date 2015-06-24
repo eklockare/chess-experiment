@@ -72,6 +72,7 @@ def game_loop(pieces, last_move, piece_to_move):
         input_result = validate_input(user_input, "Move piece ")
         col_new, row_new = input_result
         new_coordinates = ChessCoord(col_new, row_new)
+        print "new_coordinates %s " % new_coordinates
 
         if not col_new:
             if row_new is 'cancel':
