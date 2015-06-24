@@ -17,69 +17,61 @@ def valid_coordinates(col, row):
 
 def validate_input(user_input, select_or_move):
     if len(user_input) is 0:
-        return None, 'cancel'
+        return False, "Cancelled selection"
     elif len(user_input) is not INPUT_LENGTH:
-        return None, bps.yellow("invalid input, one letter and one number required, ex: A1.\n") \
+        return False, bps.yellow("invalid input, one letter and one number required, ex: A1.\n") \
                + select_or_move
 
     col, row = user_input[0], user_input[1]
 
     if not valid_coordinates(col, row):
-        return None, bps.yellow("Invalid coordinates: " +
+        return False, bps.yellow("Invalid coordinates: " +
                                 str((col, row)) +
                                 str(" A-H + 1-8 required\n")) + \
                select_or_move
     else:
-        return col, row
+        return True, ChessCoord(col, row)
 
 
-def game_loop(pieces, last_move, piece_to_move):
-    def select_piece(pieces, last_move, msg):
-        dr.draw_board(pieces, last_move)
+def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
+    def select_piece(pieces, selected_coord, moved_to_coords, msg):
+        dr.draw_board(pieces, selected_coord, moved_to_coords)
 
         if msg:
             print msg
 
         user_input = raw_input()
         user_input = user_input.upper()
-        col, row = validate_input(user_input, "Select piece")
+        input_is_valid, input_result = validate_input(user_input, "Select piece")
+        print "input_is_valid %s " % input_is_valid
+        if not input_is_valid:
+            select_piece(pieces, None, None, input_result)
 
-        if not col:
-            if row is 'cancel':
-                select_piece(pieces, None, "Cancelled selection")
-            else:
-                msg = row
-                select_piece(pieces, last_move, msg)
-        selected_coordinates = ChessCoord(col, row)
+        selected_coordinates = input_result
+        print "selected_coordinates %s " % selected_coordinates
         piece_selection = filter(lambda piece: piece.chess_coord == selected_coordinates, pieces)
 
         if piece_selection:
             selected_piece = piece_selection[0]
-            last_move = chess_coord_to_grid_coord(selected_piece.chess_coord), None
-            game_loop(pieces, last_move, selected_piece)
+            selected_coord = chess_coord_to_grid_coord(selected_piece.chess_coord)
+            game_loop(pieces, selected_coord, None, selected_piece)
 
         else:
-            select_piece(pieces, last_move, bps.yellow("no piece on that square\n") + "Select piece")
+            select_piece(pieces, selected_coord, None, bps.yellow("no piece on that square\n") + "Select piece")
 
-    def move_piece(pieces, last_move, msg):
-        dr.draw_board(pieces, last_move)
+    def move_piece(pieces, selected_coord, moved_to_coord, msg):
+        dr.draw_board(pieces, selected_coord, moved_to_coord)
 
         if msg:
             print msg
 
         user_input = raw_input()
         user_input = user_input.upper()
-        input_result = validate_input(user_input, "Move piece ")
-        col_new, row_new = input_result
-        new_coordinates = ChessCoord(col_new, row_new)
-        print "new_coordinates %s " % new_coordinates
+        input_is_valid, input_result = validate_input(user_input, "Move piece ")
+        if not input_is_valid:
+            select_piece(pieces, None, None, input_result)
 
-        if not col_new:
-            if row_new is 'cancel':
-                select_piece(pieces, None, "cancelled")
-            else:
-                _, msg = input_result
-                move_piece(pieces, last_move, msg)
+        new_coordinates = input_result
 
         # check if move is valid here
         # is valid for this piece
@@ -97,25 +89,25 @@ def game_loop(pieces, last_move, piece_to_move):
 
 
         if not is_valid_movement:
-            move_piece(pieces, last_move, "Invalid move for this piece")
+            move_piece(pieces, selected_coord, None, "Invalid move for this piece")
         else:
 
 
             if is_blocked:
-                move_piece(pieces, last_move, msg)
+                move_piece(pieces, None, None, msg)
             else:
                 if piece_to_take:
                     pieces.remove(piece_to_take)
 
                 piece_to_move.update_coords(new_coordinates )
-                last_move = chess_coord_to_grid_coord(piece_to_move.chess_coord), \
-                            chess_coord_to_grid_coord(new_coordinates)
-                game_loop(pieces, last_move, None)
+                selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
+                moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
+                game_loop(pieces, selected_coord, moved_to_coord, None)
 
     if piece_to_move:
-        move_piece(pieces, last_move, "Move piece")
+        move_piece(pieces, selected_coord, moved_to_coords, "Move piece")
     else:
-        select_piece(pieces, last_move, "Select piece")
+        select_piece(pieces, selected_coord, None, "Select piece")
 
 
 starting_pieces = [
@@ -156,4 +148,4 @@ starting_pieces = [
     Piece(ChessCoord('G', '1'), bps.white, 'Kn', '♘', dirs.move_directions_knight()),
     Piece(ChessCoord('H', '1'), bps.white, 'R', '♖', dirs.move_directions_rook()),
 ]
-game_loop(starting_pieces, None, None)
+game_loop(starting_pieces, None, None, None)
