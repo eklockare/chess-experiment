@@ -15,17 +15,17 @@ def check_if_piece_on_squares_in_between(squares_in_between, pieces):
     return piece is []
 
 
-def check_if_move_is_blocked(piece_to_move, col_new, row_new, possible_moves, pieces):
+def check_if_move_is_blocked(piece_to_move, new_coordinates, possible_moves, pieces):
     is_blocked = False
     is_valid_movement = False
     piece_to_take = None
     msg = ""
 
-    print "col_new, row_new: " + str((col_new, row_new))
-    grid_coord = bps.chess_coord_to_grid_coord(ChessCoord(col_new, row_new))
+    print "new_coordinates: " + str(new_coordinates)
+    grid_coord = bps.chess_coord_to_grid_coord(new_coordinates)
 
     if piece_to_move.letter is 'Kn':
-        is_blocked, piece_to_take, msg = examine_end_square(col_new, row_new, piece_to_move, pieces)
+        is_blocked, piece_to_take, msg = examine_end_square(new_coordinates, piece_to_move, pieces)
     elif piece_to_move.letter is 'P':
         print "piece_to_move.grid_coord.col %s  piece_to_move.grid_coord.row %s " % \
               (piece_to_move.grid_coord.col, piece_to_move.grid_coord.row)
@@ -36,7 +36,7 @@ def check_if_move_is_blocked(piece_to_move, col_new, row_new, possible_moves, pi
                                                            dire.move_directions_queen())
 
         is_taking_move = dire.is_diagonal_move(move_direction)
-        is_blocked, piece_to_take, msg = examine_end_square(col_new, row_new, piece_to_move, pieces)
+        is_blocked, piece_to_take, msg = examine_end_square(new_coordinates, piece_to_move, pieces)
 
         can_take = piece_to_take and is_taking_move
         print "can_take %s " % can_take
@@ -52,13 +52,13 @@ def check_if_move_is_blocked(piece_to_move, col_new, row_new, possible_moves, pi
     return is_valid_movement, is_blocked, piece_to_take, msg, possible_moves
 
 
-def examine_end_square(col_new, row_new, piece_to_move, pieces):
+def examine_end_square(new_coordinates, piece_to_move, pieces):
     is_blocked = False
     piece_to_take = None
     msg = ""
 
-    piece_on_end_square = filter(lambda other_piece: other_piece.chess_coord.col is col_new and
-                                        other_piece.chess_coord.row is row_new, pieces)
+    piece_on_end_square = filter(lambda other_piece: other_piece.chess_coord == new_coordinates,
+                                 pieces)
 
     print "pieces on end square: " + str(piece_on_end_square)
 
