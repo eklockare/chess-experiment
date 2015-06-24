@@ -50,8 +50,8 @@ def game_loop(pieces, last_move, piece_to_move):
             else:
                 msg = row
                 select_piece(pieces, last_move, msg)
-
-        piece_selection = filter(lambda piece: piece.chess_coord.col is col and piece.chess_coord.row is row, pieces)
+        selected_coordinates = ChessCoord(col, row)
+        piece_selection = filter(lambda piece: piece.chess_coord == selected_coordinates, pieces)
 
         if piece_selection:
             selected_piece = piece_selection[0]
