@@ -132,3 +132,12 @@ def is_straight_move(move_direction):
            move_direction is go_south or \
            move_direction is go_west or \
            move_direction is go_east
+
+class DirectionResult:
+    def __init__(self, squares, piece):
+        self.squares = squares
+        self.piece = piece
+
+    def __str__(self):
+        return "DirectionResult(%s, %s) " % \
+               (map(str, self.squares), self.piece)
