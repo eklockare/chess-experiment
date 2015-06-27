@@ -15,7 +15,7 @@ class Knight(Piece):
     def is_valid_move(self, pieces, move):
         all_destinations = map(lambda move_direction:
                                move_direction(self.grid_coord),
-                               move_directions_knight())
+                               self.move_directions)
         clean_all_destinations = filter(lambda dest: dest, all_destinations)
 
         grid_move = bps.chess_coord_to_grid_coord(move)
