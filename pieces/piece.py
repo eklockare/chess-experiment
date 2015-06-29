@@ -65,7 +65,7 @@ class Piece(object):
         else:
             color_name = "white"
 
-        return "%s %s, %s, %s" % \
+        return "Piece(%s, %s, %s, %s)" % \
                (self.letter,
                 self.chess_coord,
                 self.grid_coord,
