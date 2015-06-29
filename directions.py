@@ -135,6 +135,42 @@ def is_straight_move(move_direction):
            move_direction is go_west or \
            move_direction is go_east
 
+def get_direction(from_grid_coord, to_grid_coord):
+    def is_northward_or_southward():
+        if from_grid_coord.row < to_grid_coord.row:
+           return go_north
+        elif from_grid_coord.row > to_grid_coord.row:
+            return go_south
+        else:
+            return None
+
+    def is_westward_or_eastward():
+        if from_grid_coord.col < to_grid_coord.col:
+            return go_east
+        elif from_grid_coord.col > to_grid_coord.col:
+            return go_west
+        else:
+            return None
+
+    north_or_south = is_northward_or_southward()
+    west_or_east = is_westward_or_eastward()
+
+    if not north_or_south:
+        return west_or_east
+    elif not west_or_east:
+        return north_or_south
+    elif north_or_south == go_north:
+        if west_or_east == go_west:
+            return go_north_west
+        else:
+            return go_north_east
+    else:
+        if west_or_east == go_west:
+            return go_south_west
+        else:
+            return go_south_east
+
+
 class DirectionResult:
     def __init__(self, squares, piece):
         self.squares = squares
