@@ -45,8 +45,10 @@ class Piece(object):
         match = filter(lambda direction_result: move_grid in
                        direction_result.squares,
                        direction_results)
-
-        return MoveResult(len(match) == 1, match)
+        if match:
+            return MoveResult(len(match) == 1, match[0])
+        else:
+            return MoveResult(False, None)
 
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord
