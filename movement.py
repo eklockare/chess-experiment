@@ -45,6 +45,10 @@ def move_piece(move_directions, pieces, col_num, row_num, max_moves=None):
                             go_max_distances([], move_direction, pieces, col_num, row_num, max_moves),
                             move_directions))
 
+class MoveResult:
+    def __init__(self, is_valid_move, direction_result):
+        self.is_valid_move = is_valid_move
+        self.direction_result = direction_result
 
 def possible_moves_for_piece(piece, pieces):
     color = piece.colour

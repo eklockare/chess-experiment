@@ -37,12 +37,12 @@ class BishopTests(unittest.TestCase):
     def test_white_bishop_allowed_to_move_south3_west3(self):
         pieces = []
         self.failUnless(self.bishop_white.is_valid_move(pieces,
-                                                        ChessCoord('C', '5')))
+                                                        ChessCoord('C', '5')).is_valid_move)
 
     def test_black_bishop_allowed_to_move_north4_west4(self):
             pieces = []
             self.failUnless(self.bishop_black.is_valid_move(pieces,
-                                                            ChessCoord('A', '7')))
+                                                            ChessCoord('A', '7')).is_valid_move)
 def main():
     unittest.main()
 

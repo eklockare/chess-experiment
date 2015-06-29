@@ -1,6 +1,8 @@
 import board_parts
 import directions as dire
 from directions import DirectionResult
+from movement import MoveResult
+
 
 class Piece(object):
     def __init__(self, chess_coord, colour, letter, symbol, move_directions):
@@ -11,9 +13,16 @@ class Piece(object):
         self.letter = letter
         self.symbol = symbol
 
+    def find_possible_piece(self, pieces, grid_coord):
+        possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
+        if possible_piece:
+            return possible_piece[0]
+        else:
+            return None
+
     def paths_and_piece_in_direction(self, from_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
-        possible_piece = filter(lambda piece: piece.grid_coord == new_coord_grid, pieces)
+        possible_piece = self.find_possible_piece(pieces, new_coord_grid)
 
         if not new_coord_grid:
             return DirectionResult(squares, None)
@@ -37,16 +46,15 @@ class Piece(object):
                        direction_result.squares,
                        direction_results)
 
-        return len(match) == 1
-
+        return MoveResult(len(match) == 1, match)
 
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
-    def get_direction_and_squares(self, move):
+    def get_direction_and_squares(self, grid_move):
         return dire.get_move_direction_and_squares_in_between(self.grid_coord,
-                                   board_parts.chess_coord_to_grid_coord(move),
+                                   grid_move,
                                    self.move_directions)
 
     def __str__(self):

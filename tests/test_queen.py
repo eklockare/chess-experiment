@@ -37,25 +37,27 @@ class QueenTests(unittest.TestCase):
     def test_white_queen_allowed_to_move_north2(self):
         pieces = []
         self.failUnless(self.queen_white.is_valid_move(pieces,
-                                                       ChessCoord('C', '4')))
+                                                       ChessCoord('C', '4')).is_valid_move)
 
     def test_white_queen_should_not_be_allowed_move_north2_east1(self):
         pieces = []
         self.failIf(self.queen_white.is_valid_move(pieces,
-                                                   ChessCoord('D', '4')))
+                                                   ChessCoord('D', '4')).is_valid_move)
 
     def test_white_queen_allowed_to_move_north3_east3(self):
         pieces = []
         self.failUnless(self.queen_white.is_valid_move(pieces,
-                                                       ChessCoord('F', '5')))
+                                                       ChessCoord('F', '5')).is_valid_move)
 
     def test_white_queen_allowed_to_move_south1_west1(self):
         pieces = []
         self.failUnless(self.queen_white.is_valid_move(pieces,
-                                                       ChessCoord('B', '1')))
+                                                       ChessCoord('B', '1')).is_valid_move)
+
 
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()

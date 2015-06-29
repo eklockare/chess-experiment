@@ -38,22 +38,22 @@ class KnightTests(unittest.TestCase):
     def test_white_knight_can_move_north2_east1(self):
         pieces = []
         self.failUnless(self.knight_white.is_valid_move(pieces,
-                                                        ChessCoord('D', '4')))
+                                                        ChessCoord('D', '4')).is_valid_move)
 
     def test_white_knight_can_move_south1_east2(self):
         pieces = []
         self.failUnless(self.knight_white.is_valid_move(pieces,
-                                                        ChessCoord('A', '1')))
+                                                        ChessCoord('A', '1')).is_valid_move)
 
     def test_white_knight_should_not_be_allowed_invalid_move(self):
         pieces = []
         self.failIf(self.knight_white.is_valid_move(pieces,
-                                                        ChessCoord('A', '2')))
+                                                        ChessCoord('A', '2')).is_valid_move)
 
     def test_white_knight_should_not_change_coordinates_after_valid_move_check(self):
             pieces = []
             self.failUnless(self.knight_white.is_valid_move(pieces,
-                                                            ChessCoord('D', '4')))
+                                                            ChessCoord('D', '4')).is_valid_move)
 
     def test_white_knight_should_move_when_coordinates_updated(self):
         self.knight_white.update_coords(ChessCoord('D', '6'))
@@ -63,7 +63,7 @@ class KnightTests(unittest.TestCase):
         pieces = []
         self.knight_white.update_coords(ChessCoord('D', '6'))
         self.failIf(self.knight_white.is_valid_move(pieces,
-                                                        ChessCoord('A', '2')))
+                                                        ChessCoord('A', '2')).is_valid_move)
         self.failUnless(self.knight_white.chess_coord == ChessCoord('D', '6'))
 
 def main():

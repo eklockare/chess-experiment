@@ -26,7 +26,9 @@ class PieceTests(unittest.TestCase):
 
     def test_direction_and_squares_valid_move(self):
         move = ChessCoord('C', '6')
-        valid_direction, direction, squares = self.black_piece.get_direction_and_squares(move)
+        grid_move = board_parts.chess_coord_to_grid_coord(move)
+        valid_direction, direction, squares = self.\
+            black_piece.get_direction_and_squares(grid_move)
         # should not have changed:
         self.failUnless(self.black_piece.chess_coord == ChessCoord('H', '6'))
         self.failUnless(self.black_piece.grid_coord == GridCoord(7, 5))
