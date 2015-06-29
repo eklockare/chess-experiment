@@ -50,6 +50,14 @@ class MoveResult:
         self.is_valid_move = is_valid_move
         self.direction_result = direction_result
 
+    def __str__(self):
+        return "MoveResult(%s, %s)" % (self.is_valid_move,
+                                      self.direction_result)
+
+    def __eq__(self, other):
+        return self.is_valid_move == other.is_valid_move \
+               and self.direction_result == other.direction_result
+
 def possible_moves_for_piece(piece, pieces):
     color = piece.colour
     letter = piece.letter

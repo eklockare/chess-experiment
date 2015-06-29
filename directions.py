@@ -1,5 +1,7 @@
 import board_parts as bps
 from board_parts import GridCoord
+import util
+
 
 def is_within_board(col, row):
     if (0 <= row < 8) and (0 <= col < 8):
@@ -141,3 +143,7 @@ class DirectionResult:
     def __str__(self):
         return "DirectionResult(%s, %s) " % \
                (map(str, self.squares), self.piece)
+
+    def __eq__(self, other):
+        return self.piece == other.piece and \
+        util.compare_lists(self.squares, other.squares)

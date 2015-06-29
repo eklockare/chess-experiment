@@ -53,6 +53,26 @@ class UtilTests(unittest.TestCase):
 
         self.failIf(result)
 
+    def test_util_compare_value_lists_grid_coord_long(self):
+        listone = [
+            GridCoord(6, 5),
+            GridCoord(5, 5),
+            GridCoord(3, 5),
+            GridCoord(2, 5),
+            GridCoord(1, 5),
+            GridCoord(0, 5)]
+        listtwo = [
+            GridCoord(6, 5),
+            GridCoord(5, 5),
+            GridCoord(3, 5),
+            GridCoord(2, 5),
+            GridCoord(1, 5),
+            GridCoord(0, 5)]
+
+        result = util.compare_lists(listone, listtwo)
+
+        self.failUnless(result)
+
 def main():
     unittest.main()
 
