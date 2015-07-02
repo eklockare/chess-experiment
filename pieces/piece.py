@@ -22,11 +22,12 @@ class Piece(object):
 
     def paths_and_piece_in_direction(self, from_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
-        possible_piece = self.find_possible_piece(pieces, new_coord_grid)
-
         if not new_coord_grid:
             return DirectionResult(squares, None)
-        elif possible_piece:
+
+        possible_piece = self.find_possible_piece(pieces, new_coord_grid)
+
+        if possible_piece:
             return DirectionResult(squares, possible_piece)
         else:
             squares.append(new_coord_grid)
