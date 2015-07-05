@@ -13,13 +13,13 @@ class Pawn(Piece):
             Piece.__init__(self, chess_coord, colour, 'P', '♟', [move_direction])
 
     def inspect_move(self, pieces, move):
-        move_result = Piece.inspect_move(self, pieces, move)
+        move_inspect_result = Piece.inspect_move(self, pieces, move)
 
-        if move_result.is_valid_move:
-            move_result.is_valid_move = \
-                self.ok_number_steps(move_result.squares)
+        if move_inspect_result.is_valid_move:
+            move_inspect_result.is_valid_move = \
+                self.ok_number_steps(move_inspect_result.squares)
 
-        return move_result
+        return move_inspect_result
 
     def ok_number_steps(self, squares):
         on_start_row = self.is_on_start_row()

@@ -58,43 +58,43 @@ class PieceTests(unittest.TestCase):
 
 
     def test_is_valid_move_returns_move_result_no_pieces(self):
-        move_result = self.black_piece.inspect_move([], ChessCoord('F', '6'))
-        self.failUnless(move_result == MoveInspectResult(True, False, [
+        move_inspect_result = self.black_piece.inspect_move([], ChessCoord('F', '6'))
+        self.failUnless(move_inspect_result == MoveInspectResult(True, False, [
             GridCoord(6, 5),
             GridCoord(5, 5)], None))
 
     def test_is_valid_move_returns_move_result_with_pieces(self):
-        move_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('F', '6'))
-        self.failUnless(move_result == MoveInspectResult(True, False, [
+        move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('F', '6'))
+        self.failUnless(move_inspect_result == MoveInspectResult(True, False, [
             GridCoord(6, 5),
             GridCoord(5, 5)], None))
 
     def test_is_invalid_move_returns_move_result_with_own_blocking_piece_end_square(self):
         self.black_piece.update_coords(ChessCoord('A', '4'))
-        move_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('C', '6'))
-        self.failUnless(move_result == MoveInspectResult(False, True, [GridCoord(1, 3)], self.other_piece_B4))
+        move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('C', '6'))
+        self.failUnless(move_inspect_result == MoveInspectResult(False, True, [GridCoord(1, 3)], self.other_piece_B4))
 
     def test_is_valid_move_returns_move_result_with_enemy_piece_end_square(self):
         self.black_piece.update_coords(ChessCoord('G', '1'))
-        move_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('G', '3'))
+        move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('G', '3'))
 
-        self.failUnless(move_result == MoveInspectResult(True, False,
+        self.failUnless(move_inspect_result == MoveInspectResult(True, False,
             [GridCoord(6, 1), GridCoord(6, 2)],
             self.other_piece_G3)
         )
 
     def test_is_invalid_move_result_with_enemy_piece_blocking(self):
         self.black_piece.update_coords(ChessCoord('B', '5'))
-        move_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('E', '8'))
-        self.failUnless(move_result == MoveInspectResult(False, True,
+        move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('E', '8'))
+        self.failUnless(move_inspect_result == MoveInspectResult(False, True,
             [GridCoord(2, 5)],
             self.other_piece_C6)
         )
 
     def test_is_invalid_move_result_with_friendly_piece_blocking(self):
         self.black_piece.update_coords(ChessCoord('D', '4'))
-        move_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('A', '4'))
-        self.failUnless(move_result == MoveInspectResult(False, True,
+        move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('A', '4'))
+        self.failUnless(move_inspect_result == MoveInspectResult(False, True,
             [GridCoord(2, 3),
              GridCoord(1, 3)],
             self.other_piece_B4)

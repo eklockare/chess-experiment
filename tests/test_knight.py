@@ -71,17 +71,17 @@ class KnightTests(unittest.TestCase):
     def test_white_knight_is_blocked_by_other_piece(self):
         pieces = [Pawn(ChessCoord('D', '4'), white, [directions.go_north])]
 
-        move_result = self.knight_white.inspect_move(pieces,
+        move_inspect_result = self.knight_white.inspect_move(pieces,
                                                       ChessCoord('D', '4'))
-        self.failUnless(move_result ==
+        self.failUnless(move_inspect_result ==
                         MoveInspectResult(False, True, [], pieces[0]))
 
     def test_white_knight_is_valid_to_take_enemy_piece(self):
         pieces = [Pawn(ChessCoord('F', '3'), black, [directions.go_south])]
 
-        move_result = self.knight_white.inspect_move(pieces,
+        move_inspect_result = self.knight_white.inspect_move(pieces,
                                                       ChessCoord('F', '3'))
-        self.failUnless(move_result ==
+        self.failUnless(move_inspect_result ==
                         MoveInspectResult(True, False, [], pieces[0]))
 
 

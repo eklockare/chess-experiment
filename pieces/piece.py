@@ -55,14 +55,16 @@ class Piece(object):
 
     def inspect_move(self, pieces, move):
         move_grid = board_parts.chess_coord_to_grid_coord(move)
-        move_results = self.check_all_directions(pieces, move_grid)
-        positive_result = filter(lambda move_result: move_result.is_valid_move,
-                       move_results)
+        inspect_move_results = self.check_all_directions(pieces, move_grid)
+        positive_result = filter(lambda move_inspect_result:
+                                 move_inspect_result.is_valid_move,
+                       inspect_move_results)
         if positive_result:
             return positive_result[0]
         else:
-            blocked_result = filter(lambda move_result: move_result.was_blocked,
-                       move_results)
+            blocked_result = filter(lambda move_inspect_result:
+                                    move_inspect_result.was_blocked,
+                       inspect_move_results)
             if blocked_result:
                 return blocked_result[0]
             else:

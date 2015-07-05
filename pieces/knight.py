@@ -25,13 +25,13 @@ class Knight(Piece):
 
         valid_move = grid_move in clean_all_destinations
 
-        move_result = MoveInspectResult(valid_move, False, [], possible_piece)
+        move_inspect_result = MoveInspectResult(valid_move, False, [], possible_piece)
 
         if possible_piece:
             if possible_piece.colour == self.colour:
-                move_result.was_blocked = True
-                move_result.is_valid_move = False
+                move_inspect_result.was_blocked = True
+                move_inspect_result.is_valid_move = False
             else:
-                move_result.is_valid_move = True
+                move_inspect_result.is_valid_move = True
 
-        return move_result
+        return move_inspect_result
