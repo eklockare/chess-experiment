@@ -3,7 +3,7 @@ from pieces.piece import Piece
 from board_parts import white
 from directions import go_north, go_south, DirectionResult
 import board_parts as bps
-from movement import MoveResult
+from movement import MoveInspectResult
 
 class Pawn(Piece):
     def __init__(self, chess_coord, colour, move_direction):

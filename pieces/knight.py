@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from movement import MoveResult
+from movement import MoveInspectResult
 from pieces.piece import Piece
 from board_parts import white, black
 from directions import move_directions_knight, DirectionResult
@@ -25,7 +25,7 @@ class Knight(Piece):
 
         valid_move = grid_move in clean_all_destinations
 
-        move_result = MoveResult(valid_move, False, [], possible_piece)
+        move_result = MoveInspectResult(valid_move, False, [], possible_piece)
 
         if possible_piece:
             if possible_piece.colour == self.colour:

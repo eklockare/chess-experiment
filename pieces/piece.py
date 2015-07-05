@@ -1,7 +1,7 @@
 import board_parts
 import directions as dire
 from directions import DirectionResult
-from movement import MoveResult
+from movement import MoveInspectResult
 
 
 class Piece(object):
@@ -23,7 +23,7 @@ class Piece(object):
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
         if not new_coord_grid:
-            return MoveResult(False, False, squares, None)
+            return MoveInspectResult(False, False, squares, None)
 
         squares.append(new_coord_grid)
 
@@ -31,14 +31,14 @@ class Piece(object):
         if to_coord == new_coord_grid:
             if possible_piece:
                 if possible_piece.colour == self.colour:
-                    return MoveResult(False, True, squares, possible_piece)
+                    return MoveInspectResult(False, True, squares, possible_piece)
                 else:
-                    return MoveResult(True, False, squares, possible_piece)
+                    return MoveInspectResult(True, False, squares, possible_piece)
             else:
-                return MoveResult(True, False, squares, None)
+                return MoveInspectResult(True, False, squares, None)
 
         elif possible_piece:
-            return MoveResult(False, True, squares, possible_piece)
+            return MoveInspectResult(False, True, squares, possible_piece)
         else:
             return self.paths_and_piece_in_direction(new_coord_grid, to_coord, pieces, direction, squares)
 
@@ -66,7 +66,7 @@ class Piece(object):
             if blocked_result:
                 return blocked_result[0]
             else:
-                return MoveResult(False, False, [], None)
+                return MoveInspectResult(False, False, [], None)
 
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord

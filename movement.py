@@ -46,7 +46,7 @@ def move_piece(move_directions, pieces, col_num, row_num, max_moves=None):
                             move_directions))
 
 
-class MoveResult:
+class MoveInspectResult:
     def __init__(self, is_valid_move, was_blocked, squares, piece):
         self.is_valid_move = is_valid_move
         self.was_blocked = was_blocked

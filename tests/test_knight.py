@@ -4,7 +4,7 @@ import unittest
 import test
 import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
-from movement import MoveResult
+from movement import MoveInspectResult
 from pieces.knight import Knight
 from pieces.pawn import Pawn
 import util
@@ -74,7 +74,7 @@ class KnightTests(unittest.TestCase):
         move_result = self.knight_white.is_valid_move(pieces,
                                                       ChessCoord('D', '4'))
         self.failUnless(move_result ==
-                        MoveResult(False, True, [], pieces[0]))
+                        MoveInspectResult(False, True, [], pieces[0]))
 
     def test_white_knight_is_valid_to_take_enemy_piece(self):
         pieces = [Pawn(ChessCoord('F', '3'), black, [directions.go_south])]
@@ -82,7 +82,7 @@ class KnightTests(unittest.TestCase):
         move_result = self.knight_white.is_valid_move(pieces,
                                                       ChessCoord('F', '3'))
         self.failUnless(move_result ==
-                        MoveResult(True, False, [], pieces[0]))
+                        MoveInspectResult(True, False, [], pieces[0]))
 
 
 def main():
