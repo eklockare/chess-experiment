@@ -12,8 +12,8 @@ class Pawn(Piece):
         else:
             Piece.__init__(self, chess_coord, colour, 'P', '♟', [move_direction])
 
-    def is_valid_move(self, pieces, move):
-        move_result = Piece.is_valid_move(self, pieces, move)
+    def inspect_move(self, pieces, move):
+        move_result = Piece.inspect_move(self, pieces, move)
 
         if move_result.is_valid_move:
             move_result.is_valid_move = \

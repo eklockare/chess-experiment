@@ -53,7 +53,7 @@ class Piece(object):
                              self.move_directions)
         return possible_moves
 
-    def is_valid_move(self, pieces, move):
+    def inspect_move(self, pieces, move):
         move_grid = board_parts.chess_coord_to_grid_coord(move)
         move_results = self.check_all_directions(pieces, move_grid)
         positive_result = filter(lambda move_result: move_result.is_valid_move,

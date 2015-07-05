@@ -38,7 +38,7 @@ class PawnTests(unittest.TestCase):
     def test_is_invalid_move_two_step_from_not_start(self):
         pieces = []
         self.white_pawn.update_coords(ChessCoord('B', '7'))
-        self.failIf(self.white_pawn.is_valid_move(pieces, ChessCoord('B', '5')).
+        self.failIf(self.white_pawn.inspect_move(pieces, ChessCoord('B', '5')).
                     is_valid_move)
 
     def test_update_coors_white(self):
@@ -51,30 +51,30 @@ class PawnTests(unittest.TestCase):
 
     def test_is_valid_move_one_step_black(self):
         pieces = []
-        self.failUnless(self.black_pawn.is_valid_move(pieces, ChessCoord('B', '6')).
+        self.failUnless(self.black_pawn.inspect_move(pieces, ChessCoord('B', '6')).
                         is_valid_move)
 
     def test_is_valid_move_one_step_white(self):
         pieces = []
-        self.failUnless(self.white_pawn.is_valid_move(pieces, ChessCoord('A', '3')).
+        self.failUnless(self.white_pawn.inspect_move(pieces, ChessCoord('A', '3')).
                         is_valid_move)
 
     def test_is_invalid_move_backwards(self):
         pieces = []
         self.black_pawn.update_coords(ChessCoord('B', '5'))
-        self.failIf(self.white_pawn.is_valid_move(pieces, ChessCoord('B', '4')).
+        self.failIf(self.white_pawn.inspect_move(pieces, ChessCoord('B', '4')).
                     is_valid_move)
 
     def test_is_valid_move_two_step_from_start_white(self):
         pieces = []
         self.black_pawn.update_coords(ChessCoord('A', '2'))
-        self.failUnless(self.white_pawn.is_valid_move(pieces, ChessCoord('A', '4')).
+        self.failUnless(self.white_pawn.inspect_move(pieces, ChessCoord('A', '4')).
                         is_valid_move)
 
     def test_is_valid_move_two_step_from_start_black(self):
         pieces = []
         self.black_pawn.update_coords(ChessCoord('C', '7'))
-        self.failUnless(self.black_pawn.is_valid_move(pieces, ChessCoord('C', '5')).
+        self.failUnless(self.black_pawn.inspect_move(pieces, ChessCoord('C', '5')).
                         is_valid_move)
 
 def main():

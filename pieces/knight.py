@@ -13,7 +13,7 @@ class Knight(Piece):
         else:
             Piece.__init__(self, chess_coord, black, 'Kn', '♞', move_directions_knight())
 
-    def is_valid_move(self, pieces, move):
+    def inspect_move(self, pieces, move):
         all_destinations = map(lambda move_direction:
                                move_direction(self.grid_coord),
                                self.move_directions)

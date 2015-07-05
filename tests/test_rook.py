@@ -36,12 +36,12 @@ class RookTests(unittest.TestCase):
 
     def test_white_rook_allowed_to_move_south7(self):
         pieces = []
-        self.failUnless(self.rook_white.is_valid_move(pieces,
+        self.failUnless(self.rook_white.inspect_move(pieces,
                                                       ChessCoord('F', '1')).is_valid_move)
 
     def test_black_rook_allowed_to_move_west4(self):
         pieces = []
-        self.failUnless(self.rook_black.is_valid_move(pieces,
+        self.failUnless(self.rook_black.inspect_move(pieces,
                                                       ChessCoord('A', '3')).is_valid_move)
 
 
