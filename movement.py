@@ -45,18 +45,25 @@ def move_piece(move_directions, pieces, col_num, row_num, max_moves=None):
                             go_max_distances([], move_direction, pieces, col_num, row_num, max_moves),
                             move_directions))
 
+
 class MoveResult:
-    def __init__(self, is_valid_move, direction_result):
+    def __init__(self, is_valid_move, was_blocked, squares, piece):
         self.is_valid_move = is_valid_move
-        self.direction_result = direction_result
+        self.was_blocked = was_blocked
+        self.squares = squares
+        self.piece = piece
 
     def __str__(self):
-        return "MoveResult(%s, %s)" % (self.is_valid_move,
-                                      self.direction_result)
+        return "MoveResult(%s, %s, %s, %s)" % (self.is_valid_move,
+                                           self.was_blocked,
+                                           map(str, self.squares),
+                                           self.piece)
 
     def __eq__(self, other):
         return self.is_valid_move == other.is_valid_move \
-               and self.direction_result == other.direction_result
+               and self.was_blocked == other.was_blocked \
+               and self.piece == other.piece \
+               and util.compare_lists(self.squares, other.squares)
 
 def possible_moves_for_piece(piece, pieces):
     color = piece.colour

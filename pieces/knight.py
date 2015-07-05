@@ -23,5 +23,15 @@ class Knight(Piece):
 
         possible_piece = self.find_possible_piece(pieces, grid_move)
 
-        return MoveResult(grid_move in clean_all_destinations,
-                          DirectionResult([grid_move], possible_piece))
+        valid_move = grid_move in clean_all_destinations
+
+        move_result = MoveResult(valid_move, False, [], possible_piece)
+
+        if possible_piece:
+            if possible_piece.colour == self.colour:
+                move_result.was_blocked = True
+                move_result.is_valid_move = False
+            else:
+                move_result.is_valid_move = True
+
+        return move_result

@@ -20,36 +20,53 @@ class Piece(object):
         else:
             return None
 
-    def paths_and_piece_in_direction(self, from_coord, pieces, direction, squares):
+    def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
         if not new_coord_grid:
-            return DirectionResult(squares, None)
+            return MoveResult(False, False, squares, None)
+
+        squares.append(new_coord_grid)
 
         possible_piece = self.find_possible_piece(pieces, new_coord_grid)
+        if to_coord == new_coord_grid:
+            if possible_piece:
+                if possible_piece.colour == self.colour:
+                    return MoveResult(False, True, squares, possible_piece)
+                else:
+                    return MoveResult(True, False, squares, possible_piece)
+            else:
+                return MoveResult(True, False, squares, None)
 
-        if possible_piece:
-            return DirectionResult(squares, possible_piece)
+        elif possible_piece:
+            return MoveResult(False, True, squares, possible_piece)
         else:
-            squares.append(new_coord_grid)
-            return self.paths_and_piece_in_direction(new_coord_grid, pieces, direction, squares)
+            return self.paths_and_piece_in_direction(new_coord_grid, to_coord, pieces, direction, squares)
 
-    def check_all_directions(self, pieces):
+    def check_all_directions(self, pieces, move_to):
         possible_moves = map(lambda direction:
-                             self.paths_and_piece_in_direction(self.grid_coord, pieces, direction, []),
+                             self.paths_and_piece_in_direction(
+                                 self.grid_coord,
+                                 move_to,
+                                 pieces,
+                                 direction,
+                                 []),
                              self.move_directions)
         return possible_moves
 
     def is_valid_move(self, pieces, move):
         move_grid = board_parts.chess_coord_to_grid_coord(move)
-        direction_results = self.check_all_directions(pieces)
-
-        match = filter(lambda direction_result: move_grid in
-                       direction_result.squares,
-                       direction_results)
-        if match:
-            return MoveResult(len(match) == 1, match[0])
+        move_results = self.check_all_directions(pieces, move_grid)
+        positive_result = filter(lambda move_result: move_result.is_valid_move,
+                       move_results)
+        if positive_result:
+            return positive_result[0]
         else:
-            return MoveResult(False, None)
+            blocked_result = filter(lambda move_result: move_result.was_blocked,
+                       move_results)
+            if blocked_result:
+                return blocked_result[0]
+            else:
+                return MoveResult(False, False, [], None)
 
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord

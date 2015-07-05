@@ -13,16 +13,13 @@ class Pawn(Piece):
             Piece.__init__(self, chess_coord, colour, 'P', '♟', [move_direction])
 
     def is_valid_move(self, pieces, move):
-        grid_move = bps.chess_coord_to_grid_coord(move)
-        valid_direction, direction, squares = \
-            self.get_direction_and_squares(grid_move)
-        if valid_direction:
-            possible_piece = self.find_possible_piece(pieces, grid_move)
+        move_result = Piece.is_valid_move(self, pieces, move)
 
-            return MoveResult(self.ok_number_steps(squares),
-                              DirectionResult(squares, possible_piece))
-        else:
-            return MoveResult(False, DirectionResult(squares, None))
+        if move_result.is_valid_move:
+            move_result.is_valid_move = \
+                self.ok_number_steps(move_result.squares)
+
+        return move_result
 
     def ok_number_steps(self, squares):
         on_start_row = self.is_on_start_row()
