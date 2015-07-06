@@ -5,7 +5,13 @@ import movement as mov
 from board_parts import ChessCoord, GridCoord, chess_coord_to_grid_coord
 import directions as dirs
 import collision as col
+from pieces.bishop import Bishop
+from pieces.king import King
+from pieces.knight import Knight
+from pieces.pawn import Pawn
 from pieces.piece import Piece
+from pieces.queen import Queen
+from pieces.rook import Rook
 
 INPUT_LENGTH = 2
 
@@ -59,7 +65,7 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
         else:
             select_piece(pieces, selected_coord, None, bps.yellow("no piece on that square\n") + "Select piece")
 
-    def move_piece(pieces, selected_coord, moved_to_coord, msg):
+    def move_piece(pieces, selected_coord, moved_to_coord, piece_to_move, msg):
         dr.draw_board(pieces, selected_coord, moved_to_coord)
 
         if msg:
@@ -72,80 +78,65 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
             select_piece(pieces, None, None, input_result)
 
         new_coordinates = input_result
+        move_inspect_result = piece_to_move.inspect_move(pieces, new_coordinates)
 
-        # check if move is valid here
-        # is valid for this piece
-        is_valid_movement, possible_moves = \
-            mov.is_valid_movement_pattern_for_piece(piece_to_move,
-                                                    new_coordinates,
-                                                    pieces)
-        # puts us in check
-        # check if there is a piece on moved to square, if so remove it, or deny if own piece
-        is_valid_movement, is_blocked, piece_to_take, msg, possible_moves = col.check_if_move_is_blocked(
-            piece_to_move,
-            new_coordinates,
-            possible_moves,
-            pieces)
+        if not move_inspect_result.is_valid_move and not move_inspect_result.was_blocked:
+            move_piece(pieces, selected_coord, None, piece_to_move, "Invalid move for this piece")
 
-
-        if not is_valid_movement:
-            move_piece(pieces, selected_coord, None, "Invalid move for this piece")
+        elif move_inspect_result.was_blocked:
+                move_piece(pieces, None, None, piece_to_move, "another piece is blocking that move")
         else:
+            if move_inspect_result.piece:
+                pieces.remove(move_inspect_result.piece)
 
-
-            if is_blocked:
-                move_piece(pieces, None, None, msg)
-            else:
-                if piece_to_take:
-                    pieces.remove(piece_to_take)
-
-                piece_to_move.update_coords(new_coordinates )
-                selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
-                moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
-                game_loop(pieces, selected_coord, moved_to_coord, None)
+            piece_to_move.update_coords(new_coordinates )
+            selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
+            moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
+            game_loop(pieces, selected_coord, moved_to_coord, None)
 
     if piece_to_move:
-        move_piece(pieces, selected_coord, moved_to_coords, "Move piece")
+        move_piece(pieces, selected_coord, moved_to_coords, piece_to_move, "Move piece")
     else:
         select_piece(pieces, selected_coord, None, "Select piece")
 
 
 starting_pieces = [
     # black pawns
-    Piece(ChessCoord('A', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('B', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('C', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('D', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('E', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('F', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('G', '7'), bps.black, 'P', '♟', [dirs.go_south]),
-    Piece(ChessCoord('H', '7'), bps.black, 'P', '♟', [dirs.go_south]),
+    Pawn(ChessCoord('A', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('B', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('C', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('D', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('E', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('F', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('G', '7'), bps.black, dirs.go_south),
+    Pawn(ChessCoord('H', '7'), bps.black, dirs.go_south),
     # black back row
-    Piece(ChessCoord('A', '8'), bps.black, 'R', '♜', dirs.move_directions_rook()),
-    Piece(ChessCoord('B', '8'), bps.black, 'Kn', '♞', dirs.move_directions_knight()),
-    Piece(ChessCoord('C', '8'), bps.black, 'B', '♝', dirs.move_directions_bishop()),
-    Piece(ChessCoord('D', '8'), bps.black, 'Q', '♛', dirs.move_directions_queen()),
-    Piece(ChessCoord('E', '8'), bps.black, 'K', '♚', dirs.move_directions_queen()),
-    Piece(ChessCoord('F', '8'), bps.black, 'B', '♝', dirs.move_directions_bishop()),
-    Piece(ChessCoord('G', '8'), bps.black, 'Kn', '♞', dirs.move_directions_knight()),
-    Piece(ChessCoord('H', '8'), bps.black, 'R', '♜', dirs.move_directions_rook()),
+    Rook(ChessCoord('A', '8'), bps.black),
+    Knight(ChessCoord('B', '8'), bps.black),
+    Bishop(ChessCoord('C', '8'), bps.black),
+    Queen(ChessCoord('D', '8'), bps.black),
+    King(ChessCoord('E', '8'), bps.black),
+    Bishop(ChessCoord('F', '8'), bps.black),
+    Knight(ChessCoord('G', '8'), bps.black),
+    Rook(ChessCoord('H', '8'), bps.black),
     # white pawns
-    Piece(ChessCoord('A', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('B', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('C', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('D', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('E', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('F', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('G', '2'), bps.white, 'P', '♙', [dirs.go_north]),
-    Piece(ChessCoord('H', '2'), bps.white, 'P', '♙', [dirs.go_north]),
+    Pawn(ChessCoord('A', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('B', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('C', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('D', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('E', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('F', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('G', '2'), bps.white, dirs.go_north),
+    Pawn(ChessCoord('H', '2'), bps.white, dirs.go_north),
     # white back row
-    Piece(ChessCoord('A', '1'), bps.white, 'R', '♖', dirs.move_directions_rook()),
-    Piece(ChessCoord('B', '1'), bps.white, 'Kn', '♘', dirs.move_directions_knight()),
-    Piece(ChessCoord('C', '1'), bps.white, 'B', '♗', dirs.move_directions_bishop()),
-    Piece(ChessCoord('D', '1'), bps.white, 'Q', '♕', dirs.move_directions_queen()),
-    Piece(ChessCoord('E', '1'), bps.white, 'K', '♔', dirs.move_directions_queen()),
-    Piece(ChessCoord('F', '1'), bps.white, 'B', '♗', dirs.move_directions_bishop()),
-    Piece(ChessCoord('G', '1'), bps.white, 'Kn', '♘', dirs.move_directions_knight()),
-    Piece(ChessCoord('H', '1'), bps.white, 'R', '♖', dirs.move_directions_rook()),
+    Rook(ChessCoord('A', '1'), bps.white),
+    Knight(ChessCoord('B', '1'), bps.white),
+    Bishop(ChessCoord('C', '1'), bps.white),
+    Queen(ChessCoord('D', '1'), bps.white),
+    King(ChessCoord('E', '1'), bps.white),
+    Bishop(ChessCoord('F', '1'), bps.white),
+    Knight(ChessCoord('G', '1'), bps.white),
+    Rook(ChessCoord('H', '1'), bps.white),
 ]
+
 game_loop(starting_pieces, None, None, None)
