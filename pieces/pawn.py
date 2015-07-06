@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import directions
 import movement
-from pieces.piece import Piece
+from pieces.piece import Piece, find_possible_piece
 from board_parts import white
 from directions import go_north, go_south, is_diagonal_move, \
     get_direction, go_north_west, go_north_east, go_south_east, go_south_west
@@ -33,7 +33,7 @@ class Pawn(Piece):
 
         ok_num_of_steps = len(move_inspect_result_direction.squares) == 1
         valid_taking_direction = self.is_valid_taking_direction(move_direction )
-        possible_piece = self.find_possible_piece(pieces, grid_move)
+        possible_piece = find_possible_piece(pieces, grid_move)
 
         if ok_num_of_steps and valid_taking_direction and possible_piece:
             if possible_piece.colour == self.colour:

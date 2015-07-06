@@ -3,6 +3,12 @@ import directions as dire
 from directions import DirectionResult
 from movement import MoveInspectResult
 
+def find_possible_piece(pieces, grid_coord):
+        possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
+        if possible_piece:
+            return possible_piece[0]
+        else:
+            return None
 
 class Piece(object):
     def __init__(self, chess_coord, colour, letter, symbol, move_directions):
@@ -13,13 +19,6 @@ class Piece(object):
         self.letter = letter
         self.symbol = symbol
 
-    def find_possible_piece(self, pieces, grid_coord):
-        possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
-        if possible_piece:
-            return possible_piece[0]
-        else:
-            return None
-
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
         if not new_coord_grid:
@@ -27,7 +26,7 @@ class Piece(object):
 
         squares.append(new_coord_grid)
 
-        possible_piece = self.find_possible_piece(pieces, new_coord_grid)
+        possible_piece = find_possible_piece(pieces, new_coord_grid)
         if to_coord == new_coord_grid:
             if possible_piece:
                 if possible_piece.colour == self.colour:
