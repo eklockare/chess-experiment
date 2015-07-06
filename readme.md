@@ -8,16 +8,16 @@ run with 'python chess.py'
 TODO:
 
 1. Pawn movement and taking (special)
-    * one direction
-    * two steps possible first move
-    * taking only diagonal, movement only straight
+    * ~~ one direction ~~
+    * ~~ two steps possible first move ~~
+    * ~~ taking only diagonal, movement only straight ~~
     * en passant
 
-2. All pieces but king general movement and taking
-    * Rook straight
-    * Bishop diagonal
-    * Queen is rook + bishop
-    * Knight is special case, can jump over pieces
+2. All other pieces but king and knight general movement and taking
+    * ~~ Rook straight ~~
+    * ~~ Bishop diagonal ~~
+    * ~~ Queen is rook + bishop ~~
+    * ~~ Knight is special case, can jump over pieces ~~
 
 3. Make piece movement that exposes the king illegal
     * Detect if king is exposed
