@@ -11,7 +11,7 @@ TODO:
     * ~~one direction~~
     * ~~two steps possible first move~~
     * ~~taking only diagonal, movement only straight~~
-    * en passant
+    * ~~en passant~~
 
 2. All other pieces but king and knight general movement and taking
     * ~~Rook straight~~
