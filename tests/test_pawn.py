@@ -8,6 +8,7 @@ from directions import go_north, go_south
 from movement import MoveInspectResult
 from pieces.pawn import Pawn
 from pieces.piece import Piece
+from pieces.rook import Rook
 
 
 class PawnTests(unittest.TestCase):
@@ -140,6 +141,33 @@ class PawnTests(unittest.TestCase):
                         MoveInspectResult(False, True, [GridCoord(2, 5)],
                                           pieces[0]))
 
+    def test_en_passant_square_set(self):
+        self.black_pawn.update_coords(ChessCoord('C', '7'))
+        self.failIf(self.black_pawn.en_passant_square)
+        self.black_pawn.update_coords(ChessCoord('C', '5'))
+        self.failUnless(self.black_pawn.en_passant_square == GridCoord(2, 5))
+
+    def test_en_passant_can_be_taken(self):
+        self.black_pawn.update_coords(ChessCoord('E', '7'))
+        self.black_pawn.update_coords(ChessCoord('E', '5'))
+        self.failUnless(self.black_pawn.en_passant_square == GridCoord(4, 5))
+
+        pieces = [self.black_pawn, self.white_pawn, Rook(ChessCoord('A', '1'), black)]
+        self.white_pawn.update_coords(ChessCoord('F', '5'))
+
+        move_inspect_result = self.white_pawn.inspect_move(pieces, ChessCoord('E', '6'))
+        self.failUnless(move_inspect_result ==
+                        MoveInspectResult(True, False, [GridCoord(4, 5)], self.black_pawn))
+
+    def test_en_passant_is_removed_when_pawn_is_moved_again(self):
+        self.white_pawn.update_coords(ChessCoord('A', '2'))
+        self.failIf(self.white_pawn.en_passant_square)
+
+        self.white_pawn.update_coords(ChessCoord('A', '4'))
+        self.failUnless(self.white_pawn.en_passant_square == GridCoord(0, 2))
+
+        self.white_pawn.update_coords(ChessCoord('A', '5'))
+        self.failIf(self.white_pawn.en_passant_square)
 
 def main():
     unittest.main()
