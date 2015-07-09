@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import test
-import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
 from directions import go_north, go_south
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
 from pieces.pawn import Pawn
-from pieces.piece import Piece
 from pieces.rook import Rook
 
 

@@ -1,7 +1,7 @@
 import board_parts
 import directions as dire
-from directions import DirectionResult
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
+
 
 def find_possible_piece(pieces, grid_coord):
         possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import board_parts as bps
 import drawing as dr
-import movement as mov
-from board_parts import ChessCoord, GridCoord, chess_coord_to_grid_coord
+from board_parts import ChessCoord, chess_coord_to_grid_coord
 import directions as dirs
 from pieces.bishop import Bishop
 from pieces.king import King
 from pieces.knight import Knight
 from pieces.pawn import Pawn
-from pieces.piece import Piece
 from pieces.queen import Queen
 from pieces.rook import Rook
 

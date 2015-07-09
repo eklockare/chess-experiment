@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import test
-import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
 from pieces.bishop import Bishop
 import util

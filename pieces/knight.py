@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
 from pieces.piece import Piece, find_possible_piece
 from board_parts import white, black
-from directions import move_directions_knight, DirectionResult
+from directions import move_directions_knight
 import board_parts as bps
 
 

@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import test
 import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
-from directions import go_north, go_south, go_west, go_east, DirectionResult, go_north_east
-from pieces.pawn import Pawn
+from directions import go_north, go_west, go_east, go_north_east
 from pieces.piece import Piece
-import collections
 import util
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
 
 
 class PieceTests(unittest.TestCase):

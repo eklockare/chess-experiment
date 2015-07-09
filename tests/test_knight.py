@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import test
-import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
 from pieces.knight import Knight
 from pieces.pawn import Pawn
 import util

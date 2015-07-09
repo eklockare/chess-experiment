@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 import directions
-import util
-from board_parts import ChessCoord, GridCoord
+from board_parts import GridCoord
+
 
 class UtilTests(unittest.TestCase):
 

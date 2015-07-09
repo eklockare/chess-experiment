@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from pieces.piece import Piece
 from board_parts import white, black
-from directions import move_directions_rook, DirectionResult
-import board_parts as bps
+from directions import move_directions_rook
 
 
 class Rook(Piece):

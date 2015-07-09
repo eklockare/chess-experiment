@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import directions
-import movement
 from pieces.piece import Piece, find_possible_piece
 from board_parts import white
-from directions import go_north, go_south, is_diagonal_move, \
+from directions import go_north, is_diagonal_move, \
     get_direction, go_north_west, go_north_east, go_south_east, go_south_west
 import board_parts as bps
-from movement import MoveInspectResult
+from move_inspect_result import MoveInspectResult
+
 
 class Pawn(Piece):
     def __init__(self, chess_coord, colour, move_direction):
