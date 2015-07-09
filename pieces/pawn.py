@@ -94,7 +94,7 @@ class Pawn(Piece):
 
         number_of_steps_in_move = len(squares)
 
-        return (number_of_steps_in_move <= number_of_steps_allowed)
+        return number_of_steps_in_move <= number_of_steps_allowed
 
     def is_on_start_row(self):
         if self.move_directions == [go_north]:
