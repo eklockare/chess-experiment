@@ -12,12 +12,12 @@ class MoveInspectResult:
 
     def __str__(self):
         return "MoveResult(%s, %s, %s, %s)" % (self.is_valid_move,
-                                           self.was_blocked,
-                                           map(str, self.squares),
-                                           self.piece)
+                                               self.was_blocked,
+                                               map(str, self.squares),
+                                               self.piece)
 
     def __eq__(self, other):
         return self.is_valid_move == other.is_valid_move \
-               and self.was_blocked == other.was_blocked \
-               and self.piece == other.piece \
-               and util.compare_lists(self.squares, other.squares)
+            and self.was_blocked == other.was_blocked \
+            and self.piece == other.piece \
+            and util.compare_lists(self.squares, other.squares)

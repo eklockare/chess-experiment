@@ -13,7 +13,6 @@ from pieces.rook import Rook
 INPUT_LENGTH = 2
 
 
-
 def valid_coordinates(col, row):
     return col in bps.CHESS_TO_GRID_COLUMNS and row in bps.CHESS_TO_GRID_ROWS
 
@@ -23,15 +22,14 @@ def validate_input(user_input, select_or_move):
         return False, "Cancelled selection"
     elif len(user_input) is not INPUT_LENGTH:
         return False, bps.yellow("invalid input, one letter and one number required, ex: A1.\n") \
-               + select_or_move
+            + select_or_move
 
     col, row = user_input[0], user_input[1]
 
     if not valid_coordinates(col, row):
         return False, bps.yellow("Invalid coordinates: " +
-                                str((col, row)) +
-                                str(" A-H + 1-8 required\n")) + \
-               select_or_move
+                                 str((col, row)) +
+                                 str(" A-H + 1-8 required\n")) + select_or_move
     else:
         return True, ChessCoord(col, row)
 
@@ -81,12 +79,12 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
             move_piece(pieces, selected_coord, None, piece_to_move, "Invalid move for this piece")
 
         elif move_inspect_result.was_blocked:
-                move_piece(pieces, None, None, piece_to_move, "another piece is blocking that move")
+            move_piece(pieces, None, None, piece_to_move, "another piece is blocking that move")
         else:
             if move_inspect_result.piece:
                 pieces.remove(move_inspect_result.piece)
 
-            piece_to_move.update_coords(new_coordinates )
+            piece_to_move.update_coords(new_coordinates)
             selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
             moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
             game_loop(pieces, selected_coord, moved_to_coord, None)

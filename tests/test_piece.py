@@ -8,7 +8,6 @@ from move_inspect_result import MoveInspectResult
 
 
 class PieceTests(unittest.TestCase):
-
     def setUp(self):
         self.directions = [go_west, go_east, go_north, go_north_east]
         self.black_piece = Piece(ChessCoord('H', '6'), black, 'P', 'P', self.directions)
@@ -55,26 +54,26 @@ class PieceTests(unittest.TestCase):
         move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('G', '3'))
 
         self.failUnless(move_inspect_result == MoveInspectResult(True, False,
-            [GridCoord(6, 1), GridCoord(6, 2)],
-            self.other_piece_G3)
-        )
+                                                                 [GridCoord(6, 1), GridCoord(6, 2)],
+                                                                 self.other_piece_G3)
+                        )
 
     def test_is_invalid_move_result_with_enemy_piece_blocking(self):
         self.black_piece.update_coords(ChessCoord('B', '5'))
         move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('E', '8'))
         self.failUnless(move_inspect_result == MoveInspectResult(False, True,
-            [GridCoord(2, 5)],
-            self.other_piece_C6)
-        )
+                                                                 [GridCoord(2, 5)],
+                                                                 self.other_piece_C6)
+                        )
 
     def test_is_invalid_move_result_with_friendly_piece_blocking(self):
         self.black_piece.update_coords(ChessCoord('D', '4'))
         move_inspect_result = self.black_piece.inspect_move(self.some_pieces, ChessCoord('A', '4'))
         self.failUnless(move_inspect_result == MoveInspectResult(False, True,
-            [GridCoord(2, 3),
-             GridCoord(1, 3)],
-            self.other_piece_B4)
-        )
+                                                                 [GridCoord(2, 3),
+                                                                  GridCoord(1, 3)],
+                                                                 self.other_piece_B4)
+                        )
 
 
 def main():

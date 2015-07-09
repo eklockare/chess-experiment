@@ -37,20 +37,21 @@ class KingTests(unittest.TestCase):
         pieces = []
 
         move_inspect_result = self.king_white.inspect_move(pieces,
-                                                       ChessCoord('F', '7'))
+                                                           ChessCoord('F', '7'))
 
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(True, False, [GridCoord(5,6)], None))
+                        MoveInspectResult(True, False, [GridCoord(5, 6)], None))
 
     def test_white_king_not_allowed_to_move_two_steps(self):
         pieces = []
 
         move_inspect_result = self.king_white.inspect_move(pieces,
-                                                       ChessCoord('E', '4'))
+                                                           ChessCoord('E', '4'))
 
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(False, False, [GridCoord(4,4),
-                                                         GridCoord(4,3)], None))
+                        MoveInspectResult(False, False, [GridCoord(4, 4),
+                                                         GridCoord(4, 3)], None))
+
 
 def main():
     unittest.main()

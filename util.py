@@ -1,6 +1,3 @@
-
-
-
 def compare_lists(one, two):
     if len(one) != len(two):
         return False
@@ -13,7 +10,6 @@ def compare_lists(one, two):
     count_true = flatten_compares.count(True)
 
     return count_true == len(one)
-
 
 
 def flatten_list(to_flatten):

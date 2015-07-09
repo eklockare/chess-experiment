@@ -75,10 +75,10 @@ class UtilTests(unittest.TestCase):
 
         self.failUnless(result)
 
+
 def main():
     unittest.main()
 
 
 if __name__ == '__main__':
     main()
-

@@ -26,20 +26,20 @@ class Pawn(Piece):
     def inspect_taking_move(self, pieces, grid_move, move_direction):
         move_inspect_result_direction = \
             self.paths_and_piece_in_direction(self.grid_coord,
-                grid_move,
-                pieces,
-                move_direction,
-                [])
+                                              grid_move,
+                                              pieces,
+                                              move_direction,
+                                              [])
 
         pawns_that_have_en_passant_on_this_move = filter(lambda piece:
-                                            piece.letter == 'P' and
-                                            piece.en_passant_square and
-                                            piece.en_passant_square == grid_move and
-                                            piece != self,
-                                            pieces)
+                                                         piece.letter == 'P' and
+                                                         piece.en_passant_square and
+                                                         piece.en_passant_square == grid_move and
+                                                         piece != self,
+                                                         pieces)
 
         ok_num_of_steps = len(move_inspect_result_direction.squares) == 1
-        valid_taking_direction = self.is_valid_taking_direction(move_direction )
+        valid_taking_direction = self.is_valid_taking_direction(move_direction)
         possible_piece = find_possible_piece(pieces, grid_move)
         if len(pawns_that_have_en_passant_on_this_move) == 1:
             possible_piece = pawns_that_have_en_passant_on_this_move[0]
@@ -75,8 +75,7 @@ class Pawn(Piece):
         move_inspect_result = Piece.inspect_move(self, pieces, move)
         ok_num_of_steps = self.ok_number_steps(move_inspect_result.squares)
 
-        move_inspect_result.is_valid_move = ok_num_of_steps and \
-            move_inspect_result.is_valid_move
+        move_inspect_result.is_valid_move = ok_num_of_steps and move_inspect_result.is_valid_move
 
         if move_inspect_result.piece:
             move_inspect_result.is_valid_move = False
@@ -104,12 +103,10 @@ class Pawn(Piece):
 
     def __str__(self):
         return "Pawn(%s, %s, %s, %s, en_passant_square=%s) " % (self.colour,
-                            self.move_directions,
-                            self.chess_coord,
-                            self.grid_coord,
-                            self.en_passant_square)
+                                                                self.move_directions,
+                                                                self.chess_coord,
+                                                                self.grid_coord,
+                                                                self.en_passant_square)
 
     def __eq__(self, other):
-        return self.grid_coord == other.grid_coord and \
-            self.letter == other.letter and \
-            self.colour == other.colour
+        return self.grid_coord == other.grid_coord and self.letter == other.letter and self.colour == other.colour

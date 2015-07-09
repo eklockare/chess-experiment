@@ -3,11 +3,11 @@ from move_inspect_result import MoveInspectResult
 
 
 def find_possible_piece(pieces, grid_coord):
-        possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
-        if possible_piece:
-            return possible_piece[0]
-        else:
-            return None
+    possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
+    if possible_piece:
+        return possible_piece[0]
+    else:
+        return None
 
 
 class Piece(object):
@@ -57,13 +57,13 @@ class Piece(object):
         inspect_move_results = self.check_all_directions(pieces, move_grid)
         positive_result = filter(lambda move_inspect_result:
                                  move_inspect_result.is_valid_move,
-                       inspect_move_results)
+                                 inspect_move_results)
         if positive_result:
             return positive_result[0]
         else:
             blocked_result = filter(lambda move_inspect_result:
                                     move_inspect_result.was_blocked,
-                       inspect_move_results)
+                                    inspect_move_results)
             if blocked_result:
                 return blocked_result[0]
             else:

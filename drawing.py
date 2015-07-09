@@ -1,7 +1,9 @@
 import board_parts as bps
+
 TOP_ROW = 7
 BOTTOM_ROW = 0
 RIGHT_MOST_COL = 7
+
 
 def get_row_colour(row_id):
     coloured = []
@@ -34,7 +36,6 @@ def apply_colouring_to_row_part(row_id, colouring, pieces, row_part_is_piece,
     def paint_last_square_of_row(square_colour, (_, row_part), row, col):
         number_added = add_row_number(row_part, square_colour, row, col)
         return number_added
-
 
     def paint_row(square_coloring, (_, row_part)):
         return square_coloring(row_part)
@@ -77,7 +78,7 @@ def apply_colouring_to_row(row_id, (colour, (pieces, row)), selected_coord, move
                                                                        row_part,
                                                                        selected_coord,
                                                                        moved_to_coord),
-                                                                       row)
+                          row)
     return color_row_parts
 
 
@@ -103,8 +104,10 @@ def all_rows(pieces):
 
     return rows
 
+
 def count_to_row(count):
-    return 7-count
+    return 7 - count
+
 
 def draw_board(pieces, selected_coord=None, moved_to_coord=None):
     all_colouring = map(get_row_colour, bps.NUM_ROWS)
@@ -112,7 +115,6 @@ def draw_board(pieces, selected_coord=None, moved_to_coord=None):
 
     def apply_colouring_to_row_last_move((colour, (row_id, (pieces, row)))):
         return apply_colouring_to_row(row_id, (colour, (pieces, row)), selected_coord, moved_to_coord)
-
 
     all_rows_coloured = map(apply_colouring_to_row_last_move, all_rows_with_colour_and_pieces)
 

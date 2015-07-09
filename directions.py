@@ -97,23 +97,25 @@ def move_directions_bishop():
 def move_directions_queen():
     return move_directions_bishop() + move_directions_rook()
 
+
 def is_diagonal_move(move_direction):
     return move_direction is go_north_east or \
-           move_direction is go_north_west or \
-           move_direction is go_south_east or \
-           move_direction is go_south_west
+        move_direction is go_north_west or \
+        move_direction is go_south_east or \
+        move_direction is go_south_west
 
 
 def is_straight_move(move_direction):
     return move_direction is go_north or \
-           move_direction is go_south or \
-           move_direction is go_west or \
-           move_direction is go_east
+        move_direction is go_south or \
+        move_direction is go_west or \
+        move_direction is go_east
+
 
 def get_direction(from_grid_coord, to_grid_coord):
     def is_northward_or_southward():
         if from_grid_coord.row < to_grid_coord.row:
-           return go_north
+            return go_north
         elif from_grid_coord.row > to_grid_coord.row:
             return go_south
         else:

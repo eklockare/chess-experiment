@@ -9,7 +9,6 @@ from pieces.rook import Rook
 
 
 class PawnTests(unittest.TestCase):
-
     def setUp(self):
         black_chess_coord = ChessCoord('B', '7')
         white_chess_coord = ChessCoord('A', '2')
@@ -84,7 +83,7 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_taking_enemy(self):
         pieces = [self.white_pawn, self.black_pawn]
-        self.white_pawn.update_coords(ChessCoord('B','6'))
+        self.white_pawn.update_coords(ChessCoord('B', '6'))
         self.black_pawn.update_coords(ChessCoord('C', '7'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('B', '6'))
@@ -94,7 +93,7 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_blocked_by_friendly_taking(self):
         pieces = [Pawn(ChessCoord('C', '6'), white, [go_north]), self.white_pawn]
-        self.white_pawn.update_coords(ChessCoord('B','5'))
+        self.white_pawn.update_coords(ChessCoord('B', '5'))
 
         move_inspect_result = self.white_pawn.inspect_move(pieces, ChessCoord('C', '6'))
         self.failUnless(move_inspect_result ==
@@ -103,8 +102,8 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_blocked_by_enemy(self):
         pieces = [self.white_pawn, self.black_pawn]
-        self.white_pawn.update_coords(ChessCoord('B','2'))
-        self.black_pawn.update_coords(ChessCoord('B','3'))
+        self.white_pawn.update_coords(ChessCoord('B', '2'))
+        self.black_pawn.update_coords(ChessCoord('B', '3'))
 
         move_inspect_result = self.white_pawn.inspect_move(pieces, ChessCoord('B', '3'))
         self.failUnless(move_inspect_result ==
@@ -113,7 +112,7 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_blocked_by_friendly(self):
         pieces = [Pawn(ChessCoord('D', '4'), black, [go_south]), self.black_pawn]
-        self.black_pawn.update_coords(ChessCoord('D','5'))
+        self.black_pawn.update_coords(ChessCoord('D', '5'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('D', '4'))
         self.failUnless(move_inspect_result ==
@@ -122,7 +121,7 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_two_steps_blocked_by_friendly(self):
         pieces = [Pawn(ChessCoord('C', '6'), black, [go_south]), self.black_pawn]
-        self.black_pawn.update_coords(ChessCoord('C','7'))
+        self.black_pawn.update_coords(ChessCoord('C', '7'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
         self.failUnless(move_inspect_result ==
@@ -131,7 +130,7 @@ class PawnTests(unittest.TestCase):
 
     def test_inspect_move_two_steps_blocked_by_enemy(self):
         pieces = [Pawn(ChessCoord('C', '6'), white, [go_south]), self.black_pawn]
-        self.black_pawn.update_coords(ChessCoord('C','7'))
+        self.black_pawn.update_coords(ChessCoord('C', '7'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
         self.failUnless(move_inspect_result ==
@@ -166,8 +165,10 @@ class PawnTests(unittest.TestCase):
         self.white_pawn.update_coords(ChessCoord('A', '5'))
         self.failIf(self.white_pawn.en_passant_square)
 
+
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()
