@@ -1,6 +1,5 @@
 import board_parts as bps
 from board_parts import GridCoord
-import util
 
 
 def is_within_board(col, row):
@@ -98,30 +97,6 @@ def move_directions_bishop():
 def move_directions_queen():
     return move_directions_bishop() + move_directions_rook()
 
-
-def get_move_direction_and_squares_in_between(grid_coord_from, grid_coord_to, directions):
-    def go_until_hit_or_outside(grid_coord_from, grid_coord_to, direction, squares_in_between):
-        grid_coord_move = direction(grid_coord_from)
-
-        if grid_coord_move is not None:
-            if grid_coord_from == grid_coord_to:
-                return direction, squares_in_between
-            else:
-                squares_in_between.append(grid_coord_move)
-                return go_until_hit_or_outside(grid_coord_move, grid_coord_to, direction, squares_in_between)
-        else:
-            return None, None
-
-    tried_directions = map(lambda direction: go_until_hit_or_outside(grid_coord_from, grid_coord_to, direction, []),
-                           directions)
-    found_direction = filter(lambda direction_squares: direction_squares[0], tried_directions)
-
-    if found_direction:
-        return True, found_direction[0][0], found_direction[0][1]
-    else:
-        return False, None, None
-
-
 def is_diagonal_move(move_direction):
     return move_direction is go_north_east or \
            move_direction is go_north_west or \
@@ -169,17 +144,3 @@ def get_direction(from_grid_coord, to_grid_coord):
             return go_south_west
         else:
             return go_south_east
-
-
-class DirectionResult:
-    def __init__(self, squares, piece):
-        self.squares = squares
-        self.piece = piece
-
-    def __str__(self):
-        return "DirectionResult(%s, %s) " % \
-               (map(str, self.squares), self.piece)
-
-    def __eq__(self, other):
-        return self.piece == other.piece and \
-        util.compare_lists(self.squares, other.squares)

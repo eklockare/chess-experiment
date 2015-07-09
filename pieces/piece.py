@@ -73,11 +73,6 @@ class Piece(object):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
-    def get_direction_and_squares(self, grid_move):
-        return dire.get_move_direction_and_squares_in_between(self.grid_coord,
-                                   grid_move,
-                                   self.move_directions)
-
     def __str__(self):
         if self.colour == board_parts.black:
             color_name = "black"
