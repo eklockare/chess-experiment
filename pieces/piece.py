@@ -9,6 +9,7 @@ def find_possible_piece(pieces, grid_coord):
         else:
             return None
 
+
 class Piece(object):
     def __init__(self, chess_coord, colour, letter, symbol, move_directions):
         self.move_directions = move_directions
