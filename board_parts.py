@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    BLACK = '\033[90m'
-    WHITE = '\033[97m'
-    GREEN_BACKGROUND = '\033[42m'
-    YELLOW_BACKGROUND = '\033[43m'
+HEADER = '\033[95m'
+OKBLUE = '\033[94m'
+OKGREEN = '\033[92m'
+WARNING = '\033[93m'
+FAIL = '\033[91m'
+ENDC = '\033[0m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
+BLACK = '\033[90m'
+WHITE = '\033[97m'
+GREEN_BACKGROUND = '\033[42m'
+YELLOW_BACKGROUND = '\033[43m'
 
 
 top_letters = ['  A   ', '  B   ', '  C   ', '  D   ', '  E   ', '  F   ', '  G   ', '  H   ']
@@ -76,27 +75,27 @@ class ChessCoord(object):
 
 
 def black(string):
-    return bcolors.BLACK + string + bcolors.ENDC
+    return BLACK + string + ENDC
 
 
 def white(string):
-    return bcolors.WHITE + string + bcolors.ENDC
+    return WHITE + string + ENDC
 
 
 def green(string):
-    return bcolors.OKGREEN + string + bcolors.ENDC
+    return OKGREEN + string + ENDC
 
 
 def yellow(string):
-    return bcolors.WARNING + string + bcolors.ENDC
+    return WARNING + string + ENDC
 
 
 def green_background(string):
-    return bcolors.OKGREEN + string + bcolors.ENDC
+    return OKGREEN + string + ENDC
 
 
 def yellow_background(string):
-    return bcolors.WARNING + string + bcolors.ENDC
+    return WARNING + string + ENDC
 
 
 def top_row():
