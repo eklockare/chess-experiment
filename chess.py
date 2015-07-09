@@ -4,7 +4,6 @@ import drawing as dr
 import movement as mov
 from board_parts import ChessCoord, GridCoord, chess_coord_to_grid_coord
 import directions as dirs
-import collision as col
 from pieces.bishop import Bishop
 from pieces.king import King
 from pieces.knight import Knight
