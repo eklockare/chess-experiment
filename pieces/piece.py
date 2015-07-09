@@ -1,5 +1,4 @@
 import board_parts
-import directions as dire
 from move_inspect_result import MoveInspectResult
 
 

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-import board_parts
 from board_parts import GridCoord, ChessCoord, black, white
 from directions import go_north, go_west, go_east, go_north_east
 from pieces.piece import Piece
-import util
 from move_inspect_result import MoveInspectResult
 
 
