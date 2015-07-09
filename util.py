@@ -5,8 +5,8 @@ def compare_lists(one, two):
     if len(one) != len(two):
         return False
 
-    def comparisons(check, list):
-        return map(lambda el: el == check, list)
+    def comparisons(check, other):
+        return map(lambda el: el == check, other)
 
     compares = map(lambda t: comparisons(t, one), two)
     flatten_compares = flatten_list(compares)
@@ -16,5 +16,5 @@ def compare_lists(one, two):
 
 
 
-def flatten_list(list):
-    return [item for sublist in list for item in sublist]
+def flatten_list(to_flatten):
+    return [item for sub_list in to_flatten for item in sub_list]
