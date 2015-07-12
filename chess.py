@@ -2,13 +2,7 @@
 import board_parts as bps
 import drawing as dr
 from board_parts import ChessCoord, chess_coord_to_grid_coord
-import directions as dirs
-from pieces.bishop import Bishop
-from pieces.king import King
-from pieces.knight import Knight
-from pieces.pawn import Pawn
-from pieces.queen import Queen
-from pieces.rook import Rook
+from starting_pieces import starting_pieces
 
 INPUT_LENGTH = 2
 
@@ -94,44 +88,5 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
     else:
         select_piece(pieces, selected_coord, None, "Select piece")
 
-
-starting_pieces = [
-    # black pawns
-    Pawn(ChessCoord('A', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('B', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('C', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('D', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('E', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('F', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('G', '7'), bps.black, dirs.go_south),
-    Pawn(ChessCoord('H', '7'), bps.black, dirs.go_south),
-    # black back row
-    Rook(ChessCoord('A', '8'), bps.black),
-    Knight(ChessCoord('B', '8'), bps.black),
-    Bishop(ChessCoord('C', '8'), bps.black),
-    Queen(ChessCoord('D', '8'), bps.black),
-    King(ChessCoord('E', '8'), bps.black),
-    Bishop(ChessCoord('F', '8'), bps.black),
-    Knight(ChessCoord('G', '8'), bps.black),
-    Rook(ChessCoord('H', '8'), bps.black),
-    # white pawns
-    Pawn(ChessCoord('A', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('B', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('C', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('D', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('E', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('F', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('G', '2'), bps.white, dirs.go_north),
-    Pawn(ChessCoord('H', '2'), bps.white, dirs.go_north),
-    # white back row
-    Rook(ChessCoord('A', '1'), bps.white),
-    Knight(ChessCoord('B', '1'), bps.white),
-    Bishop(ChessCoord('C', '1'), bps.white),
-    Queen(ChessCoord('D', '1'), bps.white),
-    King(ChessCoord('E', '1'), bps.white),
-    Bishop(ChessCoord('F', '1'), bps.white),
-    Knight(ChessCoord('G', '1'), bps.white),
-    Rook(ChessCoord('H', '1'), bps.white),
-]
 
 game_loop(starting_pieces, None, None, None)
