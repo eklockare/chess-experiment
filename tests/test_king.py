@@ -49,8 +49,7 @@ class KingTests(unittest.TestCase):
                                                            ChessCoord('E', '4'))
 
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(False, False, [GridCoord(4, 4),
-                                                         GridCoord(4, 3)], None))
+                        MoveInspectResult(False, False, [], None))
 
 
 def main():

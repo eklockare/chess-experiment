@@ -11,10 +11,12 @@ class King(Piece):
         else:
             Piece.__init__(self, chess_coord, black, 'K', '♚', move_directions_queen())
 
-    def inspect_move(self, pieces, move):
-        move_inspect_result = Piece.inspect_move(self, pieces, move)
+    def check_all_directions(self, pieces, move_to):
+        move_check_results = Piece.check_all_directions(self, pieces, move_to)
 
-        move_inspect_result.is_valid_move = move_inspect_result.is_valid_move and \
-            len(move_inspect_result.squares) == 1
+        for mir in move_check_results:
+            if len(mir.squares) > 1:
+                mir.is_valid_move = False
+                mir.possible_piece = None
 
-        return move_inspect_result
+        return move_check_results
