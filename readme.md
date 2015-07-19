@@ -20,19 +20,26 @@ TODO:
     * ~~Knight is special case, can jump over pieces~~
 
 3. Make piece movement that exposes the king illegal
-    * Detect if king is exposed
+    * ~~Detect if king is exposed~~
 
 4. Only move that covers the king is legal if in check
-    * Restrict movement, detect which pieces can do that
+    * ~~Restrict movement, detect if a piece is allowed to move~~
 
 5. Use 3. logic when moving the king
+    * ~~Restrict king movement~~
 
 6. Castling
     * Check if piece is blocking
-    * Check if piece is attacking inbetween squares
+    * Check if piece is attacking in between squares
 
-7. Implement turns
+7. Can't take king
+    * Block enemies from taking the king
 
+8. Check mate
+    * Detect when it's check mate
+
+9. Implement turns
+    * Make Player modules that can be played be a human or by the computer
 
 
 
