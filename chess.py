@@ -43,7 +43,6 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
             select_piece(pieces, None, None, input_result)
 
         selected_coordinates = input_result
-        print "selected_coordinates %s " % selected_coordinates
         piece_selection = filter(lambda piece: piece.chess_coord == selected_coordinates, pieces)
 
         if piece_selection:
@@ -64,7 +63,7 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
         user_input = user_input.upper()
         input_is_valid, input_result = validate_input(user_input, "Move piece ")
         if not input_is_valid:
-            select_piece(pieces, None, None, input_result)
+            select_piece(pieces, selected_coord, None, input_result)
 
         new_coordinates = input_result
         move_inspect_result = piece_to_move.inspect_move(pieces, new_coordinates)
@@ -73,7 +72,7 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
             move_piece(pieces, selected_coord, None, piece_to_move, "Invalid move for this piece")
 
         elif move_inspect_result.was_blocked:
-            move_piece(pieces, None, None, piece_to_move, "another piece is blocking that move")
+            move_piece(pieces, selected_coord, None, piece_to_move, "another piece is blocking that move")
 
         will_put_self_in_check = \
             piece_to_move.check_for_putting_self_in_check(pieces,
@@ -81,20 +80,19 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
                                                           move_inspect_result.possible_piece)
 
         if will_put_self_in_check:
-            move_piece(pieces, None, None, piece_to_move, "will put you in check!")
+            move_piece(pieces, selected_coord, None, piece_to_move, "Check!")
 
         if move_inspect_result.possible_piece:
             pieces.remove(move_inspect_result.possible_piece)
 
         piece_to_move.update_coords(new_coordinates)
-        selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
         moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
-        game_loop(pieces, selected_coord, moved_to_coord, None)
+        game_loop(pieces, None, moved_to_coord, None)
 
     if piece_to_move:
         move_piece(pieces, selected_coord, moved_to_coords, piece_to_move, "Move piece")
     else:
-        select_piece(pieces, selected_coord, None, "Select piece")
+        select_piece(pieces, selected_coord, moved_to_coords, "Select piece")
 
 
 game_loop(starting_pieces, None, None, None)
