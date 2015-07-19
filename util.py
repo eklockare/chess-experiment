@@ -14,3 +14,11 @@ def compare_lists(one, two):
 
 def flatten_list(to_flatten):
     return [item for sub_list in to_flatten for item in sub_list]
+
+def select_piece(selected_coordinates, pieces):
+    piece_selection = filter(lambda piece: piece.chess_coord ==
+                                           selected_coordinates, pieces)
+    return piece_selection[0]
+
+def select_pieces(multiple_coordinates, pieces):
+    return map(lambda coord: select_piece(coord, pieces), multiple_coordinates)

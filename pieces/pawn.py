@@ -14,14 +14,17 @@ class Pawn(Piece):
         else:
             Piece.__init__(self, chess_coord, colour, 'P', '♟', [move_direction])
         self.en_passant_square = None
+        self.my_direction = self.move_directions[0]
 
     def is_valid_taking_direction(self, take_direction):
-        my_direction = self.move_directions[0]
-
-        if my_direction == go_north:
+        if self.my_direction == go_north:
             return take_direction in [go_north_east, go_north_west]
         else:
             return take_direction in [go_south_east, go_south_west]
+
+    def get_taking_directions(self):
+        return filter(lambda take_dir: self.is_valid_taking_direction(take_dir),
+                      [go_north_west, go_north_east, go_south_east, go_south_west])
 
     def inspect_taking_move(self, pieces, grid_move, move_direction):
         move_inspect_result_direction = \
@@ -77,7 +80,7 @@ class Pawn(Piece):
 
         move_inspect_result.is_valid_move = ok_num_of_steps and move_inspect_result.is_valid_move
 
-        if move_inspect_result.piece:
+        if move_inspect_result.possible_piece:
             move_inspect_result.is_valid_move = False
             move_inspect_result.was_blocked = True
 
@@ -100,6 +103,28 @@ class Pawn(Piece):
             return self.grid_coord.row == 1
         else:
             return self.grid_coord.row == 6
+
+    def add_possible_pieces_to_threat_list(self, pieces):
+        taking_directions = self.get_taking_directions()
+        taking_directions_move = map(lambda take_dir: (take_dir,
+                                                       take_dir(self.grid_coord)),
+                                     taking_directions)
+        taking_directions_move_clean = filter(lambda take_dir_move:
+                                              take_dir_move[1] is not None,
+                                              taking_directions_move)
+
+        move_inspect_results = \
+            map(lambda take_dir_move: self.inspect_taking_move(pieces,
+                                                               take_dir_move[1],
+                                                               take_dir_move[0]),
+                taking_directions_move_clean)
+
+        move_inspect_results_only_with_pieces = filter(lambda mir:
+                                                       mir.possible_piece is not None,
+                                                       move_inspect_results)
+
+        self.is_threat_to_these_pieces = map(lambda mir: mir.possible_piece,
+                                             move_inspect_results_only_with_pieces)
 
     def __str__(self):
         return "Pawn(%s, %s, %s, %s, en_passant_square=%s) " % (self.colour,

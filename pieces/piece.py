@@ -18,6 +18,7 @@ class Piece(object):
         self.colour = colour
         self.letter = letter
         self.symbol = symbol
+        self.is_threat_to_these_pieces = []
 
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
@@ -72,6 +73,52 @@ class Piece(object):
     def update_coords(self, chess_coord):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
+
+    def add_possible_pieces_to_threat_list(self, pieces):
+        self.is_threat_to_these_pieces = []
+        inspect_move_results = self.check_all_directions(pieces, self.grid_coord)
+
+        inspect_move_results_with_possible_pieces = \
+            filter(lambda inspect_move_result: inspect_move_result.possible_piece
+                   is not None,
+                   inspect_move_results)
+
+        def add_possible_piece(possible_piece):
+            if possible_piece.colour != self.colour:
+                self.is_threat_to_these_pieces.append(possible_piece)
+
+        map(lambda move_inspect_result: add_possible_piece(
+            move_inspect_result.possible_piece),
+            inspect_move_results_with_possible_pieces)
+
+    def check_for_putting_self_in_check(self, pieces, new_coordinates, possible_piece):
+        def detect_move_piece_king(piece):
+            possible_own_king = filter(lambda threatened_piece: threatened_piece.letter == 'K'
+                                       and threatened_piece.colour == self.colour,
+                                       piece.is_threat_to_these_pieces)
+            return len(possible_own_king) > 0
+
+        self.analyze_threats_on_board_for_new_move(pieces,
+                                                   new_coordinates,
+                                                   possible_piece)
+        own_king_checked = True in map(detect_move_piece_king, pieces)
+        return own_king_checked
+
+    def analyze_threats_on_board_for_new_move(self, pieces,
+                                              new_coordinates,
+                                              possible_piece=None):
+        old_coords = self.chess_coord
+        self.update_coords(new_coordinates)
+        pieces_without_possible_piece = filter(lambda piece: piece is not possible_piece,
+                                               pieces)
+        if possible_piece:
+            possible_piece.is_threat_to_these_pieces = []
+
+        map(lambda piece:
+            piece.add_possible_pieces_to_threat_list(pieces_without_possible_piece),
+            pieces_without_possible_piece)
+
+        self.update_coords(old_coords)
 
     def __str__(self):
         if self.colour == board_parts.black:

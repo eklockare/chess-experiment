@@ -74,14 +74,22 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
 
         elif move_inspect_result.was_blocked:
             move_piece(pieces, None, None, piece_to_move, "another piece is blocking that move")
-        else:
-            if move_inspect_result.piece:
-                pieces.remove(move_inspect_result.piece)
 
-            piece_to_move.update_coords(new_coordinates)
-            selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
-            moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
-            game_loop(pieces, selected_coord, moved_to_coord, None)
+        will_put_self_in_check = \
+            piece_to_move.check_for_putting_self_in_check(pieces,
+                                                          new_coordinates,
+                                                          move_inspect_result.possible_piece)
+
+        if will_put_self_in_check:
+            move_piece(pieces, None, None, piece_to_move, "will put you in check!")
+
+        if move_inspect_result.possible_piece:
+            pieces.remove(move_inspect_result.possible_piece)
+
+        piece_to_move.update_coords(new_coordinates)
+        selected_coord = chess_coord_to_grid_coord(piece_to_move.chess_coord)
+        moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
+        game_loop(pieces, selected_coord, moved_to_coord, None)
 
     if piece_to_move:
         move_piece(pieces, selected_coord, moved_to_coords, piece_to_move, "Move piece")
