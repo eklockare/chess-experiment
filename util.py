@@ -18,7 +18,10 @@ def flatten_list(to_flatten):
 def select_piece(selected_coordinates, pieces):
     piece_selection = filter(lambda piece: piece.chess_coord ==
                                            selected_coordinates, pieces)
-    return piece_selection[0]
+    if len(piece_selection) > 0:
+        return piece_selection[0]
+    else:
+        return None
 
 def select_pieces(multiple_coordinates, pieces):
     return map(lambda coord: select_piece(coord, pieces), multiple_coordinates)

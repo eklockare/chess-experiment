@@ -19,6 +19,7 @@ class Piece(object):
         self.letter = letter
         self.symbol = symbol
         self.is_threat_to_these_pieces = []
+        self.number_of_moves = 0
 
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
@@ -71,6 +72,7 @@ class Piece(object):
                 return MoveInspectResult(False, False, [], None)
 
     def update_coords(self, chess_coord):
+        self.number_of_moves += 1
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
@@ -91,7 +93,7 @@ class Piece(object):
             move_inspect_result.possible_piece),
             inspect_move_results_with_possible_pieces)
 
-    def check_for_putting_self_in_check(self, pieces, new_coordinates, possible_piece):
+    def check_for_putting_self_in_check(self, pieces, new_coordinates, move_inspect_result):
         def detect_move_piece_king(piece):
             possible_own_king = filter(lambda threatened_piece: threatened_piece.letter == 'K'
                                        and threatened_piece.colour == self.colour,
@@ -100,7 +102,7 @@ class Piece(object):
 
         self.analyze_threats_on_board_for_new_move(pieces,
                                                    new_coordinates,
-                                                   possible_piece)
+                                                   move_inspect_result.possible_piece)
         own_king_checked = True in map(detect_move_piece_king, pieces)
         return own_king_checked
 

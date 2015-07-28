@@ -2,6 +2,7 @@
 import board_parts as bps
 import drawing as dr
 from board_parts import ChessCoord, chess_coord_to_grid_coord
+from move_inspect_result import CastlingMoveInspectResult
 from starting_pieces import starting_pieces
 
 INPUT_LENGTH = 2
@@ -77,7 +78,7 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
         will_put_self_in_check = \
             piece_to_move.check_for_putting_self_in_check(pieces,
                                                           new_coordinates,
-                                                          move_inspect_result.possible_piece)
+                                                          move_inspect_result)
 
         if will_put_self_in_check:
             move_piece(pieces, selected_coord, None, piece_to_move, "Check!")
@@ -86,6 +87,9 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
             pieces.remove(move_inspect_result.possible_piece)
 
         piece_to_move.update_coords(new_coordinates)
+        if move_inspect_result.was_castling_attempt:
+            move_inspect_result.castling_rook.update_coords(
+                move_inspect_result.new_coord_rook)
         moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
         game_loop(pieces, None, moved_to_coord, None)
 
