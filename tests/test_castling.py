@@ -27,6 +27,52 @@ class BishopTests(unittest.TestCase):
                         CastlingMoveInspectResult(True, False, True, h1_rook,
                                                   ChessCoord('F', '1')))
 
+    def test_castling_should_not_be_possible_if_king_has_moved(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        e1_king.update_coords(ChessCoord('E', '2'))
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        pieces = [e1_king, h1_rook]
+        inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, h1_rook,
+                                                  ChessCoord('F', '1')))
+
+    def test_castling_should_not_be_possible_if_king_has_moved_and_moved_back(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        e1_king.update_coords(ChessCoord('E', '2'))
+        e1_king.update_coords(ChessCoord('E', '1'))
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        pieces = [e1_king, h1_rook]
+        inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, h1_rook,
+                                                  ChessCoord('F', '1')))
+
+    def test_castling_should_not_be_possible_if_rook_has_moved(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        h1_rook.update_coords(ChessCoord('H', '2'))
+        pieces = [e1_king, h1_rook]
+        inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, None,
+                                                  ChessCoord('F', '1')))
+
+    def test_castling_should_not_be_possible_if_rook_has_moved_and_moved_back(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        h1_rook.update_coords(ChessCoord('H', '2'))
+        h1_rook.update_coords(ChessCoord('H', '1'))
+        pieces = [e1_king, h1_rook]
+        inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, None,
+                                                  ChessCoord('F', '1')))
+
     def test_castling_should_not_be_possible_with_pieces_in_the_way(self):
         all_pieces = copy.deepcopy(starting_pieces)
         a1_rook = select_piece(ChessCoord('A', '1'), all_pieces)
