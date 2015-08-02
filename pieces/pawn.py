@@ -104,7 +104,7 @@ class Pawn(Piece):
         else:
             return self.grid_coord.row == 6
 
-    def add_possible_pieces_to_threat_list(self, pieces):
+    def add_possible_pieces_and_squares_to_threat_list(self, pieces):
         taking_directions = self.get_taking_directions()
         taking_directions_move = map(lambda take_dir: (take_dir,
                                                        take_dir(self.grid_coord)),

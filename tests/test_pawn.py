@@ -125,7 +125,7 @@ class PawnTests(unittest.TestCase):
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(False, True, [GridCoord(2, 5)],
+                        MoveInspectResult(False, True, [],
                                           pieces[0]))
 
     def test_inspect_move_two_steps_blocked_by_enemy(self):
@@ -134,7 +134,7 @@ class PawnTests(unittest.TestCase):
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(False, True, [GridCoord(2, 5)],
+                        MoveInspectResult(False, True, [],
                                           pieces[0]))
 
     def test_en_passant_square_set(self):

@@ -19,6 +19,7 @@ class Piece(object):
         self.letter = letter
         self.symbol = symbol
         self.is_threat_to_these_pieces = []
+        self.is_threat_to_these_squares = []
         self.number_of_moves = 0
 
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
@@ -26,10 +27,10 @@ class Piece(object):
         if not new_coord_grid:
             return MoveInspectResult(False, False, squares, None)
 
-        squares.append(new_coord_grid)
 
         possible_piece = find_possible_piece(pieces, new_coord_grid)
         if to_coord == new_coord_grid:
+            squares.append(new_coord_grid)
             if possible_piece:
                 if possible_piece.colour == self.colour:
                     return MoveInspectResult(False, True, squares, possible_piece)
@@ -41,6 +42,7 @@ class Piece(object):
         elif possible_piece:
             return MoveInspectResult(False, True, squares, possible_piece)
         else:
+            squares.append(new_coord_grid)
             return self.paths_and_piece_in_direction(new_coord_grid, to_coord, pieces, direction, squares)
 
     def check_all_directions(self, pieces, move_to):
@@ -76,14 +78,20 @@ class Piece(object):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
-    def add_possible_pieces_to_threat_list(self, pieces):
+    def add_possible_pieces_and_squares_to_threat_list(self, pieces):
         self.is_threat_to_these_pieces = []
+        self.is_threat_to_these_squares = []
         inspect_move_results = self.check_all_directions(pieces, self.grid_coord)
 
         inspect_move_results_with_possible_pieces = \
             filter(lambda inspect_move_result: inspect_move_result.possible_piece
                    is not None,
                    inspect_move_results)
+
+        all_squares = map(lambda imr: imr.squares, inspect_move_results)
+        for squares in all_squares:
+            for square in squares:
+                self.is_threat_to_these_squares.append(square)
 
         def add_possible_piece(possible_piece):
             if possible_piece.colour != self.colour:
@@ -117,7 +125,7 @@ class Piece(object):
             possible_piece.is_threat_to_these_pieces = []
 
         map(lambda piece:
-            piece.add_possible_pieces_to_threat_list(pieces_without_possible_piece),
+            piece.add_possible_pieces_and_squares_to_threat_list(pieces_without_possible_piece),
             pieces_without_possible_piece)
 
         self.update_coords(old_coords)

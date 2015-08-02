@@ -39,7 +39,7 @@ class Knight(Piece):
 
         return move_inspect_result
 
-    def add_possible_pieces_to_threat_list(self, pieces):
+    def add_possible_pieces_and_squares_to_threat_list(self, pieces):
         all_destinations = self.get_all_destinations()
         self.is_threat_to_these_pieces = filter(lambda piece:
                                                 piece.grid_coord in
