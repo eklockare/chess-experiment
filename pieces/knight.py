@@ -46,3 +46,8 @@ class Knight(Piece):
                                                 all_destinations
                                                 and piece.colour !=
                                                 self.colour, pieces)
+
+        grids_threatened_pieces = map(lambda piece: piece.grid_coord, self.is_threat_to_these_pieces)
+        self.is_threat_to_these_squares = filter(lambda dest_grid_coord:
+                                                 dest_grid_coord not in grids_threatened_pieces,
+                                                 all_destinations)

@@ -171,6 +171,23 @@ class ThreatTests(unittest.TestCase):
         self.failUnless(util.compare_lists(expected_squares_grid,
                                            pawn_black.is_threat_to_these_squares))
 
+    def test_knight_threat_squares(self):
+        pawn_black = Pawn(ChessCoord('A', '2'), black, go_south)
+        knight_white = Knight(ChessCoord('C', '1'), white)
+
+        pieces = [pawn_black, knight_white]
+
+        expected_squares_chess = [
+            ChessCoord('B', '3'),
+            ChessCoord('D', '3'),
+            ChessCoord('E', '2'),
+        ]
+        knight_white.analyze_threats_on_board_for_new_move(pieces, ChessCoord('C', '1'))
+
+        expected_squares_grid = map(chess_coord_to_grid_coord, expected_squares_chess)
+        self.failUnless(util.compare_lists(expected_squares_grid,
+                                           knight_white.is_threat_to_these_squares))
+
 def main():
     unittest.main()
 
