@@ -121,8 +121,7 @@ class ThreatTests(unittest.TestCase):
         rook_white.analyze_threats_on_board_for_new_move(pieces,
                                                          ChessCoord('F', '4'))
 
-        expected_squares_chess = [  # north
-
+        expected_squares_chess = [
             ChessCoord('F', '3'),  # south
             ChessCoord('F', '2'),
             ChessCoord('F', '1'),
@@ -140,7 +139,37 @@ class ThreatTests(unittest.TestCase):
         self.failUnless(util.compare_lists(expected_squares_grid,
                                            rook_white.is_threat_to_these_squares))
 
+    def test_pawn_threat_squares_blocking_pieces(self):
+        pawn_black_1 = Pawn(ChessCoord('C', '7'), black, go_south)
+        pawn_black_2 = Pawn(ChessCoord('D', '6'), black, go_south)
 
+        pieces = [pawn_black_1, pawn_black_2]
+
+        expected_squares_chess = [
+            ChessCoord('B', '6')
+        ]
+        pawn_black_1.analyze_threats_on_board_for_new_move(pieces, ChessCoord('C', '7'))
+
+        expected_squares_grid = map(chess_coord_to_grid_coord, expected_squares_chess)
+        self.failUnless(util.compare_lists(expected_squares_grid,
+                                           pawn_black_1.is_threat_to_these_squares))
+
+    def test_pawn_threat_squares_en_passant(self):
+        pawn_black = Pawn(ChessCoord('C', '3'), black, go_south)
+        pawn_white = Pawn(ChessCoord('D', '2'), white, go_north)
+        pawn_white.update_coords(ChessCoord('D', '4'))
+
+        pieces = [pawn_black, pawn_white]
+
+        expected_squares_chess = [
+            ChessCoord('B', '2'),
+            ChessCoord('D', '2')
+        ]
+        pawn_black.analyze_threats_on_board_for_new_move(pieces, ChessCoord('C', '3'))
+
+        expected_squares_grid = map(chess_coord_to_grid_coord, expected_squares_chess)
+        self.failUnless(util.compare_lists(expected_squares_grid,
+                                           pawn_black.is_threat_to_these_squares))
 
 def main():
     unittest.main()

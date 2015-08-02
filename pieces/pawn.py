@@ -53,7 +53,7 @@ class Pawn(Piece):
             else:
                 return MoveInspectResult(True, False, [grid_move], possible_piece)
         else:
-            return MoveInspectResult(False, False, [], None)
+            return MoveInspectResult(False, False, [grid_move], None)
 
     def register_possible_en_passant(self, chess_coord):
         grid_move = bps.chess_coord_to_grid_coord(chess_coord)
@@ -113,7 +113,7 @@ class Pawn(Piece):
                                               take_dir_move[1] is not None,
                                               taking_directions_move)
 
-        move_inspect_results = \
+        inspect_move_results = \
             map(lambda take_dir_move: self.inspect_taking_move(pieces,
                                                                take_dir_move[1],
                                                                take_dir_move[0]),
@@ -121,7 +121,12 @@ class Pawn(Piece):
 
         move_inspect_results_only_with_pieces = filter(lambda mir:
                                                        mir.possible_piece is not None,
-                                                       move_inspect_results)
+                                                       inspect_move_results)
+
+        move_inspect_results_only_with_no_pieces = filter(lambda mir:
+                                                       mir.possible_piece is None,
+                                                       inspect_move_results)
+        self.add_all_squares_from_inspect_move_results_to_threat_list(move_inspect_results_only_with_no_pieces)
 
         self.is_threat_to_these_pieces = map(lambda mir: mir.possible_piece,
                                              move_inspect_results_only_with_pieces)

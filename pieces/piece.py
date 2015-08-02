@@ -78,6 +78,12 @@ class Piece(object):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
+    def add_all_squares_from_inspect_move_results_to_threat_list(self, inspect_move_results):
+        all_squares = map(lambda imr: imr.squares, inspect_move_results)
+        for squares in all_squares:
+            for square in squares:
+                self.is_threat_to_these_squares.append(square)
+
     def add_possible_pieces_and_squares_to_threat_list(self, pieces):
         self.is_threat_to_these_pieces = []
         self.is_threat_to_these_squares = []
@@ -87,11 +93,7 @@ class Piece(object):
             filter(lambda inspect_move_result: inspect_move_result.possible_piece
                    is not None,
                    inspect_move_results)
-
-        all_squares = map(lambda imr: imr.squares, inspect_move_results)
-        for squares in all_squares:
-            for square in squares:
-                self.is_threat_to_these_squares.append(square)
+        self.add_all_squares_from_inspect_move_results_to_threat_list(inspect_move_results)
 
         def add_possible_piece(possible_piece):
             if possible_piece.colour != self.colour:
