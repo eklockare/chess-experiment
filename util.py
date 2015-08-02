@@ -5,10 +5,15 @@ def compare_lists(one, two):
     def comparisons(check, other):
         return map(lambda el: el == check, other)
 
-    compares = map(lambda t: comparisons(t, one), two)
+    def counts(check, the_list):
+        return check, the_list.count(check)
+
+    counts_in_list_one = map(lambda o: counts(o, one), one)
+    counts_in_list_two = map(lambda t: counts(t, two), two)
+
+    compares = map(lambda t: comparisons(t, counts_in_list_one), counts_in_list_two)
     flatten_compares = flatten_list(compares)
     count_true = flatten_compares.count(True)
-
     return count_true == len(one)
 
 

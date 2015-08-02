@@ -75,6 +75,40 @@ class UtilTests(unittest.TestCase):
 
         self.failUnless(result)
 
+    def test_util_compare_value_lists_one_extra(self):
+        listone = [
+            GridCoord(6, 5),
+            GridCoord(6, 5),
+            GridCoord(5, 5),
+            GridCoord(3, 5),
+            GridCoord(2, 5),
+            GridCoord(1, 5),
+            GridCoord(0, 5)]
+        listtwo = [
+            GridCoord(6, 5),
+            GridCoord(5, 5),
+            GridCoord(3, 5),
+            GridCoord(2, 5),
+            GridCoord(1, 5),
+            GridCoord(0, 5)]
+
+        result = util.compare_lists(listone, listtwo)
+        result_reversed = util.compare_lists(listtwo, listone)
+
+        self.failIf(result)
+        self.failIf(result_reversed)
+
+    def test_util_compare_value_lists_chess_coord_same(self):
+        listone = [
+            ChessCoord('E', '6'),
+            ChessCoord('E', '8')]
+        listtwo = [
+            ChessCoord('E', '8'),
+            ChessCoord('E', '8')]
+
+        result = util.compare_lists(listone, listtwo)
+        self.failIf(result)
+
 
 def main():
     unittest.main()
