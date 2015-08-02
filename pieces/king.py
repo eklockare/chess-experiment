@@ -94,9 +94,12 @@ class King(Piece):
         castling_inspect_result.was_blocked = pieces_are_on_squares(
             squares_in_between, pieces)
 
-        is_valid_castling = possible_rook is not None and self.number_of_moves == 0 and \
+        has_not_moved = self.number_of_moves == 0
+        is_in_check = Piece.check_if_own_king_in_check(self, pieces)
+
+        is_valid_castling = possible_rook is not None and has_not_moved and \
                             not castling_inspect_result.was_blocked and not \
-                            squares_in_between_threatened
+                            squares_in_between_threatened and not is_in_check
 
         castling_inspect_result.is_valid_move = is_valid_castling
         castling_inspect_result.castling_rook = possible_rook

@@ -33,7 +33,7 @@ TODO:
     * ~~Move both rook and king~~
     * ~~Check that neither rook nor king have been moved during the game~~
     * ~~Check if piece is attacking in between squares~~
-    * Check if king is in check before castling
+    * ~~Check if king is in check before castling~~
     * Check if king would be in check after castling
 
 7. Can't take king

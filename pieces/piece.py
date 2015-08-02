@@ -109,23 +109,21 @@ class Piece(object):
             inspect_move_results_with_possible_pieces)
 
     def check_for_putting_self_in_check(self, pieces, new_coordinates, move_inspect_result):
+        self.analyze_threats_on_board_for_new_move(pieces,
+                                                   new_coordinates,
+                                                   move_inspect_result.possible_piece)
+        return self.check_if_own_king_in_check(pieces)
+
+    def check_if_own_king_in_check(self, pieces):
         def detect_move_piece_king(piece):
             possible_own_king = filter(lambda threatened_piece: threatened_piece.letter == 'K'
                                        and threatened_piece.colour == self.colour,
                                        piece.is_threat_to_these_pieces)
             return len(possible_own_king) > 0
-
-        self.analyze_threats_on_board_for_new_move(pieces,
-                                                   new_coordinates,
-                                                   move_inspect_result.possible_piece)
         own_king_checked = True in map(detect_move_piece_king, pieces)
         return own_king_checked
 
-    def analyze_threats_on_board_for_new_move(self, pieces,
-                                              new_coordinates,
-                                              possible_piece=None):
-        old_coords = self.chess_coord
-        self.dry_run_update_coords(new_coordinates)
+    def analyze_threats_on_board(self, pieces, possible_piece=None):
         pieces_without_possible_piece = filter(lambda piece: piece is not possible_piece,
                                                pieces)
         if possible_piece:
@@ -134,6 +132,13 @@ class Piece(object):
         map(lambda piece:
             piece.add_possible_pieces_and_squares_to_threat_list(pieces_without_possible_piece),
             pieces_without_possible_piece)
+
+    def analyze_threats_on_board_for_new_move(self, pieces,
+                                              new_coordinates,
+                                              possible_piece=None):
+        old_coords = self.chess_coord
+        self.dry_run_update_coords(new_coordinates)
+        self.analyze_threats_on_board(pieces, possible_piece)
 
         self.dry_run_update_coords(old_coords)
 

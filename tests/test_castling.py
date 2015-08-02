@@ -134,6 +134,18 @@ class BishopTests(unittest.TestCase):
                         CastlingMoveInspectResult(True, False, True, False, a8_rook,
                                                   ChessCoord('C', '8')))
 
+    def test_castling_not_possible_if_in_check(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        e4_rook_black = Rook(ChessCoord('E', '4'), black)
+        pieces = [e1_king, h1_rook, e4_rook_black]
+        inspect_move_result = e1_king.inspect_move(pieces,
+                                                   ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, False, h1_rook,
+                                                  ChessCoord('F', '1')))
+
 def main():
     unittest.main()
 
