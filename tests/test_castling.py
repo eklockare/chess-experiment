@@ -11,7 +11,7 @@ from starting_pieces import starting_pieces
 from util import select_piece
 import directions
 
-# self.pieces = copy.deepcopy(starting_pieces)
+
 class BishopTests(unittest.TestCase):
     def setUp(self):
         pass
@@ -24,7 +24,7 @@ class BishopTests(unittest.TestCase):
                                                         ChessCoord('G', '1'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(True, False, True, h1_rook,
+                        CastlingMoveInspectResult(True, False, True, False, h1_rook,
                                                   ChessCoord('F', '1')))
 
     def test_castling_should_not_be_possible_if_king_has_moved(self):
@@ -35,7 +35,7 @@ class BishopTests(unittest.TestCase):
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(False, False, True, h1_rook,
+                        CastlingMoveInspectResult(False, False, True, False, h1_rook,
                                                   ChessCoord('F', '1')))
 
     def test_castling_should_not_be_possible_if_king_has_moved_and_moved_back(self):
@@ -47,7 +47,7 @@ class BishopTests(unittest.TestCase):
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(False, False, True, h1_rook,
+                        CastlingMoveInspectResult(False, False, True, False, h1_rook,
                                                   ChessCoord('F', '1')))
 
     def test_castling_should_not_be_possible_if_rook_has_moved(self):
@@ -58,7 +58,7 @@ class BishopTests(unittest.TestCase):
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(False, False, True, None,
+                        CastlingMoveInspectResult(False, False, True, False, None,
                                                   ChessCoord('F', '1')))
 
     def test_castling_should_not_be_possible_if_rook_has_moved_and_moved_back(self):
@@ -70,7 +70,7 @@ class BishopTests(unittest.TestCase):
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(False, False, True, None,
+                        CastlingMoveInspectResult(False, False, True, False, None,
                                                   ChessCoord('F', '1')))
 
     def test_castling_should_not_be_possible_with_pieces_in_the_way(self):
@@ -78,11 +78,26 @@ class BishopTests(unittest.TestCase):
         a1_rook = select_piece(ChessCoord('A', '1'), all_pieces)
         e1_king = select_piece(ChessCoord('E', '1'), all_pieces)
 
-        inspect_move_result = e1_king.inspect_move(all_pieces ,
-                                                        ChessCoord('B', '1'))
+        inspect_move_result = e1_king.inspect_move(all_pieces,
+                                                   ChessCoord('B', '1'))
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(False, True, True, a1_rook,
+                        CastlingMoveInspectResult(False, True, True, False, a1_rook,
                                                   ChessCoord('C', '1')))
+
+
+
+
+    def test_castling_invalid_enemy_piece_attacks_square_in_between(self):
+        e1_king = King(ChessCoord('E', '1'), white)
+        h1_rook = Rook(ChessCoord('H', '1'), white)
+        f5_rook = Rook(ChessCoord('F', '5'), black)
+        pieces = [e1_king, h1_rook, f5_rook]
+        inspect_move_result = e1_king.inspect_move(pieces,
+                                                   ChessCoord('G', '1'))
+
+        self.failUnless(inspect_move_result ==
+                        CastlingMoveInspectResult(False, False, True, True, h1_rook,
+                                                  ChessCoord('F', '1')))
 
     def test_castling_be_possible_for_north_side(self):
         all_pieces = copy.deepcopy(starting_pieces)
@@ -93,10 +108,11 @@ class BishopTests(unittest.TestCase):
         g8_knight.update_coords(ChessCoord('H', '6'))
         f8_bishop.update_coords(ChessCoord('D', '6'))
 
-        inspect_move_result = e8_king.inspect_move(all_pieces ,
+        inspect_move_result = e8_king.inspect_move(all_pieces,
                                                    ChessCoord('G', '8'))
+
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(True, False, True, h8_rook,
+                        CastlingMoveInspectResult(True, False, True, False, h8_rook,
                                                   ChessCoord('F', '8')))
 
     def test_castling_be_possible_for_north_side_long(self):
@@ -115,7 +131,7 @@ class BishopTests(unittest.TestCase):
                                                    ChessCoord('B', '8'))
 
         self.failUnless(inspect_move_result ==
-                        CastlingMoveInspectResult(True, False, True, a8_rook,
+                        CastlingMoveInspectResult(True, False, True, False, a8_rook,
                                                   ChessCoord('C', '8')))
 
 def main():

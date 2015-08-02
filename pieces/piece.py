@@ -1,5 +1,6 @@
 import board_parts
 from move_inspect_result import MoveInspectResult
+import util
 
 
 def find_possible_piece(pieces, grid_coord):
@@ -78,6 +79,10 @@ class Piece(object):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
+    def dry_run_update_coords(self, chess_coord):
+        self.chess_coord = chess_coord
+        self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
+
     def add_all_squares_from_inspect_move_results_to_threat_list(self, inspect_move_results):
         all_squares = map(lambda imr: imr.squares, inspect_move_results)
         for squares in all_squares:
@@ -120,7 +125,7 @@ class Piece(object):
                                               new_coordinates,
                                               possible_piece=None):
         old_coords = self.chess_coord
-        self.update_coords(new_coordinates)
+        self.dry_run_update_coords(new_coordinates)
         pieces_without_possible_piece = filter(lambda piece: piece is not possible_piece,
                                                pieces)
         if possible_piece:
@@ -130,7 +135,13 @@ class Piece(object):
             piece.add_possible_pieces_and_squares_to_threat_list(pieces_without_possible_piece),
             pieces_without_possible_piece)
 
-        self.update_coords(old_coords)
+        self.dry_run_update_coords(old_coords)
+
+    def get_all_squares_the_enemy_threatens(self, pieces):
+        enemy_pieces = filter(lambda piece: piece.colour != self.colour, pieces)
+        squares_unflattened = map(lambda piece: piece.is_threat_to_these_squares,
+                                  enemy_pieces)
+        return util.flatten_list(squares_unflattened)
 
     def __str__(self):
         if self.colour == board_parts.black:

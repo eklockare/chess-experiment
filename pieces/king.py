@@ -2,9 +2,10 @@
 from castling_moves_definition import castling_moves_squares_and_rook_coord_dict
 from move_inspect_result import MoveInspectResult, CastlingMoveInspectResult
 from pieces.piece import Piece
-from board_parts import white, black, ChessCoord
+from board_parts import white, black, ChessCoord, chess_coord_to_grid_coord
 from directions import move_directions_queen
 from util import select_piece, select_pieces
+import util
 
 
 class King(Piece):
@@ -62,7 +63,9 @@ class King(Piece):
             found_pieces = filter(lambda sr: sr is not None, selection_result)
             return found_pieces != []
 
-        castling_inspect_result = CastlingMoveInspectResult(False, False, False, None, None)
+        castling_inspect_result = CastlingMoveInspectResult(False, False,
+                                                            False, False,
+                                                            None, None)
         if str(move) in castling_moves_squares_and_rook_coord_dict:
             castling_squares_and_rook_coord = \
                 castling_moves_squares_and_rook_coord_dict[str(move)]
@@ -80,15 +83,26 @@ class King(Piece):
 
         squares_in_between = castling_squares_and_rook_coord['squares_in_between']
 
+        grid_squares_in_between = map(chess_coord_to_grid_coord, squares_in_between)
+        self.analyze_threats_on_board_for_new_move(pieces, self.chess_coord)
+
+        threatened_squares = self.get_all_squares_the_enemy_threatens(pieces)
+        squares_in_between_threatened = True in map(lambda inbetween_square:
+                                                        inbetween_square in threatened_squares,
+                                                        grid_squares_in_between)
+
         castling_inspect_result.was_blocked = pieces_are_on_squares(
             squares_in_between, pieces)
 
         is_valid_castling = possible_rook is not None and self.number_of_moves == 0 and \
-                            not castling_inspect_result.was_blocked
+                            not castling_inspect_result.was_blocked and not \
+                            squares_in_between_threatened
 
         castling_inspect_result.is_valid_move = is_valid_castling
         castling_inspect_result.castling_rook = possible_rook
         castling_inspect_result.new_coord_rook = \
             castling_squares_and_rook_coord['new_rook_coord']
+        castling_inspect_result.squares_in_between_threatened = \
+            squares_in_between_threatened
 
         return castling_inspect_result
