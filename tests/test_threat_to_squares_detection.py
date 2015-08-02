@@ -111,6 +111,34 @@ class ThreatTests(unittest.TestCase):
         self.failUnless(util.compare_lists(expected_squares_grid,
                                            queen_white.is_threat_to_these_squares))
 
+    def test_rook_threat_squares_blocking_pieces(self):
+        queen_white = Queen(ChessCoord('A', '4'), white)
+        rook_white = Rook(ChessCoord('F', '4'), white)
+
+        pawn_black_1 = Pawn(ChessCoord('F', '5'), black, go_south)
+        pawn_black_2 = Pawn(ChessCoord('H', '4'), black, go_south)
+        pieces = [queen_white, pawn_black_1, pawn_black_2, rook_white]
+        rook_white.analyze_threats_on_board_for_new_move(pieces,
+                                                         ChessCoord('F', '4'))
+
+        expected_squares_chess = [  # north
+
+            ChessCoord('F', '3'),  # south
+            ChessCoord('F', '2'),
+            ChessCoord('F', '1'),
+
+            ChessCoord('B', '4'),  # west
+            ChessCoord('C', '4'),
+            ChessCoord('D', '4'),
+            ChessCoord('E', '4'),
+
+            ChessCoord('G', '4'),  # east
+        ]
+
+        expected_squares_grid = map(chess_coord_to_grid_coord, expected_squares_chess)
+
+        self.failUnless(util.compare_lists(expected_squares_grid,
+                                           rook_white.is_threat_to_these_squares))
 
 
 
