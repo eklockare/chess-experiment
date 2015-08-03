@@ -133,7 +133,7 @@ class Piece(object):
     def analyze_threats_on_board(self, pieces, possible_piece=None):
         pieces_without_possible_piece = filter(lambda piece: piece is not possible_piece,
                                                pieces)
-        if possible_piece:
+        if possible_piece:  # TODO: make clear that possible piece is gone enemy piece
             possible_piece.is_threat_to_these_pieces = []
 
         map(lambda piece:
