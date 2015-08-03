@@ -40,7 +40,7 @@ TODO:
     * ~~Block enemies from taking the king~~
 
 8. Check mate
-    * Detect when it's check mate
+    * ~~Detect when it's check mate~~
 
 9. Implement turns
     * Make Player modules that can be played be a human or by the computer

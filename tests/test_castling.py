@@ -6,6 +6,7 @@ from board_parts import GridCoord, ChessCoord, black, white
 from move_inspect_result import MoveInspectResult, CastlingMoveInspectResult
 from pieces.bishop import Bishop
 from pieces.king import King
+from pieces.queen import Queen
 from pieces.rook import Rook
 from starting_pieces import starting_pieces
 from util import select_piece
