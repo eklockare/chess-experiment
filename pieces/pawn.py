@@ -47,6 +47,9 @@ class Pawn(Piece):
         if len(pawns_that_have_en_passant_on_this_move) == 1:
             possible_piece = pawns_that_have_en_passant_on_this_move[0]
 
+        if move_inspect_result_direction.was_blocked:
+            return move_inspect_result_direction
+
         if ok_num_of_steps and valid_taking_direction and possible_piece:
             if possible_piece.colour == self.colour:
                 return MoveInspectResult(False, True, [grid_move], possible_piece)

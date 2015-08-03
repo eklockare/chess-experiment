@@ -23,21 +23,28 @@ class Piece(object):
         self.is_threat_to_these_squares = []
         self.number_of_moves = 0
 
+    def piece_is_enemy_king(self, piece):
+        return piece.letter == 'K' and piece.colour != self.colour
+
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
         if not new_coord_grid:
             return MoveInspectResult(False, False, squares, None)
 
-
-        possible_piece = find_possible_piece(pieces, new_coord_grid)
+        possible_piece = find_possible_piece(pieces, new_coord_grid) #TODO change to util select piece
         if to_coord == new_coord_grid:
-            squares.append(new_coord_grid)
             if possible_piece:
                 if possible_piece.colour == self.colour:
+                    squares.append(new_coord_grid)
                     return MoveInspectResult(False, True, squares, possible_piece)
                 else:
-                    return MoveInspectResult(True, False, squares, possible_piece)
+                    if self.piece_is_enemy_king(possible_piece):
+                        return MoveInspectResult(False, True, squares, possible_piece)
+                    else:
+                        squares.append(new_coord_grid)
+                        return MoveInspectResult(True, False, squares, possible_piece)
             else:
+                squares.append(new_coord_grid)
                 return MoveInspectResult(True, False, squares, None)
 
         elif possible_piece:

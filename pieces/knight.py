@@ -24,14 +24,15 @@ class Knight(Piece):
 
         grid_move = bps.chess_coord_to_grid_coord(move)
 
-        possible_piece = find_possible_piece(pieces, grid_move)
+        possible_piece = find_possible_piece(pieces, grid_move) # TODO: change to util select piece
 
         valid_move = grid_move in all_destinations
 
         move_inspect_result = MoveInspectResult(valid_move, False, [], possible_piece)
 
         if possible_piece:
-            if possible_piece.colour == self.colour:
+            if possible_piece.colour == self.colour or \
+                    self.piece_is_enemy_king(possible_piece):
                 move_inspect_result.was_blocked = True
                 move_inspect_result.is_valid_move = False
             else:
