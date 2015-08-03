@@ -37,7 +37,7 @@ TODO:
     * ~~Check if king would be in check after castling~~
 
 7. Can't take king
-    * Block enemies from taking the king
+    * ~~Block enemies from taking the king~~
 
 8. Check mate
     * Detect when it's check mate
