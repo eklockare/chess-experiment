@@ -37,7 +37,7 @@ IS_NOT_PIECE_ROW = False
 
 
 def grid_coord_to_chess_coord(grid_coord):
-    return GridCoord(GRID_TO_CHESS_COLUMNS[grid_coord.col], GRID_TO_CHESS_ROWS[grid_coord.row])
+    return ChessCoord(GRID_TO_CHESS_COLUMNS[grid_coord.col], GRID_TO_CHESS_ROWS[grid_coord.row])
 
 
 def chess_coord_to_grid_coord(chess_coord):
