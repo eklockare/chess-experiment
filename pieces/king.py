@@ -26,7 +26,8 @@ class King(Piece):
         return move_check_results
 
     def check_for_putting_self_in_check(self, pieces, new_coordinates, move_inspect_result):
-        if move_inspect_result.was_castling_attempt:
+        if move_inspect_result.was_castling_attempt and \
+                move_inspect_result.is_valid_move:
             rook_old_coord = move_inspect_result.castling_rook.chess_coord
             new_coord_rook = move_inspect_result.new_coord_rook
             move_inspect_result.castling_rook.update_coords(new_coord_rook)
