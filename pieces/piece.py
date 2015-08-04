@@ -17,7 +17,10 @@ class Piece(object):
         self.number_of_moves = 0
 
     def piece_is_enemy_king(self, piece):
-        return piece.letter == 'K' and piece.colour != self.colour
+        if piece is not None:
+            return piece.letter == 'K' and piece.colour != self.colour
+        else:
+            return False
 
     def paths_and_piece_in_direction(self, from_coord, to_coord, pieces, direction, squares):
         new_coord_grid = direction(from_coord)
@@ -25,25 +28,20 @@ class Piece(object):
             return MoveInspectResult(False, False, squares, None)
 
         possible_piece = select_piece(new_coord_grid, pieces)
-        if to_coord == new_coord_grid:
-            if possible_piece:
-                if possible_piece.colour == self.colour:
-                    squares.append(new_coord_grid)
-                    return MoveInspectResult(False, True, squares, possible_piece)
-                else:
-                    if self.piece_is_enemy_king(possible_piece):
-                        return MoveInspectResult(False, True, squares, possible_piece)
-                    else:
-                        squares.append(new_coord_grid)
-                        return MoveInspectResult(True, False, squares, possible_piece)
-            else:
-                squares.append(new_coord_grid)
-                return MoveInspectResult(True, False, squares, None)
-
-        elif possible_piece:
+        if possible_piece and to_coord != new_coord_grid:
             return MoveInspectResult(False, True, squares, possible_piece)
+
+        if self.piece_is_enemy_king(possible_piece):
+            return MoveInspectResult(False, True, squares, possible_piece)
+
+        squares.append(new_coord_grid)
+        if to_coord == new_coord_grid:
+            if possible_piece is not None and \
+               possible_piece.colour == self.colour:
+                return MoveInspectResult(False, True, squares, possible_piece)
+            else:
+                return MoveInspectResult(True, False, squares, possible_piece)
         else:
-            squares.append(new_coord_grid)
             return self.paths_and_piece_in_direction(new_coord_grid, to_coord, pieces, direction, squares)
 
     def check_all_directions(self, pieces, move_to):
