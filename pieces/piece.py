@@ -1,3 +1,4 @@
+from board_analysis import analyze_threats_on_board
 import board_parts
 from move_inspect_result import MoveInspectResult
 from util import select_piece, flatten_list
@@ -122,22 +123,12 @@ class Piece(object):
         own_king_checked = True in map(detect_move_piece_king, pieces)
         return own_king_checked
 
-    def analyze_threats_on_board(self, pieces, possible_piece=None):
-        pieces_without_possible_piece = filter(lambda piece: piece is not possible_piece,
-                                               pieces)
-        if possible_piece:  # TODO: make clear that possible piece is gone enemy piece
-            possible_piece.is_threat_to_these_pieces = []
-
-        map(lambda piece:
-            piece.add_possible_pieces_and_squares_to_threat_list(pieces_without_possible_piece),
-            pieces_without_possible_piece)
-
     def analyze_threats_on_board_for_new_move(self, pieces,
                                               new_coordinates,
                                               possible_piece=None):
         old_coord = self.chess_coord
         self.dry_run_update_coord(new_coordinates)
-        self.analyze_threats_on_board(pieces, possible_piece)
+        analyze_threats_on_board(pieces, possible_piece)
 
         self.dry_run_update_coord(old_coord)
 

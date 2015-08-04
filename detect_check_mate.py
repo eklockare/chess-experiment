@@ -1,5 +1,6 @@
 import pprint
 from all_square_coords import all_chess_coords
+from board_analysis import analyze_threats_on_board
 import util
 
 
@@ -11,7 +12,7 @@ def detect_if_king_is_mate(colour, pieces):
 
     own_king = possible_king[0]
 
-    own_king.analyze_threats_on_board(pieces)
+    analyze_threats_on_board(pieces)
     in_check = own_king.check_if_own_king_in_check(pieces)
 
     if not in_check:
