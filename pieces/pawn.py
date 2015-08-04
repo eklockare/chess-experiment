@@ -88,6 +88,12 @@ class Pawn(Piece):
             move_inspect_result.is_valid_move = False
             move_inspect_result.was_blocked = True
 
+        move_inspect_result.will_put_self_in_check = \
+            self.check_for_putting_self_in_check(pieces, move, move_inspect_result)
+
+        move_inspect_result.is_valid_move = move_inspect_result.is_valid_move and \
+            not move_inspect_result.will_put_self_in_check
+
         return move_inspect_result
 
     def ok_number_steps(self, squares):

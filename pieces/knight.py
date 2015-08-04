@@ -39,6 +39,13 @@ class Knight(Piece):
             else:
                 move_inspect_result.is_valid_move = True
 
+        move_inspect_result.will_put_self_in_check = \
+                self.check_for_putting_self_in_check(pieces,
+                                                     move,
+                                                     move_inspect_result)
+        move_inspect_result.is_valid_move = move_inspect_result.is_valid_move and \
+                                            not move_inspect_result.will_put_self_in_check
+
         return move_inspect_result
 
     def add_possible_pieces_and_squares_to_threat_list(self, pieces):

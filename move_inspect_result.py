@@ -6,6 +6,7 @@ class MoveInspectResult:
         self.was_blocked = was_blocked
         self.squares = squares
         self.possible_piece = possible_piece
+        self.will_put_self_in_check = False
         self.was_castling_attempt = False  # TODO: ugly, will refactor
 
     def __str__(self):

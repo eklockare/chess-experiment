@@ -70,17 +70,15 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
         move_inspect_result = piece_to_move.inspect_move(pieces, new_coordinates)
 
         if not move_inspect_result.is_valid_move and not move_inspect_result.was_blocked:
-            move_piece(pieces, selected_coord, None, piece_to_move, "Invalid move for this piece")
+            if move_inspect_result.will_put_self_in_check:
+                move_piece(pieces, selected_coord, None, piece_to_move, "Check!")
+            else:
+                move_piece(pieces, selected_coord, None, piece_to_move, "Invalid move for this piece")
 
         elif move_inspect_result.was_blocked:
             move_piece(pieces, selected_coord, None, piece_to_move, "another piece is blocking that move")
 
-        will_put_self_in_check = \
-            piece_to_move.check_for_putting_self_in_check(pieces,
-                                                          new_coordinates,
-                                                          move_inspect_result)
-
-        if will_put_self_in_check:
+        if move_inspect_result.will_put_self_in_check:
             move_piece(pieces, selected_coord, None, piece_to_move, "Check!")
 
         if move_inspect_result.possible_piece:

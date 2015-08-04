@@ -62,7 +62,15 @@ class Piece(object):
                                  move_inspect_result.is_valid_move,
                                  inspect_move_results)
         if positive_result:
-            return positive_result[0]
+            move_inspect_result = positive_result[0]
+            move_inspect_result.will_put_self_in_check = \
+                self.check_for_putting_self_in_check(pieces,
+                                                     move,
+                                                     move_inspect_result)
+            move_inspect_result.is_valid_move = move_inspect_result.is_valid_move and \
+                not move_inspect_result.will_put_self_in_check
+
+            return move_inspect_result
         else:
             blocked_result = filter(lambda move_inspect_result:
                                     move_inspect_result.was_blocked,
