@@ -25,6 +25,12 @@ def select_piece(selected_coordinates, pieces):
                                            selected_coordinates, pieces)
     if len(piece_selection) > 0:
         return piece_selection[0]
+
+    piece_selection = filter(lambda piece: piece.grid_coord ==
+                                       selected_coordinates, pieces)
+
+    if len(piece_selection) > 0:
+        return piece_selection[0]
     else:
         return None
 

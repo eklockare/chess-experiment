@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
+from pieces.pawn import Pawn
+from pieces.rook import Rook
 
 import util
-from board_parts import ChessCoord, GridCoord
+from board_parts import ChessCoord, GridCoord, black
 
 
 class UtilTests(unittest.TestCase):
@@ -109,6 +111,20 @@ class UtilTests(unittest.TestCase):
         result = util.compare_lists(listone, listtwo)
         self.failIf(result)
 
+    def test_select_piece(self):
+        rook = Rook(ChessCoord('A', '1'), black)
+        pieces = [rook]
+        chess_coord = ChessCoord('A', '1')
+        selection = util.select_piece(chess_coord, pieces)
+        self.failUnless(selection == rook)
+
+        chess_coord = GridCoord(0, 0)
+        selection = util.select_piece(chess_coord, pieces)
+        self.failUnless(selection == rook)
+
+        chess_coord = GridCoord(0, 1)
+        selection = util.select_piece(chess_coord, pieces)
+        self.failUnless(selection is None)
 
 def main():
     unittest.main()
