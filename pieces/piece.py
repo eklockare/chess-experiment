@@ -135,11 +135,11 @@ class Piece(object):
     def analyze_threats_on_board_for_new_move(self, pieces,
                                               new_coordinates,
                                               possible_piece=None):
-        old_coords = self.chess_coord
+        old_coord = self.chess_coord
         self.dry_run_update_coords(new_coordinates)
         self.analyze_threats_on_board(pieces, possible_piece)
 
-        self.dry_run_update_coords(old_coords)
+        self.dry_run_update_coords(old_coord)
 
     def get_all_squares_the_enemy_threatens(self, pieces):
         enemy_pieces = filter(lambda piece: piece.colour != self.colour, pieces)
