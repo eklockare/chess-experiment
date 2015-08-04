@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from pieces.piece import Piece, find_possible_piece
+from pieces.piece import Piece
 from board_parts import white
 from directions import go_north, is_diagonal_move, \
     get_direction, go_north_west, go_north_east, go_south_east, go_south_west
 import board_parts as bps
 from move_inspect_result import MoveInspectResult
+from util import select_piece
 
 
 class Pawn(Piece):
@@ -43,7 +44,7 @@ class Pawn(Piece):
 
         ok_num_of_steps = len(move_inspect_result_direction.squares) == 1
         valid_taking_direction = self.is_valid_taking_direction(move_direction)
-        possible_piece = find_possible_piece(pieces, grid_move)
+        possible_piece = select_piece(grid_move, pieces)
         if len(pawns_that_have_en_passant_on_this_move) == 1:
             possible_piece = pawns_that_have_en_passant_on_this_move[0]
 

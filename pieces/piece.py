@@ -1,14 +1,6 @@
 import board_parts
 from move_inspect_result import MoveInspectResult
-import util
-
-
-def find_possible_piece(pieces, grid_coord):
-    possible_piece = filter(lambda piece: piece.grid_coord == grid_coord, pieces)
-    if possible_piece:
-        return possible_piece[0]
-    else:
-        return None
+from util import select_piece, flatten_list
 
 
 class Piece(object):
@@ -31,7 +23,7 @@ class Piece(object):
         if not new_coord_grid:
             return MoveInspectResult(False, False, squares, None)
 
-        possible_piece = find_possible_piece(pieces, new_coord_grid) #TODO change to util select piece
+        possible_piece = select_piece(new_coord_grid, pieces)
         if to_coord == new_coord_grid:
             if possible_piece:
                 if possible_piece.colour == self.colour:
@@ -153,7 +145,7 @@ class Piece(object):
         enemy_pieces = filter(lambda piece: piece.colour != self.colour, pieces)
         squares_unflattened = map(lambda piece: piece.is_threat_to_these_squares,
                                   enemy_pieces)
-        return util.flatten_list(squares_unflattened)
+        return flatten_list(squares_unflattened)
 
     def __str__(self):
         if self.colour == board_parts.black:

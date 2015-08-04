@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from move_inspect_result import MoveInspectResult
-from pieces.piece import Piece, find_possible_piece
+from pieces.piece import Piece
 from board_parts import white, black
 from directions import move_directions_knight
 import board_parts as bps
+from util import select_piece
 
 
 class Knight(Piece):
@@ -24,7 +25,7 @@ class Knight(Piece):
 
         grid_move = bps.chess_coord_to_grid_coord(move)
 
-        possible_piece = find_possible_piece(pieces, grid_move) # TODO: change to util select piece
+        possible_piece = select_piece(grid_move, pieces)
 
         valid_move = grid_move in all_destinations
 
