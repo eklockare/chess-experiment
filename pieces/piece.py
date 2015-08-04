@@ -73,12 +73,12 @@ class Piece(object):
             else:
                 return MoveInspectResult(False, False, [], None)
 
-    def update_coords(self, chess_coord):
+    def update_coord(self, chess_coord):
         self.number_of_moves += 1
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
-    def dry_run_update_coords(self, chess_coord):
+    def dry_run_update_coord(self, chess_coord):
         self.chess_coord = chess_coord
         self.grid_coord = board_parts.chess_coord_to_grid_coord(chess_coord)
 
@@ -136,10 +136,10 @@ class Piece(object):
                                               new_coordinates,
                                               possible_piece=None):
         old_coord = self.chess_coord
-        self.dry_run_update_coords(new_coordinates)
+        self.dry_run_update_coord(new_coordinates)
         self.analyze_threats_on_board(pieces, possible_piece)
 
-        self.dry_run_update_coords(old_coord)
+        self.dry_run_update_coord(old_coord)
 
     def get_all_squares_the_enemy_threatens(self, pieces):
         enemy_pieces = filter(lambda piece: piece.colour != self.colour, pieces)

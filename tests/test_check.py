@@ -33,8 +33,8 @@ class CheckTests(unittest.TestCase):
         self.failUnless(is_in_check)
 
     def test_piece_moves_and_puts_own_king_into_check(self):
-        self.bishop_black.update_coords(ChessCoord('B', '3'))
-        self.rook_white.update_coords(ChessCoord('D', '5'))
+        self.bishop_black.update_coord(ChessCoord('B', '3'))
+        self.rook_white.update_coord(ChessCoord('D', '5'))
         is_in_check = self.rook_white.check_for_putting_self_in_check(self.pieces,
                                                                       ChessCoord('D', '6'),
                                                                       self.move_inspect_result_no_piece)
@@ -48,7 +48,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('E', '4'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        e2_pawn.update_coords(ChessCoord('E', '4'))
+        e2_pawn.update_coord(ChessCoord('E', '4'))
 
         # move black pawn d6
         d7_pawn = select_piece(ChessCoord('D', '7'), all_pieces)
@@ -56,7 +56,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('D', '6'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        d7_pawn.update_coords(ChessCoord('D', '6'))
+        d7_pawn.update_coord(ChessCoord('D', '6'))
 
         # move black bishop g4
         c8_bishop = select_piece(ChessCoord('C', '8'), all_pieces)
@@ -64,7 +64,7 @@ class CheckTests(unittest.TestCase):
                                                                 ChessCoord('G', '4'),
                                                                 self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        c8_bishop.update_coords(ChessCoord('G', '4'))
+        c8_bishop.update_coord(ChessCoord('G', '4'))
 
         # move white king to e2
         e1_king = select_piece(ChessCoord('E', '1'), all_pieces)
@@ -72,7 +72,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('E', '2'),
                                                               self.move_inspect_result_no_piece)
         self.failUnless(is_in_check)
-        e1_king.update_coords(ChessCoord('E', '2'))
+        e1_king.update_coord(ChessCoord('E', '2'))
 
         # move white pawn to f3
         f2_pawn = select_piece(ChessCoord('F', '2'), all_pieces)
@@ -80,7 +80,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('F', '3'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        f2_pawn.update_coords(ChessCoord('F', '3'))
+        f2_pawn.update_coord(ChessCoord('F', '3'))
 
     def test_with_full_pieces_take_checking_piece(self):
         all_pieces = copy.deepcopy(starting_pieces)
@@ -90,7 +90,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('E', '4'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        e2_pawn.update_coords(ChessCoord('E', '4'))
+        e2_pawn.update_coord(ChessCoord('E', '4'))
 
         # move d7 pawn to d6
         d7_pawn = select_piece(ChessCoord('D', '7'), all_pieces)
@@ -98,7 +98,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('D', '6'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        d7_pawn.update_coords(ChessCoord('D', '6'))
+        d7_pawn.update_coord(ChessCoord('D', '6'))
 
         # move f1 bishop to b5
         f1_bishop = select_piece(ChessCoord('F', '1'), all_pieces)
@@ -106,7 +106,7 @@ class CheckTests(unittest.TestCase):
                                                                 ChessCoord('B', '5'),
                                                                 self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        f1_bishop.update_coords(ChessCoord('B', '5'))
+        f1_bishop.update_coord(ChessCoord('B', '5'))
 
         # move c7 pawn to c6
         c7_pawn = select_piece(ChessCoord('C', '7'), all_pieces)
@@ -114,7 +114,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('C', '6'),
                                                               self.move_inspect_result_no_piece)
         self.failIf(is_in_check)
-        c7_pawn.update_coords(ChessCoord('C', '6'))
+        c7_pawn.update_coord(ChessCoord('C', '6'))
 
         # move b5 bishop to c6 take
         b5_bishop = select_piece(ChessCoord('B', '5'), all_pieces)
@@ -122,7 +122,7 @@ class CheckTests(unittest.TestCase):
                                                                 ChessCoord('C', '6'),
                                                                 MoveInspectResult(True, False, [], c7_pawn))
         self.failIf(is_in_check)
-        b5_bishop.update_coords(ChessCoord('C', '6'))
+        b5_bishop.update_coord(ChessCoord('C', '6'))
         all_pieces.remove(c7_pawn)
 
         # move b7 to c6
@@ -131,7 +131,7 @@ class CheckTests(unittest.TestCase):
                                                               ChessCoord('C', '6'),
                                                               MoveInspectResult(True, False, [], b5_bishop))
         self.failIf(is_in_check)
-        b7_pawn.update_coords(ChessCoord('C', '6'))
+        b7_pawn.update_coord(ChessCoord('C', '6'))
         all_pieces.remove(b5_bishop)
 
 def main():

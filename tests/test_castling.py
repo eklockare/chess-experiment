@@ -30,7 +30,7 @@ class BishopTests(unittest.TestCase):
 
     def test_castling_should_not_be_possible_if_king_has_moved(self):
         e1_king = King(ChessCoord('E', '1'), white)
-        e1_king.update_coords(ChessCoord('E', '2'))
+        e1_king.update_coord(ChessCoord('E', '2'))
         h1_rook = Rook(ChessCoord('H', '1'), white)
         pieces = [e1_king, h1_rook]
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
@@ -41,8 +41,8 @@ class BishopTests(unittest.TestCase):
 
     def test_castling_should_not_be_possible_if_king_has_moved_and_moved_back(self):
         e1_king = King(ChessCoord('E', '1'), white)
-        e1_king.update_coords(ChessCoord('E', '2'))
-        e1_king.update_coords(ChessCoord('E', '1'))
+        e1_king.update_coord(ChessCoord('E', '2'))
+        e1_king.update_coord(ChessCoord('E', '1'))
         h1_rook = Rook(ChessCoord('H', '1'), white)
         pieces = [e1_king, h1_rook]
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
@@ -54,7 +54,7 @@ class BishopTests(unittest.TestCase):
     def test_castling_should_not_be_possible_if_rook_has_moved(self):
         e1_king = King(ChessCoord('E', '1'), white)
         h1_rook = Rook(ChessCoord('H', '1'), white)
-        h1_rook.update_coords(ChessCoord('H', '2'))
+        h1_rook.update_coord(ChessCoord('H', '2'))
         pieces = [e1_king, h1_rook]
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
@@ -65,8 +65,8 @@ class BishopTests(unittest.TestCase):
     def test_castling_should_not_be_possible_if_rook_has_moved_and_moved_back(self):
         e1_king = King(ChessCoord('E', '1'), white)
         h1_rook = Rook(ChessCoord('H', '1'), white)
-        h1_rook.update_coords(ChessCoord('H', '2'))
-        h1_rook.update_coords(ChessCoord('H', '1'))
+        h1_rook.update_coord(ChessCoord('H', '2'))
+        h1_rook.update_coord(ChessCoord('H', '1'))
         pieces = [e1_king, h1_rook]
         inspect_move_result = e1_king.inspect_move(pieces, ChessCoord('G', '1'))
 
@@ -106,8 +106,8 @@ class BishopTests(unittest.TestCase):
         e8_king = select_piece(ChessCoord('E', '8'), all_pieces)
         g8_knight = select_piece(ChessCoord('G', '8'), all_pieces)
         f8_bishop = select_piece(ChessCoord('F', '8'), all_pieces)
-        g8_knight.update_coords(ChessCoord('H', '6'))
-        f8_bishop.update_coords(ChessCoord('D', '6'))
+        g8_knight.update_coord(ChessCoord('H', '6'))
+        f8_bishop.update_coord(ChessCoord('D', '6'))
 
         inspect_move_result = e8_king.inspect_move(all_pieces,
                                                    ChessCoord('G', '8'))
@@ -124,9 +124,9 @@ class BishopTests(unittest.TestCase):
         d8_queen = select_piece(ChessCoord('D', '8'), all_pieces)
         b8_knight = select_piece(ChessCoord('B', '8'), all_pieces)
         c8_bishop = select_piece(ChessCoord('C', '8'), all_pieces)
-        d8_queen.update_coords(ChessCoord('D', '6'))
-        b8_knight.update_coords(ChessCoord('C', '6'))
-        c8_bishop.update_coords(ChessCoord('A', '6'))
+        d8_queen.update_coord(ChessCoord('D', '6'))
+        b8_knight.update_coord(ChessCoord('C', '6'))
+        c8_bishop.update_coord(ChessCoord('A', '6'))
 
         inspect_move_result = e8_king.inspect_move(all_pieces,
                                                    ChessCoord('B', '8'))

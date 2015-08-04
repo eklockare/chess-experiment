@@ -157,7 +157,7 @@ class ThreatTests(unittest.TestCase):
     def test_pawn_threat_squares_en_passant(self):
         pawn_black = Pawn(ChessCoord('C', '3'), black, go_south)
         pawn_white = Pawn(ChessCoord('D', '2'), white, go_north)
-        pawn_white.update_coords(ChessCoord('D', '4'))
+        pawn_white.update_coord(ChessCoord('D', '4'))
 
         pieces = [pawn_black, pawn_white]
 

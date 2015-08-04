@@ -68,9 +68,9 @@ class Pawn(Piece):
         else:
             self.en_passant_square = None
 
-    def update_coords(self, chess_coord):
+    def update_coord(self, chess_coord):
         self.register_possible_en_passant(chess_coord)
-        Piece.update_coords(self, chess_coord)
+        Piece.update_coord(self, chess_coord)
 
     def inspect_move(self, pieces, move):
         grid_move = bps.chess_coord_to_grid_coord(move)

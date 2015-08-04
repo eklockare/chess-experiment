@@ -30,13 +30,13 @@ class King(Piece):
                 move_inspect_result.is_valid_move:
             rook_old_coord = move_inspect_result.castling_rook.chess_coord
             new_coord_rook = move_inspect_result.new_coord_rook
-            move_inspect_result.castling_rook.update_coords(new_coord_rook)
+            move_inspect_result.castling_rook.update_coord(new_coord_rook)
             check_result = Piece.check_for_putting_self_in_check(self,
                                                                  pieces,
                                                                  new_coordinates,
                                                                  move_inspect_result)
 
-            move_inspect_result.castling_rook.update_coords(rook_old_coord)
+            move_inspect_result.castling_rook.update_coord(rook_old_coord)
             return check_result
         else:
             return Piece.check_for_putting_self_in_check(self,

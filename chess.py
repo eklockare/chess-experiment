@@ -86,9 +86,9 @@ def game_loop(pieces, selected_coord, moved_to_coords, piece_to_move):
         if move_inspect_result.possible_piece:
             pieces.remove(move_inspect_result.possible_piece)
 
-        piece_to_move.update_coords(new_coordinates)
+        piece_to_move.update_coord(new_coordinates)
         if move_inspect_result.was_castling_attempt:
-            move_inspect_result.castling_rook.update_coords(
+            move_inspect_result.castling_rook.update_coord(
                 move_inspect_result.new_coord_rook)
         moved_to_coord = chess_coord_to_grid_coord(new_coordinates)
         game_loop(pieces, None, moved_to_coord, None)

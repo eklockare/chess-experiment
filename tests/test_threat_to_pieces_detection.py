@@ -52,7 +52,7 @@ class ThreatTests(unittest.TestCase):
         pieces = self.pieces + [Pawn(ChessCoord('C', '3'), black, go_north),
                                 Knight(ChessCoord('C', '1'), black),
                                 ]
-        self.knight_white.update_coords(ChessCoord('A', '4'))
+        self.knight_white.update_coord(ChessCoord('A', '4'))
         self.knight_white.analyze_threats_on_board_for_new_move(pieces,
                                                                 ChessCoord('B', '2'))
 
@@ -118,7 +118,7 @@ class ThreatTests(unittest.TestCase):
     def test_pawn_threatens_appropriate_pieces_with_en_passant_in_front_of_it(self):
         pieces = copy.deepcopy(starting_pieces)
         g7_pawn = select_piece(ChessCoord('G', '7'), pieces)
-        g7_pawn.update_coords(ChessCoord('G', '5'))
+        g7_pawn.update_coord(ChessCoord('G', '5'))
 
         f2_pawn = select_piece(ChessCoord('F', '2'), pieces)
         f2_pawn.analyze_threats_on_board_for_new_move(pieces,
