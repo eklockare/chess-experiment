@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 from move_inspect_result import MoveInspectResult
 from pieces.piece import Piece
 from board_parts import white, black
@@ -18,7 +19,7 @@ class Knight(Piece):
         all_destinations = map(lambda move_direction:
                                move_direction(self.grid_coord),
                                self.move_directions)
-        return filter(lambda dest: dest, all_destinations)
+        return filter(lambda dest: dest is not None, all_destinations)
 
     def inspect_move(self, pieces, move):
         all_destinations = self.get_all_destinations()
@@ -36,8 +37,6 @@ class Knight(Piece):
                     self.piece_is_enemy_king(possible_piece):
                 move_inspect_result.was_blocked = True
                 move_inspect_result.is_valid_move = False
-            else:
-                move_inspect_result.is_valid_move = True
 
         move_inspect_result.will_put_self_in_check = \
                 self.check_for_putting_self_in_check(pieces,

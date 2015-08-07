@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+import copy
 import unittest
 
 from board_parts import GridCoord, ChessCoord, black, white
 from move_inspect_result import MoveInspectResult
 from pieces.knight import Knight
 from pieces.pawn import Pawn
-import util
+from starting_pieces import starting_pieces
+from util import select_piece, compare_lists
 import directions
 
 
@@ -22,7 +24,7 @@ class KnightTests(unittest.TestCase):
         self.failUnless(self.knight_white.grid_coord == GridCoord(2, 1))
         self.failUnless(self.knight_white.colour == white)
         self.failUnless(self.knight_white.symbol == '♘')
-        self.failUnless(util.compare_lists(self.knight_white.move_directions,
+        self.failUnless(compare_lists(self.knight_white.move_directions,
                                            directions.move_directions_knight()))
 
     def test_constructor_black(self):
@@ -31,7 +33,7 @@ class KnightTests(unittest.TestCase):
         self.failUnless(self.knight_black.grid_coord == GridCoord(5, 4))
         self.failUnless(self.knight_black.colour == black)
         self.failUnless(self.knight_black.symbol == '♞')
-        self.failUnless(util.compare_lists(self.knight_black.move_directions,
+        self.failUnless(compare_lists(self.knight_black.move_directions,
                                            directions.move_directions_knight()))
 
     def test_white_knight_can_move_north2_east1(self):
@@ -66,7 +68,7 @@ class KnightTests(unittest.TestCase):
         self.failUnless(self.knight_white.chess_coord == ChessCoord('D', '6'))
 
     def test_white_knight_is_blocked_by_other_piece(self):
-        pieces = [Pawn(ChessCoord('D', '4'), white, [directions.go_north])]
+        pieces = [Pawn(ChessCoord('D', '4'), white, directions.go_north)]
 
         move_inspect_result = self.knight_white.inspect_move(pieces,
                                                              ChessCoord('D', '4'))
@@ -74,13 +76,23 @@ class KnightTests(unittest.TestCase):
                         MoveInspectResult(False, True, [], pieces[0]))
 
     def test_white_knight_is_valid_to_take_enemy_piece(self):
-        pieces = [Pawn(ChessCoord('F', '3'), black, [directions.go_south])]
+        pieces = [Pawn(ChessCoord('F', '3'), black, directions.go_south)]
 
+        self.knight_white.update_coord(ChessCoord('D', '4'))
         move_inspect_result = self.knight_white.inspect_move(pieces,
                                                              ChessCoord('F', '3'))
         self.failUnless(move_inspect_result ==
                         MoveInspectResult(True, False, [], pieces[0]))
 
+    def test_black_knight_can_not_take_enemy_queen_from_start(self):
+        all_pieces = copy.deepcopy(starting_pieces)
+        select_piece(ChessCoord('A', '2'), all_pieces)\
+            .update_coord(ChessCoord('A', '4'))
+
+        g8_knight = select_piece(ChessCoord('G', '8'), all_pieces)
+
+        inspect_move_result = g8_knight.inspect_move(all_pieces, ChessCoord('D', '1'))
+        self.failIf(inspect_move_result.is_valid_move)
 
 def main():
     unittest.main()
