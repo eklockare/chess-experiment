@@ -129,8 +129,9 @@ class Pawn(Piece):
                                                                take_dir_move[0]),
                 taking_directions_move_clean)
 
-        move_inspect_results_only_with_pieces = filter(lambda mir:
-                                                       mir.possible_piece is not None,
+        move_inspect_results_with_only_enemy_pieces = filter(lambda mir:
+                                                       mir.possible_piece is not None and
+                                                       mir.possible_piece.colour != self.colour,
                                                        inspect_move_results)
 
         move_inspect_results_only_with_no_pieces = filter(lambda mir:
@@ -139,7 +140,7 @@ class Pawn(Piece):
         self.add_all_squares_from_inspect_move_results_to_threat_list(move_inspect_results_only_with_no_pieces)
 
         self.is_threat_to_these_pieces = map(lambda mir: mir.possible_piece,
-                                             move_inspect_results_only_with_pieces)
+                                             move_inspect_results_with_only_enemy_pieces)
 
     def __str__(self):
         return "Pawn(%s, %s, %s, %s, en_passant_square=%s) " % (self.colour,
