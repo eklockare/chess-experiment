@@ -35,6 +35,10 @@ class Pawn(Piece):
                                               move_direction,
                                               [])
 
+        if not move_inspect_result_direction.is_valid_move:
+            move_inspect_result_direction.squares = []
+            return move_inspect_result_direction
+
         pawns_that_have_en_passant_on_this_move = filter(lambda piece:
                                                          piece.letter == 'P' and
                                                          piece.en_passant_square and

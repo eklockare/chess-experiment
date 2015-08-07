@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import unittest
 
 from board_parts import GridCoord, ChessCoord, black, white
@@ -6,6 +7,8 @@ from directions import go_north, go_south
 from move_inspect_result import MoveInspectResult
 from pieces.pawn import Pawn
 from pieces.rook import Rook
+from starting_pieces import starting_pieces
+from util import select_piece
 
 
 class PawnTests(unittest.TestCase):
@@ -97,7 +100,7 @@ class PawnTests(unittest.TestCase):
 
         move_inspect_result = self.white_pawn.inspect_move(pieces, ChessCoord('C', '6'))
         self.failUnless(move_inspect_result ==
-                        MoveInspectResult(False, True, [GridCoord(2, 5)],
+                        MoveInspectResult(False, True, [],
                                           pieces[0]))
 
     def test_inspect_move_blocked_by_enemy(self):
@@ -165,6 +168,12 @@ class PawnTests(unittest.TestCase):
         self.white_pawn.update_coord(ChessCoord('A', '5'))
         self.failIf(self.white_pawn.en_passant_square)
 
+    def test_black_pawn_not_allowed_to_take_pawn_across_board(self):
+        all_pieces = copy.deepcopy(starting_pieces)
+        g7_pawn = select_piece(ChessCoord('G', '7'), all_pieces)
+
+        inspect_move_result = g7_pawn.inspect_move(all_pieces, ChessCoord('H', '2'))
+        self.failIf(inspect_move_result.is_valid_move)
 
 def main():
     unittest.main()
