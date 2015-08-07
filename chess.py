@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import drawing as dr
 from board_parts import chess_coord_to_grid_coord, white, black
+from players.random_player import RandomPlayer
 from starting_pieces import starting_pieces
 from players.human_player import HumanPlayer
 import copy
@@ -39,4 +40,4 @@ def move_piece(pieces, moved_to_coord, piece_to_move, player_who_has_turn, other
 
     select_piece(pieces, None, moved_to_coord, other_player, player_who_has_turn)
 
-select_piece(starting_pieces, None, None, HumanPlayer(white), HumanPlayer(black))
+select_piece(starting_pieces, None, None, HumanPlayer(white), RandomPlayer(black))

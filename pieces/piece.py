@@ -144,6 +144,13 @@ class Piece(object):
                                   enemy_pieces)
         return flatten_list(squares_unflattened)
 
+    def inspect_moves_for_piece(self, pieces, moves):
+        return {'piece': self,
+                'moves_move_result':
+                    map(lambda move: {'move': move,
+                                      'move_result': self.inspect_move(pieces, move)
+                                      }, moves)}
+
     def __str__(self):
         if self.colour == board_parts.black:
             color_name = "black"

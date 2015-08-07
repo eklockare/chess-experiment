@@ -18,17 +18,10 @@ def detect_if_king_is_mate(colour, pieces):
     if not in_check:
         return False
 
-    def inspect_moves_for_piece(piece, pieces, moves):
-        return {'piece': piece,
-                'moves_move_results':
-                    map(lambda move: {'move': move,
-                                      'move_results': piece.inspect_move(pieces, move)
-                                      }, moves)}
-
     pieces_of_this_colour = filter(lambda piece: piece.colour == colour, pieces)
 
     piece_moves_all_move_results = map(lambda piece:
-                                       inspect_moves_for_piece(piece, pieces, all_chess_coords),
+                                       piece.inspect_moves_for_piece(pieces, all_chess_coords),
                                        pieces_of_this_colour)
 
     def valid_and_not_putting_in_check(piece, moves_move_results):
@@ -40,13 +33,13 @@ def detect_if_king_is_mate(colour, pieces):
 
         return map(lambda move_move_result:
                    check_move_for_check(move_move_result['move'],
-                                        move_move_result['move_results']),
+                                        move_move_result['move_result']),
                    moves_move_results)
 
     valid_moves_that_blocks_check = \
         map(lambda piece_moves_move_results:
             valid_and_not_putting_in_check(piece_moves_move_results['piece'],
-                                           piece_moves_move_results['moves_move_results']),
+                                           piece_moves_move_results['moves_move_result']),
             piece_moves_all_move_results)
 
     move_results_puts_in_check_flatten = util.flatten_list(valid_moves_that_blocks_check)
