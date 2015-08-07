@@ -171,6 +171,21 @@ class CheckTests(unittest.TestCase):
         self.failUnless(move_inspect_result.is_valid_move)
         e1_king.update_coord(ChessCoord('D', '3'))
 
+    def test_king_not_allowed_to_move_into_check(self):
+        all_pieces = copy.deepcopy(starting_pieces)
+        select_piece(ChessCoord('A', '2'), all_pieces).update_coord(ChessCoord('A', '4'))
+        select_piece(ChessCoord('B', '7'), all_pieces).update_coord(ChessCoord('B', '6'))
+        select_piece(ChessCoord('B', '1'), all_pieces).update_coord(ChessCoord('C', '3'))
+        select_piece(ChessCoord('C', '8'), all_pieces).update_coord(ChessCoord('A', '6'))
+        select_piece(ChessCoord('E', '2'), all_pieces).update_coord(ChessCoord('E', '4'))
+        select_piece(ChessCoord('D', '8'), all_pieces).update_coord(ChessCoord('C', '8'))
+
+        e1_king = select_piece(ChessCoord('E', '1'), all_pieces)
+        move_inspect_result = e1_king.inspect_move(all_pieces, ChessCoord('E', '2'))
+
+        self.failUnless(move_inspect_result.will_put_self_in_check)
+        self.failIf(move_inspect_result.is_valid_move)
+
 def main():
     unittest.main()
 
