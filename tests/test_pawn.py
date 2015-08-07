@@ -95,7 +95,7 @@ class PawnTests(unittest.TestCase):
                                           self.white_pawn))
 
     def test_inspect_move_blocked_by_friendly_taking(self):
-        pieces = [Pawn(ChessCoord('C', '6'), white, [go_north]), self.white_pawn]
+        pieces = [Pawn(ChessCoord('C', '6'), white, go_north), self.white_pawn]
         self.white_pawn.update_coord(ChessCoord('B', '5'))
 
         move_inspect_result = self.white_pawn.inspect_move(pieces, ChessCoord('C', '6'))
@@ -114,7 +114,7 @@ class PawnTests(unittest.TestCase):
                                           self.black_pawn))
 
     def test_inspect_move_blocked_by_friendly(self):
-        pieces = [Pawn(ChessCoord('D', '4'), black, [go_south]), self.black_pawn]
+        pieces = [Pawn(ChessCoord('D', '4'), black, go_south), self.black_pawn]
         self.black_pawn.update_coord(ChessCoord('D', '5'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('D', '4'))
@@ -123,7 +123,7 @@ class PawnTests(unittest.TestCase):
                                           pieces[0]))
 
     def test_inspect_move_two_steps_blocked_by_friendly(self):
-        pieces = [Pawn(ChessCoord('C', '6'), black, [go_south]), self.black_pawn]
+        pieces = [Pawn(ChessCoord('C', '6'), black, go_south), self.black_pawn]
         self.black_pawn.update_coord(ChessCoord('C', '7'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
@@ -132,7 +132,7 @@ class PawnTests(unittest.TestCase):
                                           pieces[0]))
 
     def test_inspect_move_two_steps_blocked_by_enemy(self):
-        pieces = [Pawn(ChessCoord('C', '6'), white, [go_south]), self.black_pawn]
+        pieces = [Pawn(ChessCoord('C', '6'), white, go_south), self.black_pawn]
         self.black_pawn.update_coord(ChessCoord('C', '7'))
 
         move_inspect_result = self.black_pawn.inspect_move(pieces, ChessCoord('C', '5'))
