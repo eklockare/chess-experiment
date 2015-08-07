@@ -23,8 +23,8 @@ def move_piece(pieces, moved_to_coord, piece_to_move, player_who_has_turn, other
         print "White's turn"
     else:
         print "Black's turn"
-    copy_pieces = copy.deepcopy(pieces)
-    new_coordinates = player_who_has_turn.make_move(copy_pieces, piece_to_move)
+
+    new_coordinates = player_who_has_turn.make_move(pieces, piece_to_move)
 
     move_inspect_result = piece_to_move.inspect_move(pieces, new_coordinates)
 
