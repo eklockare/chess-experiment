@@ -1,4 +1,3 @@
-very WIP
 
 The goal with this project is to create a fully working chess game played against an algorithm.
 
@@ -43,7 +42,16 @@ TODO:
     * ~~Detect when it's check mate~~
 
 9. Implement turns
-    * Make Player modules that can be played be a human or by the computer
+    * ~~Make Player modules that can be played be a human or by the computer~~
+
+10. Implement queening
+    * When pawn reaches enemy back rank, make choice to have new piece
 
 
 
+FIXME:
+1. Castling doesn't work when playing
+2. You shouldn't have to reselect piece when you tried to make an invalid move
+3. Redraw board after invalid move attempt
+4. Check mate not detected when black only has king left on h6, white has queen
+   on g8 and knight on f6

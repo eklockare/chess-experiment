@@ -6,9 +6,9 @@ from players.player import Player
 class RandomPlayer(Player):
     def __init__(self, colour):
         Player.__init__(self, colour)
-        self.move_to_make = None
 
-    def select_piece(self, pieces):
+    def make_move(self, pieces, last_moved_piece_coord):
+        print "%s's turn" % self.colour_name
         pieces_of_my_colour = filter(lambda piece: piece.colour == self.colour, pieces)
 
         pieces_moves_all_move_results = map(lambda piece:
@@ -40,11 +40,5 @@ class RandomPlayer(Player):
 
         selected_piece, all_valid_moves = random.choice(pieces_all_valid_moves)
 
-        self.move_to_make = random.choice(all_valid_moves)
-
-        print "selected_piece %s, \n selected move %s " % (selected_piece, self.move_to_make)
-
-        return selected_piece
-
-    def make_move(self, pieces, piece_to_move):
-        return self.move_to_make
+        move_to_make = random.choice(all_valid_moves)
+        return selected_piece, move_to_make
