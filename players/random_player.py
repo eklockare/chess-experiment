@@ -1,9 +1,11 @@
 from all_square_coords import all_chess_coords
 import random
+from players.player import Player
 
-class RandomPlayer:
+
+class RandomPlayer(Player):
     def __init__(self, colour):
-        self.colour = colour
+        Player.__init__(self, colour)
         self.move_to_make = None
 
     def select_piece(self, pieces):
@@ -35,8 +37,6 @@ class RandomPlayer:
         pieces_moves_dirty = map(get_piece_with_valid_moves, pieces_moves_all_move_results)
 
         pieces_all_valid_moves = filter(lambda pm: pm is not None, pieces_moves_dirty)
-
-        # print "pieces_all_valid_moves %s " % map(str, pieces_all_valid_moves)
 
         selected_piece, all_valid_moves = random.choice(pieces_all_valid_moves)
 

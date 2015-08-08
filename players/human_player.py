@@ -1,6 +1,7 @@
 
 from board_parts import CHESS_TO_GRID_COLUMNS, CHESS_TO_GRID_ROWS, yellow, ChessCoord
 from drawing import draw_board
+from players.player import Player
 
 INPUT_LENGTH = 2
 
@@ -10,7 +11,7 @@ def valid_coordinates(col, row):
 
 def validate_input(user_input, select_or_move):
     if len(user_input) is 0:
-        return None, "Cancelled selection"
+        return "cancel", "Cancelled selection"
     elif len(user_input) is not INPUT_LENGTH:
         return None, yellow("invalid input, one letter and one number required, ex: A1.\n") \
             + select_or_move
@@ -25,9 +26,9 @@ def validate_input(user_input, select_or_move):
         return ChessCoord(col, row), None
 
 
-class HumanPlayer:
+class HumanPlayer(Player):
     def __init__(self, colour):
-        self.colour = colour
+        Player.__init__(self, colour)
 
     def get_player_input(self, pieces):
         user_input = raw_input()
