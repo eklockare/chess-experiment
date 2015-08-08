@@ -10,13 +10,7 @@ def detect_if_king_is_mate(colour, pieces):
     if len(possible_king) == 0:
         return False
 
-    own_king = possible_king[0]
-
     analyze_threats_on_board(pieces)
-    in_check = own_king.check_if_own_king_in_check(pieces)
-
-    if not in_check:
-        return False
 
     pieces_of_this_colour = filter(lambda piece: piece.colour == colour, pieces)
 
@@ -24,24 +18,21 @@ def detect_if_king_is_mate(colour, pieces):
                                        piece.inspect_moves_for_piece(pieces, all_chess_coords),
                                        pieces_of_this_colour)
 
-    def valid_and_not_putting_in_check(piece, moves_move_results):
-        def check_move_for_check(move, move_result):
-            return move_result.is_valid_move \
-                   and not piece.check_for_putting_self_in_check(pieces,
-                                                                 move,
-                                                                 move_result)
-
+    def any_valid_move_available(piece, moves_move_results):
+        def check_for_valid(move, move_result):
+            return move_result.is_valid_move
         return map(lambda move_move_result:
-                   check_move_for_check(move_move_result['move'],
-                                        move_move_result['move_result']),
+                   check_for_valid(move_move_result['move'],
+                                   move_move_result['move_result']),
                    moves_move_results)
 
-    valid_moves_that_blocks_check = \
-        map(lambda piece_moves_move_results:
-            valid_and_not_putting_in_check(piece_moves_move_results['piece'],
-                                           piece_moves_move_results['moves_move_result']),
+    any_valid_move = map(lambda piece_moves_move_results:
+            any_valid_move_available(piece_moves_move_results['piece'],
+                                     piece_moves_move_results['moves_move_result']),
             piece_moves_all_move_results)
 
-    move_results_puts_in_check_flatten = util.flatten_list(valid_moves_that_blocks_check)
+    any_valid_move_flat = util.flatten_list(any_valid_move)
 
-    return not (True in move_results_puts_in_check_flatten)
+    valid_move_exists = (True in any_valid_move_flat)
+
+    return not valid_move_exists

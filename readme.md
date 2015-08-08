@@ -47,11 +47,11 @@ TODO:
 10. Implement queening
     * When pawn reaches enemy back rank, make choice to have new piece
 
-
+11. Implement draw detection
+    * When no move can be made but it's not check mate
+    * When only the same move can be made over and over
 
 FIXME:
 1. Castling doesn't work when playing
 2. You shouldn't have to reselect piece when you tried to make an invalid move
 3. Redraw board after invalid move attempt
-4. Check mate not detected when black only has king left on h6, white has queen
-   on g8 and knight on f6
